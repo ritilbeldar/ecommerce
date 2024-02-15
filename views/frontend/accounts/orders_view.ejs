@@ -1,0 +1,291 @@
+<%- include('../partials/nav.ejs') %>
+  <main>
+    <div class="mb-4 pb-4"></div>
+    <section class="my-account container">
+      <h2 class="page-title">Orders Detials</h2>
+      <% if (order.status==="new" ) { %>
+        <div class=" badge badge-sa-primary text-capitalize" style="background-color: yellowgreen; color: white; font-size: 14px;">
+          order placed
+        </div>
+        <% } else if (order.status==="pending" ) { %>
+        <div class="badge badge-sa-primary text-capitalize" style="background-color: skyblue; color: black; font-size: 14px;">
+           <%= order.status %>
+        </div>
+        <% } else if (order.status==="shipped" ) { %>
+        <div class="badge badge-sa-success text-capitalize" style="background-color: greenyellow; color: black; font-size: 14px;">
+           <%= order.status %>
+        </div>
+        <% } else if (order.status==="delivered" ) { %>
+        <div class="badge badge-sa-success text-capitalize" style="background-color: green; color: white; font-size: 14px;">
+           <%= order.status %>
+        </div>
+        <% } else if (order.status==="canceled" ) { %>
+        <div
+           class="badge badge-sa-secondary text-capitalize" style="background-color: red; color: white; font-size: 14px;">
+           <%= order.status %>
+        </div>
+        <% } %>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="page-content my-account__orders-list">
+            <div class="row">
+              <div class="col-md-3">
+                <h5>Delivery Address</h5>
+                <span>
+                  <h6 class="text-capitalize">
+                    <%= order.orderAddress.fullname %>
+                  </h6>
+                </span>
+                <p><span>
+                    <%= order.orderAddress.address %>
+                  </span>
+                  <%= order.orderAddress.landmark %>,<br> <span>
+                      <%= order.orderAddress.city %>
+                    </span> - <span>
+                      <%= order.orderAddress.pincode %>
+                    </span>, <span>
+                      <%= order.orderAddress.state %>
+                    </span><br><span><b>
+                        <%= order.orderAddress.phone %>
+                      </b></span>, <span><b>
+                        <%= order.orderAddress.alternateNumber %>
+                      </b></span> <br>
+                    <%= order.orderAddress.mail %></span>
+                </p>
+              </div>
+              <div class="col-md-7">
+                <h5>Order Note</h5>
+                <p>
+                  <%= order.orderAddress.orderNote %>
+                </p>
+              </div>
+              <div class="col-md-2">
+                  <% if (order.status === "delivered") { %>
+                    <button id="downloadButton" class="down-button">Download Invoice</button>
+                    <% } %>
+                </div>
+            </div>
+            <div class="order-complete w-100">
+              <div class="order-info">
+                <div class="order-info__item">
+                  <label>Order Number</label>
+                  <span>
+                    <%= order.orderId %>
+                  </span>
+                </div>
+                <div class="order-info__item">
+                  <label>Date</label>
+                  <span>
+                    <%= order.createdAt.toLocaleDateString() %>
+                  </span>
+                </div>
+                <div class="order-info__item">
+                  <label>Shipping Charges</label>
+                  <% if (order.orderShipping) { %>
+                    <span>₹<%= order.orderShipping %></span>
+                    <% } else { %>
+                      <span>Free Shipping</span>
+                      <% } %>
+                </div>
+
+                <div class="order-info__item">
+                  <label>Total</label>
+                  <span>₹<%= order.orderTotal %></span>
+                </div>
+                <div class="order-info__item">
+                  <label>Payment Method</label>
+                  <span>
+                    <%= order.orderMethod %>
+                  </span>
+                </div>
+                <div class="order-info__item">
+                  <label>Payment ID</label>
+                  <% if (order.onlinepayment && order.onlinepayment.paymentId) { %>
+                    <span>
+                      <%= order.onlinepayment.paymentId %>
+                    </span>
+                    <% } else { %>
+                      <span>NaN</span>
+                      <% } %>
+                </div>
+              </div>
+            </div>
+
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Color</th>
+                  <th>Size</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total Price</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% order.orderProducts.forEach((product, i)=> { %>
+                  <tr>
+                    <td><img src="<%= product.item.productsImages[0].url %>" height="100" alt=""></td>
+                    <td>
+                      <%= product.item.name.split(' ').slice(0, 4).join(' ') %>
+                        <% if (product.item.name.split(' ').length > 4) { %>
+                            ...
+                        <% } %></td>
+                        <td><%= product.color %></td>
+                        <td><%= product.size %></td>
+                        <td>₹<%= product.item.discountPrice %></td>
+                        <td><%= product.quantity %></td>
+                        <td>₹<%= product.item.discountPrice * product.quantity %></td>
+                        <td><a href="<%= isAuthenticated ? ' /user/products_details/' + product.item.id
+                        : '/products_details/' + product.item.id %>" class="btn btn-primary">VIEW</a>
+                    </td>
+                  </tr>
+                  <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="sa-invoice" id="invoiceContent" style="">
+          <div class="sa-invoice__card" >
+            <div class="sa-invoice__header">
+              <div class="sa-invoice__meta">
+                <div class="sa-invoice__title">Invoice <%= order.orderId %>
+                </div>
+                <div class="sa-invoice__meta-items"><span>Invoice Date:</span>
+                  <%= order.createdAt.toLocaleDateString() %><br /><span>Delivery
+                      date:</span>
+                    <%= order.createdAt.toLocaleDateString() %><br />
+                </div>
+              </div>
+              <div class="sa-invoice__logo"><!-- invoice-logo -->
+                <h1>Clothes</h1>
+              </div>
+            </div>
+            <div class="sa-invoice__sides">
+              <div class="sa-invoice__side">
+                <div class="sa-invoice__side-title">Invoice To</div>
+                <div class="sa-invoice__side-name text-capitalize">
+                  <%= order.orderAddress.fullname %>
+                </div>
+                <div class="sa-invoice__side-meta">
+                  <p><span>
+                      <%= order.orderAddress.address %>
+                    </span>
+                    <%= order.orderAddress.landmark %>,<br> <span>
+                        <%= order.orderAddress.city %>
+                      </span> - <span>
+                        <%= order.orderAddress.pincode %>
+                      </span>, <span>
+                        <%= order.orderAddress.state %>
+                      </span><br><span><b>
+                          <%= order.orderAddress.phone %>
+                        </b></span>, <span><b>
+                          <%= order.orderAddress.alternateNumber %>
+                        </b></span> <br>
+                      <%= order.orderAddress.mail %></span>
+                  </p>
+                </div>
+              </div>
+              <div class="sa-invoice__side">
+                <div class="sa-invoice__side-title">Invoice From</div>
+                <div class="sa-invoice__side-name">Clothes Pvt Ltd.</div>
+                <div class="sa-invoice__side-meta">E35, Vaishnav Partment Surendra Palace. <br> Bhopal - 462026 Madhya
+                  Pradesh<br /><b>9685232780</b>,<b>1234567890</b>
+                  <p>helloworl@gmail.com</p>
+                </div>
+              </div>
+            </div>
+            <div class="sa-invoice__table-container">
+              <table class="sa-invoice__table">
+                <thead class="sa-invoice__table-head">
+                  <tr>
+                    <th class="sa-invoice__table-column--type--product">Product / Service</th>
+                    <th class="sa-invoice__table-column--type--unit">Color</th>
+                    <th class="sa-invoice__table-column--type--unit">Size</th>
+                    <th class="sa-invoice__table-column--type--price">Price</th>
+                    <th class="sa-invoice__table-column--type--quantity">Qty</th>
+                    <th class="sa-invoice__table-column--type--total">Total</th>
+                  </tr>
+                </thead>
+                <tbody class="sa-invoice__table-body">
+      
+      
+      
+                  <% let total=0; %>
+                    <% order.orderProducts.forEach((product, i)=> { %>
+                      <tr>
+                        <td class="sa-invoice__table-column--type--product">
+                          <%= product.item.name.split(' ').slice(0, 8).join(' ') %>
+                              <% if (product.item.name.split(' ').length > 8) { %>
+                                  ...
+                              <% } %></td>
+                          <td class="sa-invoice__table-column--type--unit"><%= product.color %></td>
+                          <td class="sa-invoice__table-column--type--unit"><%= product.size %></td>
+                          <td class="sa-invoice__table-column--type--price">₹<%= product.item.discountPrice %></td>
+                          <td class="sa-invoice__table-column--type--quantity"><%= product.quantity %></td>
+                          <% total += product.item.discountPrice * product.quantity; %>
+                          <td class="sa-invoice__table-column--type--total">₹<%= product.item.discountPrice * product.quantity %></td>
+                      </tr>
+                  <% }); %>            
+                </tbody>
+                <tbody class="sa-invoice__table-totals">
+                  <tr>
+                    <td></td>
+                    <th class="sa-invoice__table-column--type--header" colSpan="4">Subtotal</th>
+                    <td class="sa-invoice__table-column--type--total">₹<%= total %></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <th class="sa-invoice__table-column--type--header" colSpan="4">Shipping Charges</th>
+                    <td class="sa-invoice__table-column--type--total">
+                      <% if (order.orderShipping) { %>
+                        <span>₹<%= order.orderShipping %></span>
+                        <% } else { %>
+                          <span>Free Shipping</span>
+                          <% } %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <th class="sa-invoice__table-column--type--header" colSpan="4">Payment Method</th>
+                    <td class="sa-invoice__table-column--type--total">
+                      <%= order.orderMethod %>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="sa-invoice__total">
+              <div class="sa-invoice__total-title">Total Amount:</div>
+              <div class="sa-invoice__total-value">₹<%= order.orderTotal %></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <script>
+      document.getElementById('downloadButton').addEventListener('click', function() {
+          var element = document.getElementById('invoiceContent');
+  
+          var options = {
+              filename: '<%= order.orderId %>.pdf',
+              image: { type: 'jpeg', quality: 0.98 },
+              html2canvas: { scale: 2 },
+              jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+          };
+
+          html2pdf().set(options).from(element).save();
+      });
+  </script>
+  <%- include('../partials/footer.ejs') %>

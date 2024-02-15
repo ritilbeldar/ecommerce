@@ -1,0 +1,260 @@
+<%- include('../partials/nav.ejs') %>
+<main>
+   <section>
+      <div style="border-color: #eeeeee;">
+         <div class="shop-banner position-relative ">
+            <div class="background-img background-img_overlay" style="background-color: #eeeeee;">
+               <img loading="lazy" src="<%= subcategory.subCategoryBanner.url %>" width="1903" height="420"
+                  alt="Pattern" class="slideshow-bg__img object-fit-cover" style="object-fit: contain;">
+            </div>
+            <div class="shop-banner__content container position-absolute start-50 top-50 translate-middle">
+               <h2 class="h1 text-uppercase text-white text-center fw-bold mb-3 mb-xl-4 mb-xl-5">
+                  <%= subcategory.title %>
+                  <%= subcategory.title2 %>
+               </h2>
+            </div>
+         </div>
+         <!-- /.shop-banner position-relative -->
+      </div>
+   </section>
+   <div class="mb-4 pb-lg-3"></div>
+   <section class="shop-main container">
+      <div class="d-flex justify-content-between mb-4 pb-md-2">
+         <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
+            <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
+            <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
+            <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">
+            <%= subcategory.title %>
+            <%= subcategory.title2 %>
+            </a>
+         </div>
+         <!-- /.breadcrumb -->
+         <% if (subcategory.allProducts.length === 0) { %>
+         <p></p>
+         <% } else { %>
+         <div
+            class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
+            <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0"
+               aria-label="Sort Items" name="total-number">
+               <option selected>Default Sorting</option>
+               <option value="1">Featured</option>
+               <option value="2">Best selling</option>
+               <option value="3">Alphabetically, A-Z</option>
+               <option value="3">Alphabetically, Z-A</option>
+               <option value="3">Price, low to high</option>
+               <option value="3">Price, high to low</option>
+               <option value="3">Date, old to new</option>
+               <option value="3">Date, new to old</option>
+            </select>
+            <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
+            <div class="col-size align-items-center order-1 d-none d-lg-flex">
+               <span class="text-uppercase fw-medium me-2">View</span>
+               <button class="btn-link fw-medium me-2 js-cols-size" data-target="products-grid"
+                  data-cols="2">2</button>
+               <button class="btn-link fw-medium me-2 js-cols-size" data-target="products-grid"
+                  data-cols="3">3</button>
+               <button class="btn-link fw-medium js-cols-size" data-target="products-grid"
+                  data-cols="4">4</button>
+            </div>
+            <!-- /.col-size -->
+            <div class="shop-asc__seprator mx-3 bg-light d-none d-lg-block order-md-1"></div>
+            <div class="shop-filter d-flex align-items-center order-0 order-md-3">
+               <button class="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside"
+                  data-aside="shopFilter">
+                  <svg class="d-inline-block align-middle me-2" width="14" height="10" viewBox="0 0 14 10"
+                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <use href="#icon_filter" />
+                  </svg>
+                  <span class="text-uppercase fw-medium d-inline-block align-middle">Filter</span>
+               </button>
+            </div>
+            <!-- /.col-size d-flex align-items-center ms-auto ms-md-3 -->
+         </div>
+         <% } %>
+         <!-- /.shop-acs -->
+      </div>
+      <!-- /.d-flex justify-content-between -->
+      <div class="products-grid row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" id="products-grid">
+         <% const productsPerPage = 20; %>
+         <% const totalProducts = subcategory.allProducts.length; %>
+         <% const totalPages = Math.ceil(totalProducts / productsPerPage); %>
+         <% function renderProducts(startIndex, endIndex) { %>
+         <% subcategory.allProducts.slice(startIndex, endIndex).forEach((product, i) => { %>
+         <% if (product.status !== 'hidden') { %>
+         <% const currentTime = new Date(); %>
+         <% const productCreationTime = new Date(product.createdAt); %>
+         <% const timeDifferenceInHours = Math.abs(currentTime - productCreationTime) / (60 * 60 * 1000); %>
+         <div class="product-card-wrapper">
+            <div class="product-card mb-3 mb-md-4 mb-xxl-5">
+               <div class="pc__img-wrapper">
+                  <div class="swiper-container background-img js-swiper-slider"
+                     data-settings='{"resizeObserver": true}'>
+                     <div class="swiper-wrapper">
+                        <% product.productsImages.forEach((image, index) => { %>
+                        <div class="swiper-slide">
+                           <a href="<%= isAuthenticated ? '/user/products_details/' + product.id : '/products_details/' + product.id %>"><img
+                              loading="lazy" src="<%= image.url %>" width="258" height="313"
+                              alt="Cropped Faux leather Jacket" class="pc__img"></a>
+                        </div>
+                        <% }); %>
+                     </div>
+                     <span class="pc__img-prev">
+                        <svg width="7" height="11" viewBox="0 0 7 11"
+                           xmlns="http://www.w3.org/2000/svg">
+                           <use href="#icon_prev_sm" />
+                        </svg>
+                     </span>
+                     <span class="pc__img-next">
+                        <svg width="7" height="11" viewBox="0 0 7 11"
+                           xmlns="http://www.w3.org/2000/svg">
+                           <use href="#icon_next_sm" />
+                        </svg>
+                     </span>
+                  </div>
+                  <% if (isAuthenticated) { %>
+                     <form action="/user/add_ProductTo_Wishlist/<%= product.id %>" method="post">
+                        <% const isProductInWishlist = user.UserWishlists.some(wishlist => wishlist.allProduct._id.toString() === product.id); %>
+                        <% if (isProductInWishlist) { %>
+                        <a href="/user/remove_ProductTo_Wishlist/<%= product.id %>"
+                           class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Remove
+                           from Cart</a>
+                        <% } else { %>
+                        <button class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
+                           data-aside="cartDrawer" title="Add To Cart" <% if (product.quantity === 0) { %>disabled<% } %>>Add
+                           To Cart</button>
+                        <% } %>
+                     </form>
+                     <% } else { %>
+                     <a href="/login_register"
+                        class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Add
+                        To Cart</a>
+                     <% } %>
+               </div>
+               <div class="pc__info position-relative">
+                  <h6 class="pc__title">
+                     <a
+                        href="<%= isAuthenticated ? '/user/products_details/' + product.id : '/products_details/' + product.id %>">
+                        <%= product.name.split(' ').slice(0, 4).join(' ') %>
+                        <% if (product.name.split(' ').length > 4) { %>
+                        ...
+                        <% } %>
+                     </a>
+                  </h6>
+                  <div class="product-card__price d-flex">
+                     <span class="money price price-old">₹<%= product.price %></span>
+                     <span class="money price price-sale">₹<%= product.discountPrice %></span>
+                  </div>
+                  <% let totalRating = 0; %>
+                  <% let totalReviews = product.productsRateReview.length; %>
+                  <% product.productsRateReview.forEach((ratereview, i) => { %>
+                    <% totalRating += parseInt(ratereview.rate); %>
+                  <% }); %>
+                  <% let averageRating = totalReviews > 0 ? (totalRating / totalReviews) : 0; %>
+                  
+                  <div class="product-card__review d-flex align-items-center">
+                    <div class="reviews-group d-flex">
+                      <div class="rate rate2">
+                        <% if (totalReviews > 0) { %>
+                          <% for (var star = 5; star >= 1; star--) { %>
+                            <% if (star <= averageRating) { %>
+                              <input type="radio" checked />
+                              <label class="mt-2" title="<%= star %>"></label>
+                            <% } else { %>
+                              <input type="radio" />
+                              <label class="mt-2" title="<%= star %>"></label>
+                            <% } %>
+                          <% } %>
+                        <% } else { %>
+                          <% for (var star = 5; star >= 1; star--) { %>
+                            <input type="radio" />
+                            <label class="mt-2" title="<%= star %>"></label>
+                          <% } %>
+                        <% } %>
+                      </div>
+                    </div>
+                    <span class="reviews-note text-lowercase text-secondary ms-1"><%= totalReviews %> reviews</span>
+                  </div>
+                  
+                  <% if (isAuthenticated) { %>
+                  <% const isProductInCart = user.UserCart.some(cartItem => cartItem.toString() === product.id); %>
+
+                  <% if (isProductInCart) { %>
+                  <a href="/user/remove_cart/<%= product.id %>"
+                     class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                     title="Add To Wishlist">
+                     <i class="ri-heart-fill" style="font-size: 20px;"></i>
+                  </a>
+                  <% } else { %>
+                  <a href="/user/add_cart/<%= product.id %>"
+                     class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                     title="Add To Wishlist">
+                     <i class="ri-heart-line" style="font-size: 20px;"></i>
+                  </a>
+                  <% } %>
+                  <% } else { %>
+                  <a href="/login_register"
+                     class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                     title="Add To Wishlist">
+                     <i class="ri-heart-line" style="font-size: 20px;"></i>
+                  </a>
+                  <% } %>
+               </div>
+               <% if (timeDifferenceInHours < 24) { %>
+               <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
+                  <div class="pc-labels__left">
+                     <span class="pc-label pc-label_new d-block bg-white">NEW</span>
+                  </div>
+               </div>
+               <% } %>
+            </div>
+         </div>
+         <% } %>
+         <% }); %>
+         <% } %>
+         <% function loadNextPage() { %>
+         <% const nextPageStartIndex = currentPage * productsPerPage; %>
+         <% const nextPageEndIndex = Math.min((currentPage + 1) * productsPerPage, totalProducts); %>
+         <% renderProducts(nextPageStartIndex, nextPageEndIndex); %>
+         <% currentPage++; %>
+         <% if (currentPage >= totalPages) { %>
+         <% document.getElementById('showMoreButton').style.display = 'none'; %>
+         <% } %>
+         <% } %>
+      </div>
+      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5"
+         id="products-grid">
+         <% if (subcategory.allProducts.length === 0) { %>
+         <h2 class="w-100 text-center">0 Products Available
+         </h2>
+         <% } else { %>
+         <% renderProducts(0, Math.min(productsPerPage, totalProducts)); %>
+         <% } %>
+      </div>
+      <!-- /.products-grid row -->
+      <% if (subcategory.allProducts.length === 0) { %>
+      <p></p>
+      <% } else { %>
+      <p class="mb-1 text-center fw-medium">SHOWING <%=
+         Math.min(productsPerPage, totalProducts) %>
+         of <%= totalProducts %> items
+      </p>
+      <div class="progress progress_uomo mb-3 ms-auto me-auto"
+         style="width: 300px;">
+         <div class="progress-bar" role="progressbar"
+            style="width: <%= Math.min(productsPerPage, totalProducts) / totalProducts * 100 %>%;"
+            aria-valuenow="<%= Math.min(productsPerPage, totalProducts) %>"
+            aria-valuemin="0" aria-valuemax="<%= totalProducts %>"></div>
+      </div>
+      <% } %>
+      <div class="text-center">
+         <% if (totalPages > 1) { %>
+         <button id="showMoreButton"
+            class="btn-link btn-link_lg text-uppercase fw-medium"
+            onclick="loadNextPage()">Show
+         More</button>
+         <% } %>
+      </div>
+   </section>
+   <!-- /.shop-main container -->
+</main>
+<%- include('../partials/footer.ejs') %>

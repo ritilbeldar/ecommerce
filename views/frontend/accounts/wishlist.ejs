@@ -1,0 +1,69 @@
+<%- include('../partials/nav.ejs') %>
+  <main>
+    <div class="mb-4 pb-4"></div>
+    <section class="my-account container">
+      <h2 class="page-title">Wishlist</h2>
+      <div class="row">
+        <%- include('partials/dashboard_nav.ejs') %>
+        <div class="col-lg-9">
+          <div class="page-content my-account__wishlist">
+            <div class="products-grid row row-cols-2 row-cols-lg-3" id="products-grid">
+              <% user.UserCart.forEach((product,i)=> { %>
+                <% if (product.status!='hidden' ) { %>
+                  <div class="product-card-wrapper">
+                    <div class="product-card mb-3 mb-md-4 mb-xxl-5">
+                      <div class="pc__img-wrapper">
+                        <a href="/user/products_details/<%= product.id %>">
+                        <div class="swiper-container background-img js-swiper-slider"
+                          data-settings='{"resizeObserver": true}'>
+                            <div class="swiper-wrapper">
+                              <% product.productsImages.forEach((image, index)=> { %>
+                                <div class="swiper-slide">
+                                  <img loading="lazy" src="<%= image.url %>" width="330" height="400"
+                                    alt="Cropped Faux leather Jacket" class="pc__img">
+                                </div>
+                                <% }); %>
+                              <!-- /.pc__img-wrapper -->
+                            </div>
+                          <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_prev_sm" />
+                            </svg></span>
+                          <span class="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_next_sm" />
+                            </svg></span>
+                        </div>
+                      </a>
+                        <a href="/user/remove_cart/<%= product.id %>" class="btn-remove-from-wishlist">
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <use href="#icon_close" />
+                          </svg>
+                        </a>
+                      </div>
+    
+                      <div class="pc__info position-relative">
+                        <h6 class="pc__title"> <%= product.name.split(' ').slice(0, 4).join(' ') %>
+                          <% if (product.name.split(' ').length > 4) { %>
+                          ...
+                          <% } %></h6>
+                        <div class="product-card__price d-flex">
+                          <span class="money price price-old">₹<%= product.price %></span>
+                          <span class="money price price-sale">₹<%= product.discountPrice %></span>
+                       </div>
+    
+                       <a href="/user/remove_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                        title="Add To Wishlist">
+                        <i class="ri-heart-fill" style="font-size: 20px;"></i>
+                      </div>
+                    </div>
+                  </div>
+              <% } %>
+              <% }); %>
+            </div><!-- /.products-grid row -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <%- include('../partials/footer.ejs') %>

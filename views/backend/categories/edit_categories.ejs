@@ -1,0 +1,49 @@
+<%- include('../partials/nav.ejs') %>
+    <div id="top" class="sa-app__body">
+        <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
+            <div class="container container--max--xl">
+                <div class="py-5">
+                    <div class="row g-4 align-items-center">
+                        <div class="col">
+                            <h1 class="h3 m-0">Category</h1>
+                        </div>
+                        <div class="col-auto d-flex"><a href="/admin/add_categories" class="btn btn-primary">Add Category</a></div>
+                    </div>
+                </div>
+                <div class="sa-entity-layout"
+                    data-sa-container-query="{&quot;920&quot;:&quot;sa-entity-layout--size--md&quot;,&quot;1100&quot;:&quot;sa-entity-layout--size--lg&quot;}">
+                    <div class="sa-entity-layout__body">
+                        <div class="sa-entity-layout__main">
+                            <div class="card">
+                                <div class="card-body p-5">
+                                    <div class="mb-5">
+                                        <h2 class="mb-0 fs-exact-18">Edit Category</h2>
+                                    </div>
+                                    <form action="/admin/categories_update/<%= category.id %>" method="post">
+                                        <div class="mb-4">
+                                          <label for="form-category/name" class="form-label">Category Title</label>
+                                          <input type="text" class="form-control" id="form-category/name" name="title" value="<%= category.title %>" />
+                                        </div>
+                                        <div class="mb-4">
+                                          <label for="form-category/slug" class="form-label">Category URL</label>
+                                          <div class="input-group input-group--sa-slug">
+                                            <input type="text" class="form-control" id="form-category/slug"
+                                              aria-describedby="form-category/slug-addon form-category/slug-help"
+                                              value="<%= category.url %>" name="url" />
+                                          </div>
+                                          <div id="form-category/slug-help" class="form-text">Unique
+                                            human-readable category identifier. No longer than 255 characters.
+                                          </div>
+                                        </div>
+                                        <button class="btn btn-primary">Save</button>
+                                      </form>
+                                      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../partials/footer.ejs') %>

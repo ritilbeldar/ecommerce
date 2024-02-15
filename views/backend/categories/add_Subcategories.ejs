@@ -1,0 +1,158 @@
+<%- include('../partials/nav.ejs') %>
+<div id="top" class="sa-app__body">
+   <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
+      <div class="container container--max--xl">
+         <div class="py-5">
+            <div class="row g-4 align-items-center">
+               <div class="col">
+                  <h1 class="h3 m-0">Category</h1>
+               </div>
+               <div class="col-auto d-flex"><a href="/admin/add_categories" class="btn btn-primary">Add Category</a></div>
+            </div>
+         </div>
+         <div class="sa-entity-layout"
+            data-sa-container-query="{&quot;920&quot;:&quot;sa-entity-layout--size--md&quot;,&quot;1100&quot;:&quot;sa-entity-layout--size--lg&quot;}">
+            <div class="sa-entity-layout__body">
+               <div class="sa-entity-layout__main">
+                  <div class="card mt-5">
+                     <div class="card-body p-5">
+                        <div class="mb-5">
+                           <h2 class="mb-0 fs-exact-18">Add Sub Category</h2>
+                        </div>
+                        <form action="/admin/subcategoriesadd" method="post" enctype="multipart/form-data">
+                           <div class="mb-4">
+                              <label for="categoryTitle" class="form-label">Category Title *</label>
+                              <select id="categoryTitle" name="categoryTitle"
+                                 class="sa-select2 form-select" >
+                                 <option disabled selected value>-- select --</option>
+                                 <% categorys.forEach((category, index)=> { %>
+                                 <option value="<%= category.title %>">
+                                    <%= category.title %>
+                                 </option>
+                                 <% }); %>
+                              </select>
+                              <div class="form-text">Select a category that will be the parent of the
+                                 current one.
+                              </div>
+                           </div>
+                           <div class="mb-4">
+                              <label for="categoryTitle2" class="form-label">Banner Position *</label>
+                              <select id="categoryTitle2" name="bannerPosition"
+                                 class="sa-select2 form-select" >
+                                 <option disabled selected value>-- select --</option>
+                                 <option value="True">True</option>
+                                 <option value="Fasle">Fasle</option>
+                                 <option value="Deal of the week">Deal of the week</option>
+                              </select>
+                           </div>
+                           <div class="mb-4">
+                            <label for="subCategoryTitle" class="form-label">Sub Category Short Title</label>
+                            <input type="text" class="form-control" id="subCategoryTitle" name="shortTitle"
+                               value=""  />
+                         </div>
+                           <div class="mb-4">
+                              <label for="subCategoryTitle" class="form-label">Sub Category Title *</label>
+                              <input type="text" class="form-control" id="subCategoryTitle" name="title"
+                                 value=""  />
+                           </div>
+                           <div class="mb-4">
+                            <label for="subCategoryTitle" class="form-label">Sub Category Title 2 *</label>
+                            <input type="text" class="form-control" id="subCategoryTitle" name="title2"
+                               value=""  />
+                         </div>
+                           <div class="mb-4">
+                              <label for="subCategoryURL" class="form-label">End Date</label>
+                              <div class="input-group input-group--sa-slug">
+                                 <input type="date" class="form-control" id="subCategoryURL" name="endDate"
+                                    aria-describedby="form-category/slug-addon form-category/slug-help"
+                                    value=""  />
+                              </div>
+                           </div>
+                           <div class="mb-4">
+                            <label for="background-banner" class="form-label">Sub Category
+                            Img</label>
+                            <input type="file"  class="form-control" name="subCategoryBanner"/>
+                         </div>
+                           <button class="btn btn-primary">Save</button>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="row-md-12 mt-5">
+               <div class="card">
+                  <div class="p-4"><input type="text" placeholder="Start typing to search for categories"
+                     class="form-control form-control--search mx-auto" id="table-search" /></div>
+                  <div class="sa-divider"></div>
+                  <table class="sa-datatables-init" data-order="[[ 1, &quot;asc&quot; ]]"
+                     data-sa-search-input="#table-search">
+                     <thead>
+                        <tr>
+                           <th class="w-min" data-orderable="false"><input type="checkbox"
+                              class="form-check-input m-0 fs-exact-16 d-block" aria-label="..." />
+                           </th>
+                           <th>Sub Categories</th>
+                           <th>Categories</th>
+                           <th>Items</th>
+                           <th>Visibility</th>
+                           <th class="w-min" data-orderable="false"></th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <% categorys.forEach((category, index)=> { %>
+                            <% category.subcategories.forEach((subcategory)=> { %>
+
+                        <tr>
+                           <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
+                              aria-label="..." /></td>
+                           <td class="text-capitalize"> 
+                             <%= subcategory.title %> <%= subcategory.title2 %>
+                           </td>
+                           <td class="text-capitalize">
+                            <%= category.title %>
+                           </td>
+                           <td>3</td>
+                           <td>
+                              <div class="badge badge-sa-success">Visible</div>
+                           </td>
+                           <td>
+                              <div class="dropdown">
+                                 <button class="btn btn-sa-muted btn-sm" type="button"
+                                    id="category-context-menu-0" data-bs-toggle="dropdown"
+                                    aria-expanded="false" aria-label="More">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="3" height="13"
+                                       fill="currentColor">
+                                       <path
+                                          d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
+                                       </path>
+                                    </svg>
+                                 </button>
+                                 <ul class="dropdown-menu dropdown-menu-end"
+                                    aria-labelledby="category-context-menu-0">
+                                    <li><a class="dropdown-item"
+                                       href="/admin/subcategory_edit/<%= subcategory._id %>">Edit</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
+                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
+                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
+                                    <li>
+                                       <hr class="dropdown-divider" />
+                                    </li>
+                                    <li><a class="dropdown-item text-danger"
+                                       href="/admin/subcategories_delete/<%= subcategory._id %>">Delete</a>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </td>
+                        </tr>
+                        <% }); %>
+                        <% }); %>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<%- include('../partials/footer.ejs') %>

@@ -1,0 +1,60 @@
+<%- include('../partials/nav.ejs') %>
+    <div id="top" class="sa-app__body">
+        <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
+            <div class="container">
+                <div class="py-5">
+                    <div class="row g-4 align-items-center">
+                        <div class="col">
+                            <h1 class="h3 m-0">Add Product Color Img</h1>
+                        </div>
+                        <div class="col-auto d-flex">
+                            <a href="/admin/add_products" class="btn btn-primary">Add Product</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sa-entity-layout"
+                    data-sa-container-query="{&quot;920&quot;:&quot;sa-entity-layout--size--md&quot;,&quot;1100&quot;:&quot;sa-entity-layout--size--lg&quot;}">
+                    <form action="/admin/AddColorImagesToProduct/<%= product._id %>" method="post"
+                        enctype="multipart/form-data">
+                        <div class="sa-entity-layout__body">
+                            <div class="sa-entity-layout__main">
+                                <div class="card mt-5">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Product Color Images</h2>
+                                        </div>
+                                        <div id="colorBody">
+                                            <div class="color-container mb-4">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="favcolor" class="form-label">Product Color</label>
+                                                        <input class="form-control" type="color" name="favcolor"
+                                                            value="#00000">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="colorname" class="form-label">Product Color
+                                                            Name</label>
+                                                        <input class="form-control" type="text" name="colorname">
+                                                    </div>
+                                                </div>
+                                                <label for="background-banner" class="form-label mt-5">Image</label>
+                                                <input type="file" class="form-control mt-3" name="productsColorImages"
+                                                    multiple>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-12 text-end">
+                                <button class="btn btn-primary" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../partials/footer.ejs') %>

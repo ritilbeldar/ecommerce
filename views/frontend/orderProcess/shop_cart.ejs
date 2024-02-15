@@ -1,0 +1,205 @@
+<%- include('../partials/nav.ejs') %>
+  <main>
+    <div class="mb-4 pb-4"></div>
+    <section class="shop-checkout container">
+      <h2 class="page-title">Cart</h2>
+      <div class="checkout-steps">
+        <a href="/user/shopCart" class="checkout-steps__item active">
+          <span class="checkout-steps__item-number">01</span>
+          <span class="checkout-steps__item-title">
+            <span>Shopping Bag</span>
+            <em>Manage Your Items List</em>
+          </span>
+        </a>
+        <a href="#" class="checkout-steps__item">
+          <span class="checkout-steps__item-number">02</span>
+          <span class="checkout-steps__item-title">
+            <span>Shipping and Checkout</span>
+            <em>Checkout Your Items List</em>
+          </span>
+        </a>
+        <a href="#" class="checkout-steps__item">
+          <span class="checkout-steps__item-number">03</span>
+          <span class="checkout-steps__item-title">
+            <span>Confirmation</span>
+            <em>Review And Submit Your Order</em>
+          </span>
+        </a>
+      </div>
+      <div>
+          <div class="shopping-cart">
+            <form id="updateCartForm" action="/user/update_ProductTo_Wishlist" method="post" style="width: 100%;">
+              <div style="width: 100%;">
+                <table class="cart-table mt-5">
+                  <thead>
+                    <tr>
+                      <th>Product</th>
+                      <th></th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Subtotal</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% let total=0; %>
+                      <% user.UserWishlists.forEach((wishlistproduct, index)=> { %>
+                        <% const correspondingProduct=wishlistItemss ? wishlistItemss[index] : null; %>
+                          <tr>
+                            <td>
+                              <div class="shopping-cart__product-item">
+                                <img loading="lazy"
+                                  src="<%= correspondingProduct ? correspondingProduct.productsImages[0].url : '' %>"
+                                  width="120" height="120" alt="">
+                              </div>
+                            </td>
+                            <td>
+                              <div class="shopping-cart__product-item__detail">
+                                <h4>
+                                  <%= correspondingProduct ?
+                                    correspondingProduct.name.split(' ').slice(0, 3).join(' ') : '' %>
+                      <% if (correspondingProduct && correspondingProduct.name.split(' ').length > 3) { %>
+                      ...
+                      <% } %>
+                    </h4>
+                    <ul class="shopping-cart__product-item__options">
+                      <% if (wishlistproduct.color) { %>
+                        <p class="cart-drawer-item__option text-secondary text-capitalize">Color: <%= wishlistproduct.color %></p>
+                      <% } else if (correspondingProduct && correspondingProduct.productsColor && correspondingProduct.productsColor.length > 0) { %>
+                        <p class="cart-drawer-item__option text-secondary text-capitalize">Color: <%= correspondingProduct.productsColor[0].colorname %></p>
+                      <% } else if (correspondingProduct && correspondingProduct.colors.length > 0) { %>
+                        <li>Color: <%= correspondingProduct.colors[0] %></li>
+                      <% } %>
+                    
+                      <% if (wishlistproduct.size) { %>
+                        <li>Size: <%= wishlistproduct.size %></li>
+                        <input type="hidden" name="size" value="<%= wishlistproduct.size %>">
+                      <% } else if (correspondingProduct && correspondingProduct.sizes.length > 0) { %>
+                        <li>Size: <%= correspondingProduct.sizes[0] %></li>
+                      <% } %>
+                    </ul>
+                    
+                  </div>
+                </td>
+                <td>
+                  <span class="shopping-cart__product-price">₹<%= correspondingProduct ? correspondingProduct.discountPrice : '' %></span>
+                </td>
+                <td>
+                  <div class="qty-control position-relative">
+                    <!-- Input field for quantity -->
+                    <input type="hidden" name="wishlistItemId[<%= index %>]" value="<%= wishlistproduct._id %>">
+                  <input type="hidden" name="quantity" value="<%= wishlistproduct.quantity %>">
+                    <input type="number" name="quantity[<%= index %>]" value="<%= wishlistproduct.quantity || ' 1' %>"
+                                    min="1"
+                                    class="qty-control__number text-center">
+                                    <div class="qty-control__reduce">-</div>
+                                    <div class="qty-control__increase">+</div>
+                              </div>
+                            </td>
+                            <td>
+                              <% let totalPrice=(correspondingProduct ? correspondingProduct.discountPrice : 0) *
+                                (wishlistproduct.quantity || 1); %>
+                                <% total +=totalPrice; %>
+                                  <span class="shopping-cart__subtotal">₹<%= totalPrice %></span>
+                            </td>
+                            <td>
+                              <a href="/user/remove_ProductTo_Wishlist/<%= correspondingProduct ? correspondingProduct.id : '' %>"
+                                class="remove-cart">
+                                <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
+                                  <path
+                                    d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
+                                </svg>
+                              </a>
+                            </td>
+                          </tr>
+                          <% }); %>
+                  </tbody>
+                </table>
+                <div class="cart-table-footer">
+                  <div class="position-relative bg-body">
+                    <!-- <form action="/user/coupon_code_apply" method="post">
+                <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code" required>
+                <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit"
+                  value="APPLY COUPON">
+              </form> -->
+                  </div>
+                  <button class="btn btn-light">UPDATE CART</button>
+                </div>
+              </div>
+            </form>
+            <div class="shopping-cart__totals-wrapper">
+              <form action="/user/proceedToCheckout" method="post">
+
+                <% user.UserWishlists.forEach((wishlistproduct, index)=> { %>
+                  <% const correspondingProduct=wishlistItemss ? wishlistItemss[index] : null; %>
+                  <input type="hidden" name="wishlistItemId[<%= index %>]" value="<%= wishlistproduct._id %>">
+                  <input type="hidden" name="quantity" value="<%= wishlistproduct.quantity %>">
+                  <% }); %>
+
+              <div class="sticky-content">
+                <div class="shopping-cart__totals">
+                  <h3>Cart Totals</h3>
+                  <% user.UserWishlists.forEach((wishlistproduct, index)=> { %>
+                    <input type="hidden" name="wishlistItemIds" value="<%= wishlistproduct.id %>">
+                    <% }); %>
+                      <table class="cart-totals">
+                        <tbody>
+                          <tr>
+                            <th>Total</th>
+                            <input type="hidden" name="total" value="<%= total.toFixed(2) %>">
+                            <td>₹<%= total.toFixed(2) %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th>Shipping</th>
+                            <td>
+                              <div class="">
+                                <% let shippingCost=0; %>
+                                  <% if (shippings.length===0 || shippings.every(shipping=> shipping.status ===
+                                    'Disabled')) { %>
+                                    <label class="mb-3">Free shipping</label>
+                                    <% } else { %>
+                                      <% shippings.forEach((shipping, i)=> { %>
+                                        <% if (shipping.status !=='Disabled' ) { %>
+                                          <% const price=Number.parseFloat(shipping.price); %>
+                                            <% if (!isNaN(price)) { %>
+                                              <% shippingCost +=price; %>
+                                                <input type="hidden" name="shippingCost"
+                                                  value="<%= price.toFixed(2) %>">
+                                                <label class="mb-3">₹<%= price.toFixed(2) %></label>
+                                                <% } %>
+                                                  <% } %>
+                                                    <% }); %>
+                                                      <% } %>
+                              </div>
+                              <div>Shipping to AL.</div>
+                              <div>
+                                <a href="#" class="menu-link menu-link_us-s">CHANGE ADDRESS</a>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th>Total</th>
+                            <td>₹<%= (total + shippingCost).toFixed(2) %>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+                <div class="mobile_fixed-btn_wrapper">
+                  <div class="button-wrapper container">
+                    <button type="submit" class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            </div>
+          </div>
+      </div>
+    </section>
+  </main>
+
+
+  <%- include('../partials/footer.ejs') %>

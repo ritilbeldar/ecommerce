@@ -1,0 +1,308 @@
+<%- include('../partials/nav.ejs') %>
+<div id="top" class="sa-app__body">
+   <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
+      <div class="container container--max--xl">
+         <div class="py-5">
+            <div class="row g-4 align-items-center">
+               <div class="col">
+                  <h1 class="h3 m-0">Order #<%= order.orderId %>
+                  </h1>
+               </div>
+               <div class="col-auto d-flex">
+                  <a href="/admin/orders_list" class="btn btn-primary">Orders List</a>
+               </div>
+            </div>
+         </div>
+         <div class="sa-page-meta mb-5">
+            <div class="sa-page-meta__body">
+               <div class="sa-page-meta__list">
+                  <% const date=new Date(order.createdAt); %>
+                  <div class="sa-page-meta__item">
+                     <%= date.toLocaleDateString('en-US', { month: 'long' , day: 'numeric' ,
+                        year: 'numeric' }) %> at <%= date.toLocaleTimeString('en-US', { hour: '2-digit'
+                        , minute: '2-digit' }) %>
+                  </div>
+                  <div class="sa-page-meta__item">
+                     <%= order.orderProducts.length %> items
+                  </div>
+                  <div class="sa-page-meta__item">Total ₹<%= order.orderTotal %>
+                  </div>
+                  <div class="sa-page-meta__item d-flex align-items-center fs-6">
+                     <% if (order.onlinepayment && order.onlinepayment.status) { %>
+                     <div class="badge badge-sa-success text-capitalize">
+                        <%= order.onlinepayment.status %>
+                     </div>
+                     <% } else { %>
+                     <div class="badge badge-sa-danger text-capitalize">
+                        Un Paid
+                     </div>
+                     <% } %> &nbsp; &nbsp;
+                     <% if (order.status==="new" ) { %>
+                     <div class="badge badge-sa-danger text-capitalize">
+                        <%= order.status %>
+                     </div>
+                     <% } else if (order.status==="pending" ) { %>
+                     <div class="badge badge-sa-primary text-capitalize">
+                        <%= order.status %>
+                     </div>
+                     <% } else if (order.status==="shipped" ) { %>
+                     <div class="badge badge-sa-success text-capitalize">
+                        <%= order.status %>
+                     </div>
+                     <% } else if (order.status==="delivered" ) { %>
+                     <div class="badge badge-sa-success text-capitalize">
+                        <%= order.status %>
+                     </div>
+                     <% } else if (order.status==="canceled" ) { %>
+                     <div
+                        class="badge badge-sa-secondary text-capitalize">
+                        <%= order.status %>
+                     </div>
+                     <% } %>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="sa-entity-layout"
+            data-sa-container-query="{&quot;920&quot;:&quot;sa-entity-layout--size--md&quot;}">
+            <div class="sa-entity-layout__body">
+               <div class="sa-entity-layout__main">
+                  <div class="sa-card-area">
+                     <textarea class="sa-card-area__area" rows="2"
+                        placeholder="Notes about order"></textarea>
+                     <div class="sa-card-area__card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                           height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                           class="feather feather-edit">
+                           <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
+                           </path>
+                           <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
+                           </path>
+                        </svg>
+                     </div>
+                  </div>
+                  <div class="card mt-5">
+                     <div class="card-body px-5 py-4 d-flex align-items-center justify-content-between">
+                        <h2 class="mb-0 fs-exact-18 me-4">Items</h2>
+                        <div class="text-muted fs-exact-14"><a href="#">Edit items</a></div>
+                     </div>
+                     <div class="table-responsive">
+                        <table class="sa-table">
+                           <tbody>
+                            <% let total=0; %>
+                              <% order.orderProducts.forEach((product, i)=> { %>
+                              <tr>
+                                 <td class="min-w-20x">
+                                    <div class="d-flex align-items-center"><img
+                                       src="<%= product.item.productsImages[0].url %>"
+                                       class="me-4" width="40" height="40" alt="" /><a
+                                       href="/admin/product_view/<%= product.item.id %>" class="text-reset">
+                                       <%= product.item.name.split(' ').slice(0, ).join(' ') %>
+                                       <% if (product.item.name.split(' ').length > 5) { %>
+                                       ...
+                                       <% } %></a>
+                                    </div>
+                                 </td>
+                                 <td class="text-end text-capitalize"><%= product.color %></td>
+                                 <td class="text-end "><%= product.size %></td>
+                                 <td class="text-end">
+                                    <div class="sa-price"><span
+                                       class="sa-price__symbol">₹</span><span
+                                       class="sa-price__integer"><%= product.item.discountPrice %></span></div>
+                                 </td>
+                                 <td class="text-end"><%= product.quantity %></td>
+                                 <td class="text-end">
+                                    <% total += product.item.discountPrice * product.quantity; %>
+                                    <div class="sa-price"><span
+                                       class="sa-price__symbol">₹</span><span
+                                       class="sa-price__integer"><%= product.item.discountPrice * product.quantity %></span></div>
+                                 </td>
+                              </tr>
+                              <% }); %>
+                           </tbody>
+                           <tbody class="sa-table__group">
+                              <tr>
+                                 <td colSpan="3">Subtotal</td>
+                                 <td class="text-end">
+                                    <div class="sa-price"><span
+                                       class="sa-price__symbol">₹</span><span
+                                       class="sa-price__integer"><%= total %></span><span
+                                       class="sa-price__decimal">.00</span></div>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td colSpan="3">
+                                    Shipping
+                                    <div class="text-muted fs-exact-13">via
+                                       FedEx International
+                                    </div>
+                                 </td>
+                                 <td class="text-end">
+                                    <div class="sa-price">
+                                        <% if (order.orderShipping) { %>
+                                            <span>₹<%= order.orderShipping %></span>
+                                            <% } else { %>
+                                              <span>Free Shipping</span>
+                                              <% } %>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                           <tbody>
+                              <tr>
+                                 <td colSpan="3">Total</td>
+                                 <td class="text-end">
+                                    <div class="sa-price"><span
+                                       class="sa-price__symbol">₹</span><span
+                                       class="sa-price__integer"><%= order.orderTotal %></span>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div class="card mt-5">
+                     <div
+                        class="card-body px-5 py-4 d-flex align-items-center justify-content-between">
+                        <h2 class="mb-0 fs-exact-18 me-4">Transactions</h2>
+                        <div class="text-muted fs-exact-14"><a href="#">Add transaction</a></div>
+                     </div>
+                     <div class="table-responsive">
+                        <table class="sa-table text-nowrap">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    Payment
+                                    <div class="text-muted fs-exact-13"><%= order.orderMethod %></div>
+                                 </td>
+                                
+                                 <td>
+                                    <% if (order.onlinepayment && order.onlinepayment.createdAt) { %>
+                                        <% const datepay = new Date(order.onlinepayment.createdAt); %>
+                                        <%= datepay.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %> at <%= datepay.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) %>
+                                        <% if (order.onlinepayment && order.onlinepayment.status) { %>
+                                            <div class="badge badge-sa-success text-capitalize">
+                                          <%= order.onlinepayment.status %>
+                                        </div>
+                                        <% } else { %>
+                                            <div class="badge badge-sa-danger text-capitalize">
+                                                Un Paid
+                                            </div>
+                                        <% } %>
+                                    <% } else { %>
+                                        Cash on delivery
+                                        <% if (order.onlinepayment && order.onlinepayment.status) { %>
+                                            <div class="badge badge-sa-success text-capitalize">
+                                          <%= order.onlinepayment.status %>
+                                        </div>
+                                        <% } else { %>
+                                            <div class="badge badge-sa-danger text-capitalize">
+                                                Un Paid
+                                            </div>
+                                        <% } %>
+                                    <% } %>
+                                </td>                                
+                                 <td class="text-end">
+                                    <div class="sa-price"><span
+                                       class="sa-price__symbol">₹</span><span
+                                       class="sa-price__integer"><%= order.orderTotal %></span></div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+
+                  <div class="card mt-5">
+                    <div class="card-body px-5 py-4 d-flex align-items-center justify-content-between">
+                       <h2 class="mb-0 fs-exact-18 me-4">Order Staus</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/order_status_change/<%= order.id %>" method="post">
+                            <div class="mb-4 d-flex gap-5">
+                                <label class="form-check">
+                                    <input type="radio" class="form-check-input" name="status"
+                                        value="new" <% if (order.status==='new' ) { %>checked
+                                            <% } %>>
+                                    <span class="form-check-label">New</span>
+                                </label>
+                                <label class="form-check">
+                                    <input type="radio" class="form-check-input" name="status"
+                                        value="pending" <% if (order.status==='pending' ) { %>checked
+                                            <% } %>>
+                                    <span class="form-check-label">Pending</span>
+                                </label>
+                                <label class="form-check">
+                                    <input type="radio" class="form-check-input" name="status"
+                                        value="shipped" id="scheduledRadio" <% if (order.status==='shipped' ) { %>checked
+                                            <% } %>>
+                                    <span class="form-check-label">Shipped</span>
+                                </label>
+                                <label class="form-check mb-0">
+                                    <input type="radio" class="form-check-input" name="status"
+                                        value="delivered" <% if (order.status==='delivered' ) { %>checked
+                                            <% } %>>
+                                    <span class="form-check-label">Delivered</span>
+                                </label>
+                                <label class="form-check mb-0">
+                                    <input type="radio" class="form-check-input" name="status"
+                                        value="canceled" <% if (order.status==='canceled' ) { %>checked
+                                            <% } %>>
+                                    <span class="form-check-label">Canceled</span>
+                                </label>
+                            </div>
+                            <div class="w-100 d-flex justify-content-end">
+                                <button class="btn btn-primary">save</button>
+                            </div>
+                        </form>
+                    </div>
+                 </div>
+               </div>
+               <div class="sa-entity-layout__sidebar">
+                  <div class="card">
+                     <div
+                        class="card-body d-flex align-items-center justify-content-between pb-0 pt-4">
+                        <h2 class="fs-exact-16 mb-0">Customer</h2>
+                     </div>
+                     <div class="card-body d-flex align-items-center pt-4">
+                        <div class="ms-3 ps-2">
+                           <div class="fs-exact-14 fw-medium text-capitalize"><a href="/admin/customer_view/<%= order.user.id %>" class="text-black"><%= order.user.fullname %></a></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="card mt-5">
+                     <div
+                        class="card-body d-flex align-items-center justify-content-between pb-0 pt-4">
+                        <h2 class="fs-exact-16 mb-0">Contact person</h2>
+                     </div>
+                     <div class="card-body pt-4 fs-exact-14">
+                        <div class="text-capitalize"><%= order.orderAddress.fullname %></div>
+                        <div class="mt-1"><a href="mailto:<%= order.orderAddress.mail %>"><%= order.orderAddress.mail %></a></div>
+                        <div class="text-muted mt-1"><%= order.orderAddress.phone %>, <%= order.orderAddress.alternateNumber %></div>
+                     </div>
+                  </div>
+                  <div class="card mt-5">
+                     <div
+                        class="card-body d-flex align-items-center justify-content-between pb-0 pt-4">
+                        <h2 class="fs-exact-16 mb-0">Shipping & Billing Address</h2>
+                     </div>
+                     <div class="card-body pt-4 fs-exact-14"><%= order.orderAddress.address %>, <%= order.orderAddress.landmark %> <%= order.orderAddress.city %> - <%= order.orderAddress.pincode %>, <%= order.orderAddress.state %>
+                     </div>
+                  </div>
+                  <div class="card mt-5">
+                    <div
+                       class="card-body d-flex align-items-center justify-content-between pb-0 pt-4">
+                       <h2 class="fs-exact-16 mb-0">Order Note</h2>
+                    </div>
+                    <div class="card-body pt-4 fs-exact-14"><%= order.orderAddress.orderNote %>
+                    </div>
+                 </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<%- include('../partials/footer.ejs') %>

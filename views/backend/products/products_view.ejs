@@ -1,0 +1,287 @@
+<%- include('../partials/nav.ejs') %>
+    <div id="top" class="sa-app__body">
+        <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
+            <div class="container container--max--xl">
+                <div class="py-5">
+                    <div class="row g-4 align-items-center">
+                        <div class="col">
+                            <% product.subcategories.forEach((categories, index)=> { %>
+                                <span class="text-capitalize">
+                                    <%= categories.title %>
+                                        <%= categories.title2 %>
+                                </span>
+                                <% }); %>
+                                    <h5 class="m-0 mt-3 mb-3">
+                                        <%= product.name %>
+                                    </h5>
+                                    <span>
+                                        <%= product.productLocation %>
+                                    </span>
+                        </div>
+                        <div class="col-auto d-flex"><a href="/admin/products_list" class="btn btn-primary me-3">Product
+                                List</a>
+                            <a href="/admin/product_edit/<%= product.id %>" class="btn btn-secondary me-3">Edit</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sa-page-meta mb-5">
+                    <div class="sa-page-meta__body">
+                        <div class="sa-page-meta__list">
+                            <% const date=new Date(product.createdAt); %>
+                                <div class="sa-page-meta__item">
+                                    <%= date.toLocaleDateString('en-US', { month: 'long' , day: 'numeric' ,
+                                        year: 'numeric' }) %> at <%= date.toLocaleTimeString('en-US', { hour: '2-digit'
+                                            , minute: '2-digit' }) %>
+                                </div>
+                                <div class="sa-page-meta__item"><del>
+                                        <%= product.price %>
+                                    </del></div>
+                                <div class="sa-page-meta__item">
+                                    <%= product.discountPrice %>
+                                </div>
+                                <div class="sa-page-meta__item d-flex align-items-center fs-6">
+                                    <span class="badge badge-sa-success me-2 text-capitalize">
+                                        <%= product.status %>
+                                    </span>
+                                    <span
+                                        class="badge <%= product.quantity <= 0 ? 'badge-sa-danger' : 'badge-sa-success' %>">
+                                        <%= product.quantity <=0 ? 'Out of Stock' : product.quantity + ' In Stock' %>
+                                    </span>
+                                </div>
+                                <div class="sa-page-meta__item">
+                                    <%= product.sku %>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sa-entity-layout"
+                    data-sa-container-query="{&quot;920&quot;:&quot;sa-entity-layout--size--md&quot;}">
+                    <div class="sa-entity-layout__body">
+                        <div class="sa-entity-layout__main">
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div
+                                            class="card-body d-flex align-items-center justify-content-between pb-0 pt-4">
+                                            <h2 class="fs-exact-16 mb-0">Colors</h2>
+                                        </div>
+                                        <div class="card-body d-flex  align-items-center gap-3 pt-4">
+                                            <% product.productsColor.forEach((color, index)=> { %>
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <h6 class="text-capitalize">
+                                                        <%= color.colorname %>
+                                                    </h6>
+                                                    <div
+                                                        style="width: 2vmax; height: 2vmax; background-color: <%= color.favcolor %>">
+                                                    </div>
+                                                </div>
+                                                <% }); %>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div
+                                            class="card-body d-flex align-items-center justify-content-between pb-0 pt-4">
+                                            <h2 class="fs-exact-16 mb-0">Size</h2>
+                                        </div>
+                                        <div class="card-body d-flex  align-items-center gap-3 pt-4">
+                                            <% product.sizes.forEach((size, index)=> { %>
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <h6 class="text-capitalize">
+                                                        <%= size %>
+                                                    </h6>
+                                                </div>
+                                                <% }); %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mt-5">
+                                <div class="card-body px-5 py-4 d-flex align-items-center justify-content-between">
+                                    <h2 class="mb-0 fs-exact-18 me-4">Product Images</h2>
+                                </div>
+                                <div class="table-responsive p-5 d-flex gap-5">
+                                    <% product.productsImages.forEach((image, index)=> { %>
+                                        <a href="<%= image.url %>" target="_blank">
+                                            <img src="<%= image.url %>" alt="" height="150" width="150">
+                                        </a>
+                                        <% }); %>
+                                </div>
+                            </div>
+                            <div class="card mt-5">
+                                <div class="card-body px-5 py-4 d-flex align-items-center justify-content-between">
+                                    <h2 class="mb-0 fs-exact-18 me-4">Short Description</h2>
+                                </div>
+                                <div class="card-body">
+                                    <p>
+                                        <%= product.shortDescription %>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card mt-5">
+                                <div class="card-body px-5 py-4 d-flex align-items-center justify-content-between">
+                                    <h2 class="mb-0 fs-exact-18 me-4">Description</h2>
+                                </div>
+                                <div class="card-body">
+                                    <p>
+                                        <%= product.description %>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card mt-5">
+                                <div class="card-body px-5 py-4 d-flex align-items-center justify-content-between">
+                                    <h2 class="mb-0 fs-exact-18 me-4">Rate & Review</h2>
+                                </div>
+                                <div class="card-body">
+                                    <% if (product.productsRateReview.length !=0) { %>
+                                        <% product.productsRateReview.forEach((ratereview,i)=> { %>
+                                            <div class="mt-4">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <% const date=new Date(ratereview.createdAt); %>
+                                                        <h6 class="text-capitalize"><span>
+                                                                <%= i+1 %>.
+                                                            </span>
+                                                            <%= ratereview.username %> <sub>
+                                                                    <%= date.toLocaleDateString('en-US', { month: 'long'
+                                                                        , day: 'numeric' , year: 'numeric' }) %>
+                                                                </sub>
+                                                        </h6>
+                                                        <div>
+                                                            <% for (let i=0; i < ratereview.rate; i++) { %>
+                                                                <i class="ri-star-fill" style="color: green;"></i>
+                                                                <% } %>
+                                                                    <% for (let i=ratereview.rate; i < 5; i++) { %>
+                                                                        <i class="ri-star-line"></i>
+                                                                        <% } %>
+                                                        </div>
+                                                </div>
+                                                <p class="px-4">
+                                                    <%= ratereview.useremail ? ratereview.useremail : 'BY Admin' %>
+                                                </p>
+                                                <span class="px-4">
+                                                    <%= ratereview.review %>
+                                                </span>
+                                            </div>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    No Rate & Review
+                                                    <% } %>
+                                </div>
+                            </div>
+
+                            <div class="card mt-5">
+                                <form action="/admin/rate_review" method="post">
+                                    <div class="card-body p-5">
+                                        <input type="hidden" name="productId" value="<%= product.id %>">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Give Rate & Review</h2>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="form-product/name" class="form-label">User Name</label>
+                                            <input type="text" class="form-control" name="username" />
+                                        </div>
+                                        <div class="mb-4 w-100">
+                                            <label for="form-product/name" class="form-label">Rating</label>
+                                            <div class="rate">
+                                                <input type="radio" id="star5" name="rate" value="5" />
+                                                <label for="star5" title="text">5 stars</label>
+                                                <input type="radio" id="star4" name="rate" value="4" />
+                                                <label for="star4" title="text">4 stars</label>
+                                                <input type="radio" id="star3" name="rate" value="3" />
+                                                <label for="star3" title="text">3 stars</label>
+                                                <input type="radio" id="star2" name="rate" value="2" />
+                                                <label for="star2" title="text">2 stars</label>
+                                                <input type="radio" id="star1" name="rate" value="1" required />
+                                                <label for="star1" title="text">1 star</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label for="form-product/description" class="form-label">Review</label>
+                                            <textarea class="form-control" rows="8" name="review"></textarea>
+                                        </div>
+                                        <div class="w-100 d-flex justify-content-end">
+                                            <button class="btn btn-primary">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="sa-entity-layout__sidebar">
+                            <div class="card">
+                                <div class="card-body d-flex align-items-center justify-content-between pb-0 pt-4">
+                                    <h2 class="fs-exact-16 mb-0">Categories</h2>
+                                </div>
+                                <div class="card-body d-flex align-items-center pt-4">
+                                    <div class="ms-3 ps-2">
+                                        <div class="fs-exact-14 fw-medium text-capitalize">
+                                            <% product.categories.forEach((category, index)=> { %>
+                                                <%= category %>,
+                                                    <% }); %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mt-5">
+                                <div class="card-body d-flex align-items-center justify-content-between pb-0 pt-4">
+                                    <h2 class="fs-exact-16 mb-0">Tags</h2>
+                                </div>
+                                <div class="card-body d-flex align-items-center pt-4">
+                                    <div class="ms-3 ps-2">
+                                        <div class="fs-exact-14 fw-medium text-capitalize">
+                                            <% product.tags.forEach((tag, index)=> { %>
+                                                <%= tag %>,
+                                                    <% }); %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mt-5">
+                                <div class="card-body d-flex align-items-center justify-content-between pb-0 pt-4">
+                                    <h2 class="fs-exact-16 mb-0">whyChoose</h2>
+                                </div>
+                                <div class="card-body d-flex align-items-center pt-4">
+                                    <div class="fs-exact-14  text-capitalize">
+                                        <ul>
+                                            <% product.whyChoose.forEach((whyChoos, index)=> { %>
+                                                <li>
+                                                    <%= whyChoos %>
+                                                </li>
+                                                <% }); %>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mt-5">
+                                <div class="card-body d-flex align-items-center justify-content-between pb-0 pt-4">
+                                    <h2 class="fs-exact-16 mb-0">Contact person</h2><a href="#"
+                                        class="fs-exact-14">Edit</a>
+                                </div>
+                                <div class="card-body pt-4 fs-exact-14">
+                                    <div>Jessica Moore</div>
+                                    <div class="mt-1"><a href="#">moore@example.com</a></div>
+                                    <div class="text-muted mt-1">+38 (094) 730-24-25</div>
+                                </div>
+                            </div>
+                            <div class="card mt-5">
+                                <div class="card-body d-flex align-items-center justify-content-between pb-0 pt-4">
+                                    <h2 class="fs-exact-16 mb-0">Shipping Address</h2><a href="#"
+                                        class="fs-exact-14">Edit</a>
+                                </div>
+                                <div class="card-body pt-4 fs-exact-14">Jessica Moore<br />Random
+                                    Federation<br />115302, Moscow<br />ul. Varshavskaya, 15-2-178</div>
+                            </div>
+                            <div class="card mt-5">
+                                <div class="card-body d-flex align-items-center justify-content-between pb-0 pt-4">
+                                    <h2 class="fs-exact-16 mb-0">Billing Address</h2><a href="#"
+                                        class="fs-exact-14">Edit</a>
+                                </div>
+                                <div class="card-body pt-4 fs-exact-14">Jessica Moore<br />Random
+                                    Federation<br />115302, Moscow<br />ul. Varshavskaya, 15-2-178</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../partials/footer.ejs') %>

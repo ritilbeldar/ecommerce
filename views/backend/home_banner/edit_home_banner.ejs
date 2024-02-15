@@ -1,0 +1,182 @@
+<%- include('../partials/nav.ejs') %>
+<div id="top" class="sa-app__body">
+   <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
+      <div class="container container--max--xl">
+         <div class="py-5">
+            <div class="row g-4 align-items-center">
+               <div class="col">
+                  <h1 class="h3 m-0">Edit Banner</h1>
+               </div>
+               <div class="col-auto d-flex"><a href="/admin/add_home_banner" class="btn btn-primary">Add Banner category</a></div>
+            </div>
+         </div>
+         <div class="sa-entity-layout"
+            data-sa-container-query="{&quot;920&quot;:&quot;sa-entity-layout--size--md&quot;,&quot;1100&quot;:&quot;sa-entity-layout--size--lg&quot;}">
+            <div class="sa-entity-layout__body">
+               <div class="sa-entity-layout__main">
+                  <div class="card">
+                     <div class="card-body p-5">
+                        <div class="mb-5">
+                           <h2 class="mb-0 fs-exact-18">Edit Home Banner</h2>
+                        </div>
+                        <form action="/admin/homeBanner_update/<%= banner._id %>" method="post" enctype="multipart/form-data">
+                           <div class="mb-4 d-flex gap-5">
+
+
+                              <label class="form-check">
+                                <input type="radio" class="form-check-input" name="status" value="published" <% if (banner.status === 'published') { %>checked<% } %> />
+                                <span class="form-check-label">Published</span>
+                                </label>
+                                <label class="form-check">
+                                <input  type="radio" class="form-check-input" name="status" value="scheduled" id="scheduledRadio" <% if (banner.status === 'scheduled') { %>checked<% } %>  />
+                                <span class="form-check-label">Scheduled</span>
+                                </label>
+                                <label class="form-check mb-0">
+                                <input type="radio" class="form-check-input" name="status" value="hidden" <% if (banner.status === 'hidden') { %>checked<% } %> />
+                                <span class="form-check-label">Hidden</span>
+                                </label>
+
+                           </div>
+                           <div class="mb-4">
+                              <label for="publish-date" class="form-label">Publish date</label>
+                              <input name="publishdate" value="<%= banner.publishdate %>" type="text" class="form-control datepicker-here"
+                                 id="publish-date" data-auto-close="true" data-language="en" disabled />
+                              <div class="form-text">The banner will not be visible until the specified
+                                 date.
+                              </div>
+                           </div>
+                           <div class="mb-4">
+                              <label for="background-banner" class="form-label">Banner Background
+                              Img</label>
+                              <input type="file" value="<%= banner.backgroundBanner %>" class="form-control" name="backgroundBanner"
+                                 id="background-banner" />
+                           </div>
+                           <div class="mb-4">
+                              <label for="banner-img" class="form-label">Banner Img 1</label>
+                              <input type="file" value="<%= banner.bannerImg %>" class="form-control" name="bannerImg" id="banner-img" />
+                           </div>
+                           <div class="mb-4">
+                              <label for="form-category/name" class="form-label">Side Title</label>
+                              <input type="text" class="form-control" id="form-category/name"
+                                 name="shortTitle1" value="<%= banner.shortTitle1 %>" />
+                           </div>
+                           <div class="mb-4">
+                              <label for="form-category/name" class="form-label">Short Title</label>
+                              <input type="text" class="form-control" id="form-category/name"
+                                 name="shortTitle2" value="<%= banner.shortTitle2 %>" />
+                           </div>
+                           <div class="mb-4">
+                              <label for="form-category/name" class="form-label">Big Title 1</label>
+                              <input type="text" class="form-control" id="form-category/name"
+                                 name="bigTitle1" value="<%= banner.bigTitle1 %>" />
+                           </div>
+                           <div class="mb-4">
+                              <label for="form-category/name" class="form-label">Big Title 2</label>
+                              <input type="text" class="form-control" id="form-category/name"
+                                 name="bigTitle2" value="<%= banner.bigTitle2 %>" />
+                           </div>
+                           <div class="mb-4">
+                              <label for="form-category/name" class="form-label">Banner URL Name</label>
+                              <input type="text" class="form-control" id="form-category/name"
+                                 name="bannerURLName" value="<%= banner.bannerURLName %>" />
+                           </div>
+                           <div class="mb-4">
+                              <label for="form-category/slug" class="form-label">Banner URL</label>
+                              <div class="input-group input-group--sa-slug">
+                                 <input type="text" class="form-control" id="form-category/slug"
+                                    aria-describedby="form-category/slug-addon form-category/slug-help"
+                                    value="<%= banner.bannerURL %>" name="bannerURL" />
+                              </div>
+                           </div>
+                           <button class="btn btn-primary">Save</button>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <% homebanners.forEach((banners, index)=> { %>
+               <div class="col-md-12 mt-5">
+                  <div class="card w-100">
+                     <div class="card-body p-5">
+                        <div class="mb-5">
+                           <h2 class="mb-0 fs-exact-18">Banner <%= index+1 %></h2>
+                        </div>
+                        <form action="/admin/updateBannerStatus/<%= banners.id %>" method="POST">
+                           <div class="mb-4 d-flex gap-4">
+                              <label class="form-check">
+                              <input type="radio" class="form-check-input" name="status" value="published" <% if (banners.status === 'published') { %>checked<% } %> />
+                              <span class="form-check-label">Published</span>
+                              </label>
+                              <label class="form-check">
+                              <input type="radio" class="form-check-input" name="status" value="scheduled" <% if (banners.status === 'scheduled') { %>checked<% } %> />
+                              <span class="form-check-label">Scheduled</span>
+                              </label>
+                              <label class="form-check mb-0">
+                              <input type="radio" class="form-check-input" name="status" value="hidden" <% if (banners.status === 'hidden') { %>checked<% } %> />
+                              <span class="form-check-label">Hidden</span>
+                              </label>
+                              <div <% if (banners.status !== 'scheduled') { %>style="display: none;"<% } %>>
+                                 <label class="form-check mb-0 d-flex gap-2">
+                                    <span class="form-check-label">Publish Date :-</span>
+                                    <p><b><%= banners.publishdate %></b></p>
+                                 </label>
+                              </div>
+                              <div style="width: 14vmax;">
+                                 <input name="publishdate" type="text" class="form-control datepicker-here"
+                                    data-auto-close="true" data-language="en" />
+                              </div>
+                              <button type="submit" class="btn btn-primary">Update Status</button>
+                              <a href="/admin/homeBanner_delete/<%= banners._id %>" class="btn btn-danger">Delete</a>
+                              <a href="/admin/homeBanner_edit/<%= banners._id %>" class="btn btn-info">Edit</a>
+                           </div>
+                        </form>
+                     <div class="row">
+                        <div class="col-md-4">
+                           <p>Background img</p>
+                           <div class="border p-4 d-flex justify-content-center">
+                              <div class="max-w-20x bg-dark"><img src="<%= banners.backgroundBanner.url %>"
+                                 class="w-100 h-auto" width="100" height="100" alt="" /></div>
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <p>Banner img</p>
+                           <div class="border p-4 d-flex justify-content-center">
+                              <div class="max-w-20x bg-dark"><img
+                                 src="<%= banners.bannerImg.url %>"
+                                 class="w-100 h-100" width="320" height="320" alt="" /></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <% }); %>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+<script>
+   var publishedRadio = document.querySelector('input[name="status"][value="published"]');
+   var hiddenRadio = document.querySelector('input[name="status"][value="hidden"]');
+   var scheduledRadio = document.getElementById("scheduledRadio");
+   var publishDateInput = document.getElementById("publish-date");
+   
+   function updateDateInputState() {
+       if (publishedRadio.checked || hiddenRadio.checked) {
+           publishDateInput.setAttribute("disabled", "disabled");
+       } else {
+           publishDateInput.removeAttribute("disabled");
+       }
+   }
+   
+   publishedRadio.addEventListener("click", updateDateInputState);
+   hiddenRadio.addEventListener("click", updateDateInputState);
+   scheduledRadio.addEventListener("click", function () {
+       if (scheduledRadio.checked) {
+           publishDateInput.removeAttribute("disabled");
+       }
+   });
+</script>
+<%- include('../partials/footer.ejs') %>

@@ -1,0 +1,399 @@
+<%- include('../partials/nav.ejs') %>
+    <div id="top" class="sa-app__body">
+        <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
+            <div class="container">
+                <div class="py-5">
+                    <div class="row g-4 align-items-center">
+                        <div class="col">
+                            <h1 class="h3 m-0">Add Product</h1>
+                        </div>
+                        <div class="col-auto d-flex">
+                            <a href="/admin/products_list" class="btn btn-primary">Products List</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sa-entity-layout"
+                    data-sa-container-query="{&quot;920&quot;:&quot;sa-entity-layout--size--md&quot;,&quot;1100&quot;:&quot;sa-entity-layout--size--lg&quot;}">
+                    <form action="/admin/product_update/<%= product.id %>" method="post" enctype="multipart/form-data">
+                        <div class="sa-entity-layout__body">
+                            <div class="sa-entity-layout__main">
+                                <div class="card">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Product information</h2>
+                                        </div>
+                                        <div class="mb-4 d-flex gap-4">
+                                            <label class="form-check">
+                                                <input type="radio" class="form-check-input" name="status"
+                                                    value="published" <% if (product.status==='published' ) { %>checked
+                                                <% } %> />
+                                                    <span class="form-check-label">Published</span>
+                                            </label>
+                                            <label class="form-check">
+                                                <input type="radio" class="form-check-input" name="status"
+                                                    value="scheduled" <% if (product.status==='scheduled' ) { %>checked
+                                                <% } %> />
+                                                    <span class="form-check-label">Scheduled</span>
+                                            </label>
+                                            <label class="form-check mb-0">
+                                                <input type="radio" class="form-check-input" name="status"
+                                                    value="hidden" <% if (product.status==='hidden' ) { %>checked<% } %>
+                                                    />
+                                                    <span class="form-check-label">Hidden</span>
+                                            </label>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="categoryTitle" class="form-label">Category</label>
+                                            <select id="categoryTitle" name="subcategoryTitle"
+                                                class="sa-select2 form-select" required>
+                                                <option disabled selected value>-- select --</option>
+                                                <% product.subcategories.forEach((category, index)=> { %>
+                                                    <option value="<%= category.title %>" selected>
+                                                        <%= category.title %>
+                                                            <%= category.title2 %>
+                                                    </option>
+                                                    <% }); %> 
+                                            </select>
+                                            <div class="form-text">Select a category that will be the parent of the
+                                                current one.</div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label for="form-product/name" class="form-label">Product Name</label>
+                                            <input type="text" class="form-control" name="name"
+                                                value="<%= product.name %>" />
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="form-product/description" class="form-label">Product
+                                                Description</label>
+                                            <textarea class="form-control" rows="8"
+                                                name="description"><%= product.description %></textarea>
+                                        </div>
+                                        <div>
+                                            <label for="form-product/short-description" class="form-label">Product Short
+                                                description</label>
+                                            <textarea class="form-control" rows="2"
+                                                name="shortDescription"><%= product.shortDescription %></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mt-5">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Product Images</h2>
+                                        </div>
+                                        <div class="row">
+                                            <% if (product.productsImages.length === 0) { %>
+                                                <div class="col-md-6">
+                                                    <label class="form-label mt-3">Images</label>
+                                                    <input type="file" class="form-control" name="productsImages" value="image" multiple />
+                                                </div>
+                                            <% } else { %>
+                                                <% product.productsImages.forEach((image, index) => { %>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label mt-3">Image <%= index + 1 %></label>
+                                                        <input type="file" class="form-control" name="productsImages<%= index %>" value="<%= image.url %>" />
+                                                        <% if (image.url) { %>
+                                                            <div class="mt-4">
+                                                                <a href="<%= image.url %>" target="_blank">
+                                                                    <img src="<%= image.url %>" width="200" height="200" alt="" style="object-fit: contain;">
+                                                                </a>
+                                                            </div>
+                                                        <% } %>
+                                                    </div>
+                                                    <% }); %>
+                                                    <div class="col-md-12">
+                                                        <label class="form-label mt-3">Add Images</label>
+                                                        <input type="file" class="form-control" name="productsImages" value="image" multiple />
+                                                    </div>
+                                            <% } %>                                              
+                                        </div>                                        
+                                    </div>
+                                </div>
+                                <div class="card mt-5">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Product Colors</h2>
+                                        </div>
+                                        <div>
+                                            <div class="color-container mb-4">
+                                                <div id="tableBody1">
+                                                    <!-- Existing rows will be added here -->
+                                                    <% product.productsColor.forEach((color, index) => { %>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label for="favcolor" class="form-label">Product Color</label>
+                                                            <input class="form-control" type="color" name="favcolor" value="<%= color.favcolor %>">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="colorname" class="form-label">Product Color Name</label>
+                                                            <input class="form-control" type="text" value="<%= color.colorname %>" name="colorname">
+                                                        </div>
+                                                    </div>
+                                                    <% }); %>
+                                                </div>
+                                                <button type="button" class="add-row-btn1 btn btn-primary mt-3">Add Row</button>
+                                                <button type="button" class="remove-row-btn1 btn btn-danger mt-3" style="<%= product.productsColor.length > 0 ? 'display:inline-block' : 'display:none' %>">Remove Last Row</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sa-entity-layout__sidebar">
+                                <div class="card">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Pricing</h2>
+                                        </div>
+                                        <div class="row g-4">
+                                            <div class="col">
+                                                <label for="form-product/price" class="form-label">Price</label>
+                                                <input type="number" class="form-control" name="price"
+                                                    value="<%= product.price %>" />
+                                            </div>
+                                            <div class="col">
+                                                <label for="form-product/old-price" class="form-label">Discount
+                                                    price</label>
+                                                <input type="number" class="form-control" name="discountPrice"
+                                                    value="<%= product.discountPrice %>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card w-100 mt-5">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Categories</h2>
+                                        </div>
+                                        <select class="sa-select2 form-select" data-tags="true" name="categories"
+                                            multiple="">
+                                            <% product.categories.forEach((color, index)=> { %>
+                                                <option selected>
+                                                    <%= color %>
+                                                </option>
+                                                <% }); %>
+                                        </select>
+                                    </div>
+
+
+                                </div>
+                                <div class="card w-100 mt-5">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Tags</h2>
+                                        </div>
+                                        <select class="sa-select2 form-select" data-tags="true" name="tags" multiple="">
+                                            <% product.tags.forEach((color, index)=> { %>
+                                                <option selected>
+                                                    <%= color %>
+                                                </option>
+                                                <% }); %>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="card w-100 mt-5">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Why choose product?</h2>
+                                        </div>
+                                    </div>
+                                    <div class="mt-n5">
+                                        <div class="sa-divider"></div>
+                                        <div class="table-responsive">
+                                            <table class="sa-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="w-min"></th>
+                                                        <th class="min-w-10x"></th>
+                                                        <th class="w-min"></th>
+                                                        <th class="w-min"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tableBody">
+
+                                                    <% product.whyChoose.forEach((color, index)=> { %>
+                                                        <tr>
+                                                            <td>
+                                                                <%= index + 1 %>
+                                                            </td>
+                                                            <td><input type="text" name="whyChoose"
+                                                                    class="form-control form-control-sm"
+                                                                    value="<%= color %>" /></td>
+                                                            <td>
+                                                                <button
+                                                                    class="btn btn-sa-muted btn-sm mx-n3 add-row-btn"
+                                                                    type="button" aria-label="Add"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="right"
+                                                                    title="Add">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                        height="12" viewBox="0 0 12 12"
+                                                                        fill="currentColor">
+                                                                        <path
+                                                                            d="M1,5h10c0.6,0,1,0.4,1,1s-0.4,1-1,1H1C0.4,7,0,6.6,0,6S0.4,5,1,5z" />
+                                                                        <path
+                                                                            d="M6,0C6.6,0,7,0.4,7,1v10c0,0.6-0.4,1-1,1S5,11.6,5,11V1C5,0.4,5.4,0,6,0z" />
+                                                                    </svg>
+                                                                </button>
+                                                            </td>
+                                                            <td>
+                                                                <button
+                                                                    class="btn btn-sa-muted btn-sm mx-n3 remove-row-btn"
+                                                                    style="display: none;" type="button"
+                                                                    aria-label="Remove" data-bs-toggle="tooltip"
+                                                                    data-bs-placement="right" title="Remove">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                        height="12" viewBox="0 0 12 12"
+                                                                        fill="currentColor">
+                                                                        <path
+                                                                            d="M10.8,10.8L10.8,10.8c-0.4,0.4-1,0.4-1.4,0L6,7.4l-3.4,3.4c-0.4,0.4-1,0.4-1.4,0l0,0c-0.4-0.4-0.4-1,0-1.4L4.6,6L1.2,2.6 c-0.4-0.4-0.4-1,0-1.4l0,0c0.4-0.4,1-0.4,1.4,0L6,4.6l3.4-3.4c0.4-0.4,1-0.4,1.4,0l0,0c0.4,0.4,0.4,1,0,1.4L7.4,6l3.4,3.4 C11.2,9.8,11.2,10.4,10.8,10.8z">
+                                                                        </path>
+                                                                    </svg>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <% }); %>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="sa-divider"></div>
+                                    </div>
+                                </div>
+                                <div class="card mt-5">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Inventory</h2>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="form-product/sku" class="form-label">SKU</label>
+                                            <input type="text" class="form-control" id="form-product/sku"
+                                                value="<%= product.sku %>" name="sku" />
+                                        </div>
+                                        <div>
+                                            <label for="form-product/quantity" class="form-label">Stock quantity</label>
+                                            <input type="number" class="form-control" id="form-product/quantity"
+                                                value="<%= product.quantity %>" name="quantity" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mt-5">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Sizes</h2>
+                                        </div>
+                                        <div class="product-single__swatches">
+                                            <div class="product-swatch text-swatches">
+                                                <div class="swatch-list">
+                                                    <% const sizesFromDB=product.sizes || []; %>
+                                                        <% const availableSizes=["XS", "S" , "M" , "L" , "XL" ]; %>
+
+                                                            <% availableSizes.forEach((size, index)=> { %>
+                                                                <input type="checkbox" value="<%= size %>" name="sizes"
+                                                                    id="swatch-<%= index + 1 %>" <% if
+                                                                    (sizesFromDB.includes(size)) { %> checked <% } %>>
+                                                                    <label class="swatch js-swatch"
+                                                                        for="swatch-<%= index + 1 %>"
+                                                                        aria-label="<%= size %>"
+                                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                        title="<%= size %>">
+                                                                        <%= size %>
+                                                                    </label>
+                                                                    <% }); %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-12 text-end">
+                                <button class="btn btn-primary" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tableBody = document.getElementById('tableBody');
+            const addRowBtn = document.querySelector('.add-row-btn');
+            const removeRowBtn = document.querySelector('.remove-row-btn');
+
+            addRowBtn.addEventListener('click', function () {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                <td>${tableBody.children.length + 1}</td>
+                <td><input type="text" name="whyChoose" class="form-control form-control-sm" /></td>
+                <td>
+                    <button class="btn btn-sa-muted btn-sm mx-n3 add-row-btn"
+                        type="button" aria-label="Add"
+                        data-bs-toggle="tooltip" data-bs-placement="right"
+                        title="Add">
+                        <!-- Add icon for "Add" here -->
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-sa-muted btn-sm mx-n3 remove-row-btn"
+                        type="button" aria-label="Remove"
+                        data-bs-toggle="tooltip" data-bs-placement="right"
+                        title="Remove">
+                        <!-- Add icon for "Remove" here -->
+                    </button>
+                </td>
+            `;
+                tableBody.appendChild(newRow);
+                removeRowBtn.style.display = 'inline-block';
+            });
+
+            removeRowBtn.addEventListener('click', function () {
+                const lastRow = tableBody.lastElementChild;
+                if (lastRow && tableBody.children.length > 1) {
+                    tableBody.removeChild(lastRow);
+                }
+                if (tableBody.children.length === 1) {
+                    removeRowBtn.style.display = 'none'; // Hide the "Remove" button
+                }
+            });
+        });
+    </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const tableBody = document.getElementById('tableBody1');
+    const addRowBtn = document.querySelector('.add-row-btn1');
+    const removeRowBtn = document.querySelector('.remove-row-btn1');
+
+    addRowBtn.addEventListener('click', function () {
+        const newRow = document.createElement('div');
+        newRow.classList.add('row');
+        newRow.innerHTML = `
+            <div class="col-md-6">
+                <label for="favcolor" class="form-label">Product Color</label>
+                <input class="form-control" type="color" name="favcolor" value="#00000">
+            </div>
+            <div class="col-md-6">
+                <label for="colorname" class="form-label">Product Color Name</label>
+                <input class="form-control" type="text" name="colorname">
+            </div>
+        `;
+        tableBody.appendChild(newRow);
+        removeRowBtn.style.display = 'inline-block';
+    });
+
+    removeRowBtn.addEventListener('click', function () {
+        const lastRow = tableBody.lastElementChild;
+        if (lastRow && tableBody.children.length > 1) {
+            tableBody.removeChild(lastRow);
+        }
+        if (tableBody.children.length === 1) {
+            removeRowBtn.style.display = 'none';
+        }
+    });
+});
+
+</script>
+    <%- include('../partials/footer.ejs') %>

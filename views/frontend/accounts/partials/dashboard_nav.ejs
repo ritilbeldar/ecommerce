@@ -1,0 +1,16 @@
+<div class="col-lg-3">
+    <ul class="account-nav">
+      <li><a href="/user/dashboard" class="menu-link menu-link_us-s <%= currentPath === '/user/dashboard' ? 'menu-link_active' : '' %>">Dashboard</a>
+      </li>
+      <li class="count-number">
+        <a href="/user/orders" class="menu-link menu-link_us-s <%= currentPath === '/user/orders' ? 'menu-link_active' : '' %>">Orders</a>
+        <span><%= user.UserOrders.length %></span>
+      </li>
+      <li><a href="/user/addresses" class="menu-link menu-link_us-s <%= currentPath === '/user/addresses' ? 'menu-link_active' : '' %>">Addresses</a></li>
+      <li><a href="/user/account_details" class="menu-link menu-link_us-s <%= currentPath === '/user/account_details' ? 'menu-link_active' : '' %>">Account Details</a></li>
+      <li class="count-number"><a href="/user/wishlist" class="menu-link menu-link_us-s <%= currentPath === '/user/wishlist' ? 'menu-link_active' : '' %>">Wishlist</a>
+        <span><%= user.UserCart.length %></span>
+      </li>
+      <li><a href="/user/signout" class="menu-link menu-link_us-s">Logout</a></li>
+    </ul>
+</div>

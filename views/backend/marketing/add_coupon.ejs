@@ -1,0 +1,185 @@
+<%- include('../partials/nav.ejs') %>
+   <div id="top" class="sa-app__body">
+      <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
+         <div class="container container--max--xl">
+            <div class="py-5">
+               <div class="row g-4 align-items-center">
+                  <div class="col">
+                     <h1 class="h3 m-0">Add Coupon</h1>
+                  </div>
+               </div>
+            </div>
+            <div class="sa-entity-layout"
+               data-sa-container-query="{&quot;920&quot;:&quot;sa-entity-layout--size--md&quot;,&quot;1100&quot;:&quot;sa-entity-layout--size--lg&quot;}">
+               <div class="sa-entity-layout__body">
+                  <div class="sa-entity-layout__main">
+                     <div class="card">
+                        <div class="card-body p-5">
+                           <div class="mb-5">
+                              <h2 class="mb-0 fs-exact-18">Basic information</h2>
+                           </div>
+                           <form action="/admin/coupon_add" method="post">
+                              <div class="mb-4 d-flex gap-5">
+                                 <label class="form-check">
+                                    <input type="radio" class="form-check-input" name="status" value="Enabled">
+                                    <span class="form-check-label">Enabled</span>
+                                 </label>
+                                 <label class="form-check">
+                                    <input type="radio" class="form-check-input" name="status" value="Disabled">
+                                    <span class="form-check-label">Disabled</span>
+                                 </label>
+                                 <label class="form-check mb-0">
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-6">
+                                    <div class="mb-4"><label for="form-coupon/start-date" class="form-label">Start
+                                          date</label><input type="text" class="form-control datepicker-here"
+                                          id="form-coupon/start-date" data-auto-close="true" name="startDate"
+                                          data-language="en" /></div>
+                                 </div>
+                                 <div class="col-md-6">
+                                    <div><label for="form-coupon/end-date" class="form-label">End
+                                          date</label><input type="text" class="form-control datepicker-here"
+                                          id="form-coupon/end-date" data-auto-close="true" name="endDate"
+                                          data-language="en" /></div>
+                                 </div>
+                              </div>
+                              <div class="mb-4"><label for="form-coupon/code" class="form-label">Code</label><input
+                                    type="text" class="form-control" id="form-coupon/code" name="code"
+                                    placeholder="Enter Code" />
+                              </div>
+                              <div class="mb-4">
+                                 <div class="form-label mb-3">Type</div>
+                                 <div class="d-flex gap-5">
+                                    <label class="form-check"><input type="radio" class="form-check-input" name="type"
+                                          value="Percentage" /><span class="form-check-label">Percentage</span>
+                                    </label>
+                                    <label class="form-check"><input type="radio" class="form-check-input" name="type"
+                                          value="Fixed amount" /><span class="form-check-label">Fixed amount</span>
+                                    </label>
+                                    <label class="form-check mb-0"><input type="radio" class="form-check-input"
+                                          name="type" value="Free shipping" /><span class="form-check-label">Free
+                                          shipping</span>
+                                    </label>
+                                 </div>
+                              </div>
+                              <div class="mb-4"><label for="form-coupon/value" class="form-label">Discount
+                                    value</label><input type="text" class="form-control" name="discountValue" id="form-coupon/value"
+                                    value="" />
+                              </div>
+                              <button class="btn btn-primary">Save</button>
+                           </form>
+                        </div>
+                     </div>
+                     <div class="card mt-5">
+                        <div class="p-4"><input type="text" placeholder="Start typing to search for coupons"
+                              class="form-control form-control--search mx-auto" id="table-search" /></div>
+                        <div class="sa-divider"></div>
+                        <table class="sa-datatables-init text-nowrap" data-order="[[ 1, &quot;asc&quot; ]]"
+                           data-sa-search-input="#table-search">
+                           <thead>
+                              <tr>
+                                 <th class="w-min" data-orderable="false"><input type="checkbox"
+                                       class="form-check-input m-0 fs-exact-16 d-block" aria-label="..." />
+                                 </th>
+                                 <th>Code</th>
+                                 <th>Type</th>
+                                 <th>Discount</th>
+                                 <th>Status</th>
+                                 <th>Start date</th>
+                                 <th>End date</th>
+                                 <th class="w-min" data-orderable="false"></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+
+                              <% coupons.forEach((coupon, index) => { %>
+                              <tr>
+                                 <td>
+                                    <input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
+                                       aria-label="..." /></td>
+                                 <td><a href="app-coupon.html" class="text-reset"><%= coupon.code %></a></td>
+                                 <td><%= coupon.type %></td>
+                                 <td>
+                                    <% if (!coupon.discountValue) { %>
+                                        Free shipping
+                                    <% } else { %>
+                                        <%= coupon.discountValue %><% if (coupon.type === 'Percentage') { %> %<% } %>
+                                    <% } %>
+                                </td>
+                                <td>
+                                 <div class="d-flex fs-16">
+                                     <form action="/admin/updateCouponStatus/<%= coupon.id %>" method="POST">
+                                         <button type="submit" class="badge badge-sa-pill <% if (coupon.status === 'Disabled') { %> badge-sa-success <% } else { %> badge-sa-primary <% } %>" style="border: none;">
+                                             <%= coupon.status %>
+                                         </button>
+                                         <input type="hidden" name="status" value="<%= coupon.status === 'Disabled' ? 'Enabled' : 'Disabled' %>">
+                                     </form>
+                                 </div>
+                             </td>                             
+                                 <% function formatDate(dateString) {
+                                    const date = new Date(dateString);
+                                    const day = date.getDate();
+                                    const month = date.toLocaleString('default', { month: 'short' });
+                                    const year = date.getFullYear();
+                                    return `${day} ${month} ${year}`;
+                                } %>
+                                
+                                <td><%= formatDate(coupon.startDate) %></td>
+                                <td><%= formatDate(coupon.endDate) %></td>
+                                                               
+                                 <td>
+                                    <div class="dropdown">
+                                       <button class="btn btn-sa-muted btn-sm" type="button" id="coupon-context-menu-0"
+                                          data-bs-toggle="dropdown" aria-expanded="false" aria-label="More">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="3" height="13"
+                                             fill="currentColor">
+                                             <path
+                                                d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
+                                             </path>
+                                          </svg>
+                                       </button>
+                                       <ul class="dropdown-menu dropdown-menu-end"
+                                          aria-labelledby="coupon-context-menu-0">
+                                          <li><a class="dropdown-item" href="/admin/coupon_Edit/<%= coupon.id %>">Edit</a></li>
+                                          <li>
+                                             <hr class="dropdown-divider" />
+                                          </li>
+                                          <li><a class="dropdown-item text-danger" href="/admin/coupon_delete/<%= coupon.id %>">Delete</a></li>
+                                       </ul>
+                                    </div>
+                                 </td>
+                              </tr>
+                              <% }); %>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <script>
+      var publishedRadio = document.querySelector('input[name="status"][value="Enabled"]');
+      var hiddenRadio = document.querySelector('input[name="status"][value="Disabled"]');
+      var scheduledRadio = document.getElementById("scheduledRadio");
+      
+      function updateDateInputState() {
+          if (publishedRadio.checked || hiddenRadio.checked) {
+              publishDateInput.setAttribute("disabled", "disabled");
+          } else {
+              publishDateInput.removeAttribute("disabled");
+          }
+      }
+      
+      publishedRadio.addEventListener("click", updateDateInputState);
+      hiddenRadio.addEventListener("click", updateDateInputState);
+      scheduledRadio.addEventListener("click", function () {
+          if (scheduledRadio.checked) {
+              publishDateInput.removeAttribute("disabled");
+          }
+      });
+   </script>
+   <%- include('../partials/footer.ejs') %>

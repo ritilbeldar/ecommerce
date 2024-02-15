@@ -1,0 +1,96 @@
+<%- include('../partials/nav.ejs') %>
+    <div id="top" class="sa-app__body">
+        <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
+            <div class="container container--max--xl">
+                <div class="py-5">
+                    <div class="row g-4 align-items-center">
+                        <div class="col">
+                            <h1 class="h3 m-0">Category</h1>
+                        </div>
+                        <div class="col-auto d-flex"><a href="/admin/add_subcategories" class="btn btn-primary">Add SubCategory</a></div>
+                    </div>
+                </div>
+                <div class="sa-entity-layout"
+                    data-sa-container-query="{&quot;920&quot;:&quot;sa-entity-layout--size--md&quot;,&quot;1100&quot;:&quot;sa-entity-layout--size--lg&quot;}">
+                    <div class="sa-entity-layout__body">
+                        <div class="sa-entity-layout__main">
+                            <div class="card">
+                                <div class="card-body p-5">
+                                    <div class="mb-5">
+                                        <h2 class="mb-0 fs-exact-18">Edit Category</h2>
+                                    </div>
+                                    <form action="/admin//subcategories_update/<%= subcategory.id %>" method="post" enctype="multipart/form-data">
+                                        <div class="mb-4">
+                                           <label for="categoryTitle" class="form-label">Category Title</label>
+                                           <select id="categoryTitle" name="categoryTitle"
+                                              class="sa-select2 form-select" required>
+                                              <option disabled selected value>-- select --</option>
+                                              <% categorys.forEach((category, index) => { %>
+                                                <% if (subcategory && subcategory.parentCategory && subcategory.parentCategory.title === category.title) { %>
+                                                  <option value="<%= category.title %>" selected>
+                                                    <%= category.title %>
+                                                  </option>
+                                                <% } else { %>
+                                                  <option value="<%= category.title %>">
+                                                    <%= category.title %>
+                                                  </option>
+                                                <% } %>
+                                              <% }); %>     
+                                           </select>
+                                           <div class="form-text">Select a category that will be the parent of the
+                                              current one.
+                                           </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                          <label for="categoryTitle2" class="form-label">Banner Position</label>
+                                          <select id="categoryTitle2" name="bannerPosition"
+                                             class="sa-select2 form-select" required>
+                                             <option disabled selected value>-- select --</option>
+                                             <option value="col-lg-6 L"<% if (subcategory.bannerPosition==='True' ) { %>
+                                              selected <% } %>>True</option>
+                                             <option value="col-lg-6/1 RT""<% if (subcategory.bannerPosition==='Fasle' ) { %>
+                                              selected <% } %>>Fasle</option>
+                                             <option value="col-lg-6/2 RBL""<% if (subcategory.bannerPosition==='Deal of the week' ) { %>
+                                              selected <% } %>>Deal of the week</option>
+                                          </select>
+                                       </div>
+                                        <div class="mb-4">
+                                         <label for="subCategoryTitle" class="form-label">Sub Category Short Title</label>
+                                         <input type="text" class="form-control" id="subCategoryTitle" name="shortTitle"
+                                            value="<%= subcategory.shortTitle %>" required />
+                                      </div>
+                                        <div class="mb-4">
+                                           <label for="subCategoryTitle" class="form-label">Sub Category Title</label>
+                                           <input type="text" class="form-control" id="subCategoryTitle" name="title"
+                                              value="<%= subcategory.title %>" required />
+                                        </div>
+                                        <div class="mb-4">
+                                         <label for="subCategoryTitle" class="form-label">Sub Category Title 2</label>
+                                         <input type="text" class="form-control" id="subCategoryTitle" name="title2"
+                                            value="<%= subcategory.title2 %>" required />
+                                      </div>
+                                        <div class="mb-4">
+                                           <label for="subCategoryURL" class="form-label">End Date</label>
+                                           <div class="input-group input-group--sa-slug">
+                                              <input type="date" class="form-control" id="subCategoryURL" name="endDate"
+                                                 aria-describedby="form-category/slug-addon form-category/slug-help"
+                                                 value="<%= subcategory.endDate %>" required />
+                                           </div>
+                                        </div>
+                                        <div class="mb-4">
+                                         <label for="background-banner" class="form-label">Sub Category
+                                         Img</label>
+                                         <input type="file"  class="form-control" value="<%= subcategory.subCategoryBanner %>" name="subCategoryBanner"/>
+                                      </div>
+                                        <button class="btn btn-primary">Save</button>
+                                     </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../partials/footer.ejs') %>

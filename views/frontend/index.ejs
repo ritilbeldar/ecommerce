@@ -1,0 +1,1167 @@
+<%- include('partials/nav.ejs') %>
+<main>
+   <section class="swiper-container js-swiper-slider slideshow full-width_padding" data-settings='{
+      "autoplay": {
+      "delay": 5000
+      },
+      "slidesPerView": 1,
+      "effect": "fade",
+      "loop": true,
+      "pagination": {
+      "el": ".slideshow-pagination",
+      "type": "bullets",
+      "clickable": true
+      }
+      }'>
+      <div class="swiper-wrapper">
+         <% homebanners.forEach((banners, index)=> {
+            const currentDate = new Date();
+            
+            if (banners.status === 'published' && !banners.isHidden) {
+            %>
+         <div class="swiper-slide full-width_border border-1" style="border-color: #f5e6e0;">
+            <div class="overflow-hidden position-relative h-100">
+               <div class="slideshow-bg" style="background-color: #f5e6e0;">
+                  <img loading="lazy" src="<%= banners.backgroundBanner.url %>" width="1761" height="778"
+                     alt="Pattern" class="slideshow-bg__img object-fit-cover">
+               </div>
+               <!-- <p class="slideshow_markup font-special text-uppercase position-absolute end-0 bottom-0">Summer</p> -->
+               <div class="slideshow-character position-absolute bottom-0 pos_right-center">
+                  <img loading="lazy" src="<%= banners.bannerImg.url %>" width="400" height="733"
+                     alt="Woman Fashion 1"
+                     class="slideshow-character__img animate animate_fade animate_btt animate_delay-9 h-auto w-auto">
+                  <div class="character_markup">
+                     <p
+                        class="text-uppercase font-sofia fw-bold animate animate_fade animate_rtl animate_delay-10">
+                        <%= banners.shortTitle1 %>
+                     </p>
+                  </div>
+               </div>
+               <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
+                  <h6
+                     class="text_dash text-uppercase text-red fs-base fw-medium animate animate_fade animate_btt animate_delay-3">
+                     <%= banners.bigTitle2 %>
+                  </h6>
+                  <h2 class="text-uppercase h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">
+                     <%= banners.bigTitle1 %>
+                  </h2>
+                  <h6 class="text-uppercase mb-5 animate animate_fade animate_btt animate_delay-3">
+                     <%= banners.bigTitle2 %>
+                  </h6>
+                  <a href="<%= banners.bannerURL %>"
+                     class="btn-link btn-link_lg default-underline text-uppercase fw-medium animate animate_fade animate_btt animate_delay-7">
+                  <%= banners.bannerURLName %>
+                  </a>
+               </div>
+            </div>
+         </div>
+         <% } else if (banners.status==='scheduled' && new Date(banners.publishDate) <=currentDate) { %>
+         <div class="swiper-slide full-width_border border-1" style="border-color: #f5e6e0;">
+            <div class="overflow-hidden position-relative h-100">
+               <div class="slideshow-bg" style="background-color: #f5e6e0;">
+                  <img loading="lazy" src="<%= banners.backgroundBanner.url %>" width="1761" height="778"
+                     alt="Pattern" class="slideshow-bg__img object-fit-cover">
+               </div>
+               <!-- <p class="slideshow_markup font-special text-uppercase position-absolute end-0 bottom-0">Summer</p> -->
+               <div class="slideshow-character position-absolute bottom-0 pos_right-center">
+                  <img loading="lazy" src="<%= banners.bannerImg.url %>" width="400" height="733"
+                     alt="Woman Fashion 1"
+                     class="slideshow-character__img animate animate_fade animate_btt animate_delay-9 h-auto w-auto">
+                  <div class="character_markup">
+                     <p
+                        class="text-uppercase font-sofia fw-bold animate animate_fade animate_rtl animate_delay-10">
+                        <%= banners.shortTitle1 %>
+                     </p>
+                  </div>
+               </div>
+               <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
+                  <h6
+                     class="text_dash text-uppercase text-red fs-base fw-medium animate animate_fade animate_btt animate_delay-3">
+                     <%= banners.bigTitle2 %>
+                  </h6>
+                  <h2
+                     class="text-uppercase h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">
+                     <%= banners.bigTitle1 %>
+                  </h2>
+                  <h6 class="text-uppercase mb-5 animate animate_fade animate_btt animate_delay-3">
+                     <%= banners.bigTitle2 %>
+                  </h6>
+                  <a href="<%= banners.bannerURL %>"
+                     class="btn-link btn-link_lg default-underline text-uppercase fw-medium animate animate_fade animate_btt animate_delay-7">
+                  <%= banners.bannerURLName %>
+                  </a>
+               </div>
+            </div>
+         </div>
+         <% } %>
+         <% }); %>
+         <!-- /.slideshow-item -->
+         <!-- /.slideshow-item -->
+      </div>
+      <!-- /.slideshow-wrapper js-swiper-slider -->
+      <div class="container">
+         <div class="slideshow-pagination d-flex align-items-center position-absolute bottom-0 mb-5"></div>
+         <!-- /.products-pagination -->
+      </div>
+      <!-- /.container -->
+      <div class="slideshow-social-follow d-none d-xxl-block position-absolute top-50 start-0 translate-middle-y text-center">
+         <ul class="social-links list-unstyled mb-0 text-secondary">
+            <li>
+               <a href="#" class="footer__social-link d-block">
+                  <svg class="svg-icon svg-icon_facebook" width="9" height="15" viewBox="0 0 9 15"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <use href="#icon_facebook" />
+                  </svg>
+               </a>
+            </li>
+            <li>
+               <a href="#" class="footer__social-link d-block">
+                  <svg class="svg-icon svg-icon_twitter" width="14" height="13" viewBox="0 0 14 13"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <use href="#icon_twitter" />
+                  </svg>
+               </a>
+            </li>
+            <li>
+               <a href="#" class="footer__social-link d-block">
+                  <svg class="svg-icon svg-icon_instagram" width="14" height="13" viewBox="0 0 14 13"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <use href="#icon_instagram" />
+                  </svg>
+               </a>
+            </li>
+            <li>
+               <a href="#" class="footer__social-link d-block">
+                  <svg class="svg-icon svg-icon_pinterest" width="14" height="15" viewBox="0 0 14 15"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <use href="#icon_pinterest" />
+                  </svg>
+               </a>
+            </li>
+         </ul>
+         <!-- /.social-links list-unstyled mb-0 text-secondary -->
+         <span class="slideshow-social-follow__title d-block mt-5 text-uppercase fw-medium text-secondary">Follow
+         Us</span>
+      </div>
+      <!-- /.slideshow-social-follow -->
+      <a href="#section-collections-grid_masonry"
+         class="slideshow-scroll d-none d-xxl-block position-absolute end-0 bottom-0 text_dash text-uppercase fw-medium">Scroll</a>
+   </section>
+   <!-- /.slideshow -->
+   <div class="mb-5 pb-5"></div>
+   <div class="pb-1"></div>
+   <!-- Shop by collection -->
+   <section class="collections-grid collections-grid_masonry" id="section-collections-grid_masonry">
+      <div class="container h-md-100">
+         <div class="row h-md-100">
+            <% categorys.forEach((category, index)=> { %>
+            <% category.subcategories.forEach((subcategory)=> { %>
+            <% if (subcategory.bannerPosition==='True' ) { %>
+            <div class="col-lg-6 d-flex flex h-50">
+               <div class="collection-grid__item position-relative flex-grow-1 mb-lg-4">
+                  <div class="background-img"
+                     style="background-image: url('<%= subcategory.subCategoryBanner.url %>');"></div>
+                  <div class="content_abs content_bottom content_left content_bottom-md content_left-md">
+                     <p class="text-uppercase mb-1">
+                        <%= subcategory.shortTitle %>
+                     </p>
+                     <h3 class="text-uppercase"><strong>
+                        <%= subcategory.title %>
+                        </strong>
+                        <%= subcategory.title2 %>
+                     </h3>
+                     <% if (isAuthenticated) { %>
+                     <a href="/user/subcategory_Products/<%= subcategory.id %>"
+                        class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
+                     <% } else { %>
+                     <a href="/subcategory_Products/<%= subcategory.id %>"
+                        class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
+                     <% } %>
+                  </div>
+                  <!-- /.content_abs content_bottom content_left content_bottom-md content_left-md -->
+               </div>
+            </div>
+            <% } %>
+            <% }); %>
+            <% }); %>
+         </div>
+         <!-- /.row -->
+      </div>
+      <!-- /.container -->
+   </section>
+   <!-- /.collections-grid collections-grid_masonry -->
+   <section class="products-grid container container-new">
+      <h2 class="section-title text-uppercase text-center mb-1 mb-md-3 pb-xl-2 mb-xl-4">Our Trendy
+         <strong>Products</strong>
+      </h2>
+      <ul class="nav nav-tabs mb-3 text-uppercase justify-content-center" id="collections-tab" role="tablist">
+         <li class="nav-item" role="presentation">
+            <a class="nav-link nav-link_underscore active" id="collections-tab-1-trigger" data-bs-toggle="tab"
+               href="#collections-tab-1" role="tab" aria-controls="collections-tab-1" aria-selected="true">All</a>
+         </li>
+         <li class="nav-item" role="presentation">
+            <a class="nav-link nav-link_underscore" id="collections-tab-2-trigger" data-bs-toggle="tab"
+               href="#collections-tab-2" role="tab" aria-controls="collections-tab-2" aria-selected="true">New
+            Arrivals</a>
+         </li>
+         <li class="nav-item" role="presentation">
+            <a class="nav-link nav-link_underscore" id="collections-tab-3-trigger" data-bs-toggle="tab"
+               href="#collections-tab-3" role="tab" aria-controls="collections-tab-3" aria-selected="true">Best
+            Seller</a>
+         </li>
+         <li class="nav-item" role="presentation">
+            <a class="nav-link nav-link_underscore" id="collections-tab-4-trigger" data-bs-toggle="tab"
+               href="#collections-tab-4" role="tab" aria-controls="collections-tab-4" aria-selected="true">Top
+            Rated</a>
+         </li>
+      </ul>
+      <div class="tab-content pt-2" id="collections-tab-content">
+         <div class="tab-pane fade show active" id="collections-tab-1" role="tabpanel"
+            aria-labelledby="collections-tab-1-trigger">
+            <div class="row">
+               <% products.forEach((product,i)=> { %>
+               <% if (product.status!='hidden' ) { %>
+               <div class="col-6 col-md-4 col-lg-3">
+                  <div class="product-card mb-3 mb-md-4 mb-xxl-5">
+                     <div class="pc__img-wrapper">
+                        <a
+                           href="<%= isAuthenticated ? '/user/products_details/' + product.id : '/products_details/' + product.id %>">
+                        <img loading="lazy" src="<%= product.productsImages[0].url %>" width="330"
+                           height="400" alt="Cropped Faux leather Jacket" class="pc__img">
+                        <img loading="lazy" src="<%= product.productsImages[1].url %>" width="330"
+                           height="400" alt="Cropped Faux leather Jacket" class="pc__img pc__img-second">
+                        </a>
+                        <% if (isAuthenticated) { %>
+                        <form action="/user/add_ProductTo_Wishlist/<%= product.id %>" method="post">
+                           <% const isProductInWishlist=user.UserWishlists.some(wishlist=>
+                              wishlist.allProduct._id.toString() === product.id); %>
+                           <% if (isProductInWishlist) { %>
+                           <a href="/user/remove_ProductTo_Wishlist/<%= product.id %>"
+                              class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Remove
+                           from Cart</a>
+                           <% } else { %>
+                           <button
+                              class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
+                              data-aside="cartDrawer" title="Add To Cart" <% if
+                                 (product.quantity===0) { %>disabled<% } %>>Add To Cart</button>
+                           <% } %>
+                        </form>
+                        <% } else { %>
+                        <a href="/login_register"
+                           class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Add
+                        To Cart</a>
+                        <% } %>
+                     </div>
+                     <div class="pc__info position-relative">
+                        <h6 class="pc__title">
+                           <a
+                              href="<%= isAuthenticated ? '/user/products_details/' + product.id : '/products_details/' + product.id %>">
+                           <%= product.name.split(' ').slice(0, 4).join(' ') %>
+                           <% if (product.name.split(' ').length > 4) { %>
+                           ...
+                           <% } %></a>
+                        </h6>
+                        <div class="product-card__price d-flex">
+                           <span class="money price price-old">₹<%= product.price %></span>
+                           <span class="money price price-sale">₹<%= product.discountPrice %></span>
+                        </div>
+                        <% let totalRating = 0; %>
+                        <% let totalReviews = product.productsRateReview.length; %>
+                        <% product.productsRateReview.forEach((ratereview, i) => { %>
+                          <% totalRating += parseInt(ratereview.rate); %>
+                        <% }); %>
+                        <% let averageRating = totalReviews > 0 ? (totalRating / totalReviews) : 0; %>
+                        
+                        <div class="product-card__review d-flex align-items-center">
+                          <div class="reviews-group d-flex">
+                            <div class="rate rate2">
+                              <% if (totalReviews > 0) { %>
+                                <% for (var star = 5; star >= 1; star--) { %>
+                                  <% if (star <= averageRating) { %>
+                                    <input type="radio" checked />
+                                    <label class="mt-2" title="<%= star %>"></label>
+                                  <% } else { %>
+                                    <input type="radio" />
+                                    <label class="mt-2" title="<%= star %>"></label>
+                                  <% } %>
+                                <% } %>
+                              <% } else { %>
+                                <% for (var star = 5; star >= 1; star--) { %>
+                                  <input type="radio" />
+                                  <label class="mt-2" title="<%= star %>"></label>
+                                <% } %>
+                              <% } %>
+                            </div>
+                          </div>
+                          <span class="reviews-note text-lowercase text-secondary ms-1"><%= totalReviews %> reviews</span>
+                        </div>
+
+                        <% if (isAuthenticated) { %>
+                        <% const isProductInCart = user.UserCart.some(cartItem => cartItem.toString() === product.id); %>
+                        <% if (isProductInCart) { %>
+                        <a href="/user/remove_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-fill" style="font-size: 20px;"></i>
+                        </a>
+                        <% } else { %>
+                        <a href="/user/add_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-line" style="font-size: 20px;"></i>
+                        </a>
+                        <% } %>
+                        <% } else { %>
+                        <a href="/login_register" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-line" style="font-size: 20px;"></i>
+                        </a>
+                        <% } %>
+                     </div>
+                     <% const currentTime=new Date(); %>
+                     <% const productCreationTime=new Date(product.createdAt); %>
+                     <% const timeDifferenceInHours=Math.abs(currentTime - productCreationTime) / (60 *
+                        60 * 1000); %>
+                     <% if (timeDifferenceInHours < 24) { %>
+                     <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
+                        <div class="pc-labels__left">
+                           <span class="pc-label pc-label_new d-block bg-white">NEW</span>
+                        </div>
+                     </div>
+                     <% } %>
+                  </div>
+               </div>
+               <% } %>
+               <% }); %>
+            </div>
+            <!-- /.row -->
+         </div>
+         <!-- /.tab-pane fade show-->
+         <div class="tab-pane fade show" id="collections-tab-2" role="tabpanel"
+            aria-labelledby="collections-tab-2-trigger">
+            <div class="row">
+               <% products.forEach((product,i)=> { %>
+               <% if (product.status!=' hidden' ) { %>
+               <% if (product.productLocation==='New Arrivals' ) { %>
+               <div class="col-6 col-md-4 col-lg-3">
+                  <div class="product-card mb-3 mb-md-4 mb-xxl-5">
+                     <div class="pc__img-wrapper">
+                        <a
+                           href="<%= isAuthenticated ? '/user/products_details/' + product.id : '/products_details/' + product.id %>">
+                        <img loading="lazy" src="<%= product.productsImages[0].url %>"
+                           width="330" height="400" alt="Cropped Faux leather Jacket"
+                           class="pc__img">
+                        <img loading="lazy" src="<%= product.productsImages[1].url %>"
+                           width="330" height="400" alt="Cropped Faux leather Jacket"
+                           class="pc__img pc__img-second">
+                        </a>
+                        <% if (isAuthenticated) { %>
+                        <form action="/user/add_ProductTo_Wishlist/<%= product.id %>"
+                           method="post">
+                           <% const
+                              isProductInWishlist=user.UserWishlists.some(wishlist=>
+                              wishlist.allProduct._id.toString() === product.id); %>
+                           <% if (isProductInWishlist) { %>
+                           <a href="/user/remove_ProductTo_Wishlist/<%= product.id %>"
+                              class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Remove
+                           from Cart</a>
+                           <% } else { %>
+                           <button
+                              class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
+                              data-aside="cartDrawer" title="Add To Cart" <%
+                                 if (product.quantity===0) { %>disabled<% } %>
+                              >Add
+                           To Cart</button>
+                           <% } %>
+                        </form>
+                        <% } else { %>
+                        <a href="/login_register"
+                           class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Add
+                        To Cart</a>
+                        <% } %>
+                     </div>
+                     <div class="pc__info position-relative">
+                        <h6 class="pc__title">
+                           <a
+                              href="<%= isAuthenticated ? '/user/products_details/' + product.id : '/products_details/' + product.id %>">
+                           <%= product.name.split(' ').slice(0, 4).join(' ') %>
+                           <% if (product.name.split(' ').length > 4) { %>
+                           ...
+                           <% } %></a>
+                        </h6>
+                        <div class="product-card__price d-flex">
+                           <span class="money price price-old">₹<%= product.price %></span>
+                           <span class="money price price-sale">₹<%= product.discountPrice %></span>
+                        </div>
+                          <% let totalRating = 0; %>
+                        <% let totalReviews = product.productsRateReview.length; %>
+                        <% product.productsRateReview.forEach((ratereview, i) => { %>
+                          <% totalRating += parseInt(ratereview.rate); %>
+                        <% }); %>
+                        <% let averageRating = totalReviews > 0 ? (totalRating / totalReviews) : 0; %>
+                        
+                        <div class="product-card__review d-flex align-items-center">
+                          <div class="reviews-group d-flex">
+                            <div class="rate rate2">
+                              <% if (totalReviews > 0) { %>
+                                <% for (var star = 5; star >= 1; star--) { %>
+                                  <% if (star <= averageRating) { %>
+                                    <input type="radio" checked />
+                                    <label class="mt-2" title="<%= star %>"></label>
+                                  <% } else { %>
+                                    <input type="radio" />
+                                    <label class="mt-2" title="<%= star %>"></label>
+                                  <% } %>
+                                <% } %>
+                              <% } else { %>
+                                <% for (var star = 5; star >= 1; star--) { %>
+                                  <input type="radio" />
+                                  <label class="mt-2" title="<%= star %>"></label>
+                                <% } %>
+                              <% } %>
+                            </div>
+                          </div>
+                          <span class="reviews-note text-lowercase text-secondary ms-1"><%= totalReviews %> reviews</span>
+                        </div>
+                        <% if (isAuthenticated) { %>
+                        <% const isProductInCart = user.UserCart.some(cartItem => cartItem.toString() === product.id); %>
+                        <% if (isProductInCart) { %>
+                        <a href="/user/remove_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-fill" style="font-size: 20px;"></i>
+                        </a>
+                        <% } else { %>
+                        <a href="/user/add_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-line" style="font-size: 20px;"></i>
+                        </a>
+                        <% } %>
+                        <% } else { %>
+                        <a href="/login_register" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-line" style="font-size: 20px;"></i>
+                        </a>
+                        <% } %>
+                     </div>
+                     <% const currentTime=new Date(); %>
+                     <% const productCreationTime=new Date(product.createdAt); %>
+                     <% const timeDifferenceInHours=Math.abs(currentTime - productCreationTime) / (60 *
+                        60 * 1000); %>
+                     <% if (timeDifferenceInHours < 24) { %>
+                     <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
+                        <div class="pc-labels__left">
+                           <span class="pc-label pc-label_new d-block bg-white">NEW</span>
+                        </div>
+                     </div>
+                     <% } %>
+                  </div>
+               </div>
+               <% } %>
+               <% } %>
+               <% }); %>
+            </div>
+            <!-- /.row -->
+         </div>
+         <!-- /.tab-pane fade show-->
+         <div class="tab-pane fade show" id="collections-tab-3" role="tabpanel"
+            aria-labelledby="collections-tab-3-trigger">
+            <div class="row">
+               <% products.forEach((product,i)=> { %>
+               <% if (product.status!=' hidden' ) { %>
+               <% if (product.productLocation==='Best Seller' ) { %>
+               <div class="col-6 col-md-4 col-lg-3">
+                  <div class="product-card mb-3 mb-md-4 mb-xxl-5">
+                     <div class="pc__img-wrapper">
+                        <a
+                           href="<%= isAuthenticated ? '/user/products_details/' + product.id : '/products_details/' + product.id %>">
+                        <img loading="lazy"
+                           src="<%= product.productsImages[0].url %>"
+                           width="330" height="400"
+                           alt="Cropped Faux leather Jacket"
+                           class="pc__img">
+                        <img loading="lazy"
+                           src="<%= product.productsImages[1].url %>"
+                           width="330" height="400"
+                           alt="Cropped Faux leather Jacket"
+                           class="pc__img pc__img-second">
+                        </a>
+                        <% if (isAuthenticated) { %>
+                        <form
+                           action="/user/add_ProductTo_Wishlist/<%= product.id %>"
+                           method="post">
+                           <% const
+                              isProductInWishlist=user.UserWishlists.some(wishlist=>
+                              wishlist.allProduct._id.toString()
+                              === product.id); %>
+                           <% if (isProductInWishlist) { %>
+                           <a href="/user/remove_ProductTo_Wishlist/<%= product.id %>"
+                              class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Remove
+                           from Cart</a>
+                           <% } else { %>
+                           <button
+                              class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
+                              data-aside="cartDrawer"
+                              title="Add To Cart" <% if
+                                 (product.quantity===0) {
+                                 %>disabled<% } %>>Add To
+                           Cart</button>
+                           <% } %>
+                        </form>
+                        <% } else { %>
+                        <a href="/login_register"
+                           class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Add
+                        To Cart</a>
+                        <% } %>
+                     </div>
+                     <div class="pc__info position-relative">
+                        <h6 class="pc__title">
+                           <a
+                              href="<%= isAuthenticated ? '/user/products_details/' + product.id : '/products_details/' + product.id %>">
+                           <%= product.name.split(' ').slice(0, 4).join(' ') %>
+                           <% if (product.name.split(' ').length > 4) { %>
+                           ...
+                           <% } %></a>
+                        </h6>
+                        <div class="product-card__price d-flex">
+                           <span class="money price price-old">₹<%= product.price %></span>
+                           <span class="money price price-sale">₹<%= product.discountPrice %></span>
+                        </div>
+                        <% let totalRating = 0; %>
+                        <% let totalReviews = product.productsRateReview.length; %>
+                        <% product.productsRateReview.forEach((ratereview, i) => { %>
+                          <% totalRating += parseInt(ratereview.rate); %>
+                        <% }); %>
+                        <% let averageRating = totalReviews > 0 ? (totalRating / totalReviews) : 0; %>
+                        
+                        <div class="product-card__review d-flex align-items-center">
+                          <div class="reviews-group d-flex">
+                            <div class="rate rate2">
+                              <% if (totalReviews > 0) { %>
+                                <% for (var star = 5; star >= 1; star--) { %>
+                                  <% if (star <= averageRating) { %>
+                                    <input type="radio" checked />
+                                    <label class="mt-2" title="<%= star %>"></label>
+                                  <% } else { %>
+                                    <input type="radio" />
+                                    <label class="mt-2" title="<%= star %>"></label>
+                                  <% } %>
+                                <% } %>
+                              <% } else { %>
+                                <% for (var star = 5; star >= 1; star--) { %>
+                                  <input type="radio" />
+                                  <label class="mt-2" title="<%= star %>"></label>
+                                <% } %>
+                              <% } %>
+                            </div>
+                          </div>
+                          <span class="reviews-note text-lowercase text-secondary ms-1"><%= totalReviews %> reviews</span>
+                        </div>
+                        <% if (isAuthenticated) { %>
+                        <% const isProductInCart = user.UserCart.some(cartItem => cartItem.toString() === product.id); %>
+                        <% if (isProductInCart) { %>
+                        <a href="/user/remove_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-fill" style="font-size: 20px;"></i>
+                        </a>
+                        <% } else { %>
+                        <a href="/user/add_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-line" style="font-size: 20px;"></i>
+                        </a>
+                        <% } %>
+                        <% } else { %>
+                        <a href="/login_register" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-line" style="font-size: 20px;"></i>
+                        </a>
+                        <% } %>
+                     </div>
+                     <% const currentTime=new Date(); %>
+                     <% const productCreationTime=new Date(product.createdAt); %>
+                     <% const timeDifferenceInHours=Math.abs(currentTime - productCreationTime) / (60 *
+                        60 * 1000); %>
+                     <% if (timeDifferenceInHours < 24) { %>
+                     <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
+                        <div class="pc-labels__left">
+                           <span class="pc-label pc-label_new d-block bg-white">NEW</span>
+                        </div>
+                     </div>
+                     <% } %>
+                  </div>
+               </div>
+               <% } %>
+               <% } %>
+               <% }); %>
+            </div>
+            <!-- /.row -->
+         </div>
+         <!-- /.tab-pane fade show-->
+         <div class="tab-pane fade show" id="collections-tab-4" role="tabpanel"
+            aria-labelledby="collections-tab-4-trigger">
+            <div class="row">
+               <% products.forEach((product,i)=> { %>
+               <% if (product.status!=' hidden' ) { %>
+               <% if
+                  (product.productLocation==='Top Rated'
+                  ) { %>
+               <div
+                  class="col-6 col-md-4 col-lg-3">
+                  <div
+                     class="product-card mb-3 mb-md-4 mb-xxl-5">
+                     <div
+                        class="pc__img-wrapper">
+                        <a
+                           href="<%= isAuthenticated ? '/user/products_details/' + product.id : '/products_details/' + product.id %>">
+                        <img loading="lazy"
+                           src="<%= product.productsImages[0].url %>"
+                           width="330"
+                           height="400"
+                           alt="Cropped Faux leather Jacket"
+                           class="pc__img">
+                        <img loading="lazy"
+                           src="<%= product.productsImages[1].url %>"
+                           width="330"
+                           height="400"
+                           alt="Cropped Faux leather Jacket"
+                           class="pc__img pc__img-second">
+                        </a>
+                        <% if (isAuthenticated)
+                           { %>
+                        <form
+                           action="/user/add_ProductTo_Wishlist/<%= product.id %>"
+                           method="post">
+                           <% const
+                              isProductInWishlist=user.UserWishlists.some(wishlist=>
+                              wishlist.allProduct._id.toString()
+                              ===
+                              product.id); %>
+                           <% if
+                              (isProductInWishlist)
+                              { %>
+                           <a href="/user/remove_ProductTo_Wishlist/<%= product.id %>"
+                              class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Remove
+                           from
+                           Cart</a>
+                           <% } else {
+                              %>
+                           <button
+                              class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
+                              data-aside="cartDrawer"
+                              title="Add To Cart"
+                              <% if
+                                 (product.quantity===0)
+                                 {
+                                 %>disabled
+                              <% }
+                                 %>
+                           >Add
+                           To
+                           Cart</button>
+                           <% } %>
+                        </form>
+                        <% } else { %>
+                        <a href="/login_register"
+                           class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Add
+                        To Cart</a>
+                        <% } %>
+                     </div>
+                     <div
+                        class="pc__info position-relative">
+                        <h6 class="pc__title">
+                           <a
+                              href="<%= isAuthenticated ? '/user/products_details/' + product.id : '/products_details/' + product.id %>">
+                           <%= product.name.split(' ').slice(0, 4).join(' ') %>
+                           <% if (product.name.split(' ').length > 4) { %>
+                           ...
+                           <% } %></a>
+                        </h6>
+                        <div class="product-card__price d-flex">
+                           <span class="money price price-old">₹<%= product.price %></span>
+                           <span class="money price price-sale">₹<%= product.discountPrice %></span>
+                        </div>
+                        <% let totalRating = 0; %>
+                        <% let totalReviews = product.productsRateReview.length; %>
+                        <% product.productsRateReview.forEach((ratereview, i) => { %>
+                          <% totalRating += parseInt(ratereview.rate); %>
+                        <% }); %>
+                        <% let averageRating = totalReviews > 0 ? (totalRating / totalReviews) : 0; %>
+                        
+                        <div class="product-card__review d-flex align-items-center">
+                          <div class="reviews-group d-flex">
+                            <div class="rate rate2">
+                              <% if (totalReviews > 0) { %>
+                                <% for (var star = 5; star >= 1; star--) { %>
+                                  <% if (star <= averageRating) { %>
+                                    <input type="radio" checked />
+                                    <label class="mt-2" title="<%= star %>"></label>
+                                  <% } else { %>
+                                    <input type="radio" />
+                                    <label class="mt-2" title="<%= star %>"></label>
+                                  <% } %>
+                                <% } %>
+                              <% } else { %>
+                                <% for (var star = 5; star >= 1; star--) { %>
+                                  <input type="radio" />
+                                  <label class="mt-2" title="<%= star %>"></label>
+                                <% } %>
+                              <% } %>
+                            </div>
+                          </div>
+                          <span class="reviews-note text-lowercase text-secondary ms-1"><%= totalReviews %> reviews</span>
+                        </div>
+                        <% if (isAuthenticated) { %>
+                        <% const isProductInCart = user.UserCart.some(cartItem => cartItem.toString() === product.id); %>
+                        <% if (isProductInCart) { %>
+                        <a href="/user/remove_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-fill" style="font-size: 20px;"></i>
+                        </a>
+                        <% } else { %>
+                        <a href="/user/add_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-line" style="font-size: 20px;"></i>
+                        </a>
+                        <% } %>
+                        <% } else { %>
+                        <a href="/login_register" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-line" style="font-size: 20px;"></i>
+                        </a>
+                        <% } %>
+                     </div>
+                     <% const currentTime=new Date(); %>
+                     <% const productCreationTime=new Date(product.createdAt); %>
+                     <% const timeDifferenceInHours=Math.abs(currentTime - productCreationTime) / (60 *
+                        60 * 1000); %>
+                     <% if (timeDifferenceInHours < 24) { %>
+                     <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
+                        <div class="pc-labels__left">
+                           <span class="pc-label pc-label_new d-block bg-white">NEW</span>
+                        </div>
+                     </div>
+                     <% } %>
+                  </div>
+               </div>
+               <% } %>
+               <% } %>
+               <% }); %>
+            </div>
+            <!-- /.row -->
+         </div>
+         <!-- /.tab-pane fade show-->
+      </div>
+      <!-- /.tab-content pt-2 -->
+   </section>
+   <!-- /.products-grid -->
+   <div class="mb-5 pb-1 pb-xl-5"></div>
+  <section class="deal-timer position-relative d-flex align-items-end overflow-hidden" style="background-color: #ebebeb;">
+  <% categorys.forEach((category, index) => { %>
+    <% category.subcategories.forEach((subcategory) => { %>
+      <% if (subcategory.bannerPosition === 'Deal of the week') { %>
+        <% 
+          var endDate = new Date(subcategory.endDate);
+          var currentTime = new Date();
+          var timeDifference = endDate - currentTime;
+          var formattedDate = (timeDifference > 0) ? (endDate.getDate() < 10 ? '0' : '') + endDate.getDate() + '-' + (endDate.getMonth() + 1 < 10 ? '0' : '') + (endDate.getMonth() + 1) + '-' + endDate.getFullYear() : '00:00:00';
+        %>
+        <div class="background-img" style="background-image: url('/frontend/images/deal_timer_bg.jpg');"></div>
+        <div class="deal-timer-wrapper container position-relative">
+          <div class="deal-timer__content pb-2 mb-3 pb-xl-5 mb-xl-3 mb-xxl-5">
+            <p class="text_dash text-uppercase text-red fw-medium"><%= subcategory.shortTitle %></p>
+            <h3 class="h1 text-uppercase"><strong><%= subcategory.title %></strong> <%= subcategory.title2 %></h3>
+            <% if (isAuthenticated) { %>
+              <a href="/user/subcategory_Products/<%= subcategory.id %>" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
+            <% } else { %>
+              <a href="/subcategory_Products/<%= subcategory.id %>" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
+            <% } %>
+          </div>
+          <div class="position-relative d-flex align-items-center text-center pt-xxl-4">
+            <% if (timeDifference > 0) { %>
+              <div class="js-countdown d-flex" data-date="<%= formattedDate %>" data-time="11:59">
+                <div class="day countdown-unit">
+                  <span class="countdown-num d-block"></span>
+                  <span class="countdown-word fw-bold text-uppercase text-secondary">Days</span>
+                </div>
+                <div class="hour countdown-unit">
+                  <span class="countdown-num d-block"></span>
+                  <span class="countdown-word fw-bold text-uppercase text-secondary">Hours</span>
+                </div>
+                <div class="min countdown-unit">
+                  <span class="countdown-num d-block"></span>
+                  <span class="countdown-word fw-bold text-uppercase text-secondary">Mins</span>
+                </div>
+                <div class="sec countdown-unit">
+                  <span class="countdown-num d-block"></span>
+                  <span class="countdown-word fw-bold text-uppercase text-secondary">Sec</span>
+                </div>
+              </div>
+            <% } else { %>
+              <div class="expired-countdown d-flex">
+                <div class="day countdown-unit">
+                  <span class="countdown-num d-block">00</span>
+                  <span class="countdown-word fw-bold text-uppercase text-secondary">Days</span>
+                </div>
+                <div class="hour countdown-unit">
+                  <span class="countdown-num d-block">00</span>
+                  <span class="countdown-word fw-bold text-uppercase text-secondary">Hours</span>
+                </div>
+                <div class="min countdown-unit">
+                  <span class="countdown-num d-block">00</span>
+                  <span class="countdown-word fw-bold text-uppercase text-secondary">Mins</span>
+                </div>
+                <div class="sec countdown-unit">
+                  <span class="countdown-num d-block">00</span>
+                  <span class="countdown-word fw-bold text-uppercase text-secondary">Sec</span>
+                </div>
+              </div>
+              <div class="expired-message" style="display: block;">Time has ended</div>
+            <% } %>
+          </div>
+        </div>
+      <% } %>
+    <% }); %>
+  <% }); %>
+</section>
+
+   <!-- /.deal-timer -->
+   <div class="mb-5 pb-1 pb-xl-5"></div>
+   <section class="grid-banner container mb-3">
+      <div class="row">
+         <div class="col-md-6">
+            <div class="grid-banner__item grid-banner__item_rect position-relative">
+               <div class="background-img" style="background-image: url('/frontend/images/banner_1.jpg');">
+               </div>
+               <div class="content_abs content_bottom content_left content_bottom-lg content_left-lg">
+                  <h6 class="text-uppercase text-white fw-medium mb-3">Starting At $19</h6>
+                  <h3 class="text-white mb-3">Women's T-Shirts</h3>
+                  <a href="#" class="btn-link default-underline text-uppercase text-white fw-medium">Shop
+                  Now</a>
+               </div>
+               <!-- /.content_abs content_bottom content_left content_bottom-md content_left-md -->
+            </div>
+         </div>
+         <!-- /.col-md-6 -->
+         <div class="col-md-6">
+            <div class="grid-banner__item grid-banner__item_rect position-relative">
+               <div class="background-img" style="background-image: url('/frontend/images/banner_2.jpg');">
+               </div>
+               <div class="content_abs content_bottom content_left content_bottom-lg content_left-lg">
+                  <h6 class="text-uppercase fw-medium mb-3">Starting At $39</h6>
+                  <h3 class="mb-3">Men's Sportswear</h3>
+                  <a href="#" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
+               </div>
+               <!-- /.content_abs content_bottom content_left content_bottom-md content_left-md -->
+            </div>
+         </div>
+         <!-- /.col-md-6 -->
+      </div>
+      <!-- /.row -->
+   </section>
+   <!-- /.grid-banner container -->
+   <div class="mb-5 pb-1 pb-xl-4"></div>
+   <section class="products-carousel container">
+      <h2 class="section-title text-uppercase text-center mb-4 pb-xl-2 mb-xl-4">Limited <strong>Edition</strong>
+      </h2>
+      <div id="product_carousel" class="position-relative">
+         <div class="swiper-container js-swiper-slider" data-settings='{
+            "autoplay": {
+            "delay": 5000
+            },
+            "slidesPerView": 4,
+            "slidesPerGroup": 4,
+            "effect": "none",
+            "loop": true,
+            "pagination": {
+            "el": "#product_carousel .products-pagination",
+            "type": "bullets",
+            "clickable": true
+            },
+            "navigation": {
+            "nextEl": "#product_carousel .products-carousel__next",
+            "prevEl": "#product_carousel .products-carousel__prev"
+            },
+            "breakpoints": {
+            "320": {
+            "slidesPerView": 2,
+            "slidesPerGroup": 2,
+            "spaceBetween": 14
+            },
+            "768": {
+            "slidesPerView": 3,
+            "slidesPerGroup": 3,
+            "spaceBetween": 24
+            },
+            "992": {
+            "slidesPerView": 4,
+            "slidesPerGroup": 1,
+            "spaceBetween": 30
+            }
+            }
+            }'>
+            <div class="swiper-wrapper">
+               <% products.forEach((product,i)=> { %>
+               <% if (product.status!=' hidden' ) { %>
+               <% if (product.productLocation==='Limited Edition' ) { %>
+               <div class="swiper-slide product-card">
+                  <div class="product-card mb-3 mb-md-4 mb-xxl-5">
+                     <div class="pc__img-wrapper">
+                        <a
+                           href="<%= isAuthenticated ? '/user/products_details/' + product.id : '/products_details/' + product.id %>">
+                        <img loading="lazy" src="<%= product.productsImages[0].url %>" width="330"
+                           height="400" alt="Cropped Faux leather Jacket" class="pc__img">
+                        <img loading="lazy" src="<%= product.productsImages[1].url %>" width="330"
+                           height="400" alt="Cropped Faux leather Jacket" class="pc__img pc__img-second">
+                        </a>
+                        <% if (isAuthenticated) { %>
+                        <form action="/user/add_ProductTo_Wishlist/<%= product.id %>" method="post">
+                           <% const isProductInWishlist=user.UserWishlists.some(wishlist=>
+                              wishlist.allProduct._id.toString() === product.id); %>
+                           <% if (isProductInWishlist) { %>
+                           <a href="/user/remove_ProductTo_Wishlist/<%= product.id %>"
+                              class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Remove
+                           from Cart</a>
+                           <% } else { %>
+                           <button
+                              class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
+                              data-aside="cartDrawer" title="Add To Cart" <% if
+                                 (product.quantity===0) { %>disabled<% } %>>Add
+                           To Cart</button>
+                           <% } %>
+                        </form>
+                        <% } else { %>
+                        <a href="/login_register"
+                           class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Add
+                        To Cart</a>
+                        <% } %>
+                     </div>
+                     <div class="pc__info position-relative">
+                        <h6 class="pc__title">
+                           <a
+                              href="<%= isAuthenticated ? '/user/products_details/' + product.id : '/products_details/' + product.id %>">
+                           <%= product.name.split(' ').slice(0, 4).join(' ') %>
+                           <% if (product.name.split(' ').length > 4) { %>
+                           ...
+                           <% } %></a>
+                        </h6>
+                        <div class="product-card__price d-flex">
+                           <span class="money price price-old">₹<%= product.price %></span>
+                           <span class="money price price-sale">₹<%= product.discountPrice %></span>
+                        </div>
+                        <% let totalRating = 0; %>
+                        <% let totalReviews = product.productsRateReview.length; %>
+                        <% product.productsRateReview.forEach((ratereview, i) => { %>
+                          <% totalRating += parseInt(ratereview.rate); %>
+                        <% }); %>
+                        <% let averageRating = totalReviews > 0 ? (totalRating / totalReviews) : 0; %>
+                        
+                        <div class="product-card__review d-flex align-items-center">
+                          <div class="reviews-group d-flex">
+                            <div class="rate rate2">
+                              <% if (totalReviews > 0) { %>
+                                <% for (var star = 5; star >= 1; star--) { %>
+                                  <% if (star <= averageRating) { %>
+                                    <input type="radio" checked />
+                                    <label class="mt-2" title="<%= star %>"></label>
+                                  <% } else { %>
+                                    <input type="radio" />
+                                    <label class="mt-2" title="<%= star %>"></label>
+                                  <% } %>
+                                <% } %>
+                              <% } else { %>
+                                <% for (var star = 5; star >= 1; star--) { %>
+                                  <input type="radio" />
+                                  <label class="mt-2" title="<%= star %>"></label>
+                                <% } %>
+                              <% } %>
+                            </div>
+                          </div>
+                          <span class="reviews-note text-lowercase text-secondary ms-1"><%= totalReviews %> reviews</span>
+                        </div>
+                        <% if (isAuthenticated) { %>
+                        <% const isProductInCart = user.UserCart.some(cartItem => cartItem.toString() === product.id); %>
+                        <% if (isProductInCart) { %>
+                        <a href="/user/remove_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-fill" style="font-size: 20px;"></i>
+                        </a>
+                        <% } else { %>
+                        <a href="/user/add_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-line" style="font-size: 20px;"></i>
+                        </a>
+                        <% } %>
+                        <% } else { %>
+                        <a href="/login_register" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                           title="Add To Wishlist">
+                        <i class="ri-heart-line" style="font-size: 20px;"></i>
+                        </a>
+                        <% } %>
+                     </div>
+                     <% const currentTime=new Date(); %>
+                     <% const productCreationTime=new Date(product.createdAt); %>
+                     <% const timeDifferenceInHours=Math.abs(currentTime - productCreationTime) / (60 *
+                        60 * 1000); %>
+                     <% if (timeDifferenceInHours < 24) { %>
+                     <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
+                        <div class="pc-labels__left">
+                           <span class="pc-label pc-label_new d-block bg-white">NEW</span>
+                        </div>
+                     </div>
+                     <% } %>
+                  </div>
+               </div>
+               <% } %>
+               <% } %>
+               <% }); %>
+            </div>
+            <!-- /.swiper-wrapper -->
+         </div>
+         <!-- /.swiper-container js-swiper-slider -->
+         <div
+            class="products-carousel__prev position-absolute top-50 d-flex align-items-center justify-content-center">
+            <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+               <use href="#icon_prev_md" />
+            </svg>
+         </div>
+         <!-- /.products-carousel__prev -->
+         <div
+            class="products-carousel__next position-absolute top-50 d-flex align-items-center justify-content-center">
+            <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+               <use href="#icon_next_md" />
+            </svg>
+         </div>
+         <!-- /.products-carousel__next -->
+         <div class="products-pagination mt-4 mb-5 d-flex align-items-center justify-content-center"></div>
+         <!-- /.products-pagination -->
+      </div>
+      <!-- /.position-relative -->
+   </section>
+   <!-- /.products-carousel container -->
+   <section class="instagram container">
+      <h2 class="section-title text-uppercase text-center mb-4 pb-xl-2 mb-xl-4">@UOMO</h2>
+      <div class="row row-cols-3 row-cols-md-4 row-cols-xl-6">
+         <div class="instagram__tile">
+            <a href="https://instagram.com/" target="_blank"
+               class="position-relative overflow-hidden d-block effect overlay-plus">
+            <img loading="lazy" class="instagram__img" src="/frontend/images/instagram/insta1.jpg" width="230"
+               height="230" alt="Insta image 1">
+            </a>
+         </div>
+         <div class="instagram__tile">
+            <a href="https://instagram.com/" target="_blank"
+               class="position-relative overflow-hidden d-block effect overlay-plus">
+            <img loading="lazy" class="instagram__img" src="/frontend/images/instagram/insta2.jpg" width="230"
+               height="230" alt="Insta image 2">
+            </a>
+         </div>
+         <div class="instagram__tile">
+            <a href="https://instagram.com/" target="_blank"
+               class="position-relative overflow-hidden d-block effect overlay-plus">
+            <img loading="lazy" class="instagram__img" src="/frontend/images/instagram/insta3.jpg" width="230"
+               height="230" alt="Insta image 3">
+            </a>
+         </div>
+         <div class="instagram__tile">
+            <a href="https://instagram.com/" target="_blank"
+               class="position-relative overflow-hidden d-block effect overlay-plus">
+            <img loading="lazy" class="instagram__img" src="/frontend/images/instagram/insta4.jpg" width="230"
+               height="230" alt="Insta image 4">
+            </a>
+         </div>
+         <div class="instagram__tile">
+            <a href="https://instagram.com/" target="_blank"
+               class="position-relative overflow-hidden d-block effect overlay-plus">
+            <img loading="lazy" class="instagram__img" src="/frontend/images/instagram/insta5.jpg" width="230"
+               height="230" alt="Insta image 5">
+            </a>
+         </div>
+         <div class="instagram__tile">
+            <a href="https://instagram.com/" target="_blank"
+               class="position-relative overflow-hidden d-block effect overlay-plus">
+            <img loading="lazy" class="instagram__img" src="/frontend/images/instagram/insta6.jpg" width="230"
+               height="230" alt="Insta image 6">
+            </a>
+         </div>
+         <div class="instagram__tile">
+            <a href="https://instagram.com/" target="_blank"
+               class="position-relative overflow-hidden d-block effect overlay-plus">
+            <img loading="lazy" class="instagram__img" src="/frontend/images/instagram/insta7.jpg" width="230"
+               height="230" alt="Insta image 7">
+            </a>
+         </div>
+         <div class="instagram__tile">
+            <a href="https://instagram.com/" target="_blank"
+               class="position-relative overflow-hidden d-block effect overlay-plus">
+            <img loading="lazy" class="instagram__img" src="/frontend/images/instagram/insta8.jpg" width="230"
+               height="230" alt="Insta image 8">
+            </a>
+         </div>
+         <div class="instagram__tile">
+            <a href="https://instagram.com/" target="_blank"
+               class="position-relative overflow-hidden d-block effect overlay-plus">
+            <img loading="lazy" class="instagram__img" src="/frontend/images/instagram/insta9.jpg" width="230"
+               height="230" alt="Insta image 9">
+            </a>
+         </div>
+         <div class="instagram__tile">
+            <a href="https://instagram.com/" target="_blank"
+               class="position-relative overflow-hidden d-block effect overlay-plus">
+            <img loading="lazy" class="instagram__img" src="/frontend/images/instagram/insta10.jpg" width="230"
+               height="230" alt="Insta image 10">
+            </a>
+         </div>
+         <div class="instagram__tile">
+            <a href="https://instagram.com/" target="_blank"
+               class="position-relative overflow-hidden d-block effect overlay-plus">
+            <img loading="lazy" class="instagram__img" src="/frontend/images/instagram/insta11.jpg" width="230"
+               height="230" alt="Insta image 11">
+            </a>
+         </div>
+         <div class="instagram__tile">
+            <a href="https://instagram.com/" target="_blank"
+               class="position-relative overflow-hidden d-block effect overlay-plus">
+            <img loading="lazy" class="instagram__img" src="/frontend/images/instagram/insta12.jpg" width="230"
+               height="230" alt="Insta image 12">
+            </a>
+         </div>
+      </div>
+   </section>
+   <!-- /.instagram container -->
+   <div class="mb-4 pb-4 pb-xl-5 mb-xl-5"></div>
+   <section class="service-promotion container mb-md-4 pb-md-4 mb-xl-5">
+      <div class="row">
+         <div class="col-md-4 text-center mb-5 mb-md-0">
+            <div class="service-promotion__icon mb-4">
+               <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <use href="#icon_shipping" />
+               </svg>
+            </div>
+            <h3 class="service-promotion__title h5 text-uppercase">Fast And Free Delivery</h3>
+            <p class="service-promotion__content text-secondary">Free delivery for all orders over $140</p>
+         </div>
+         <!-- /.col-md-4 text-center-->
+         <div class="col-md-4 text-center mb-5 mb-md-0">
+            <div class="service-promotion__icon mb-4">
+               <svg width="53" height="52" viewBox="0 0 53 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <use href="#icon_headphone" />
+               </svg>
+            </div>
+            <h3 class="service-promotion__title h5 text-uppercase">24/7 Customer Support</h3>
+            <p class="service-promotion__content text-secondary">Friendly 24/7 customer support</p>
+         </div>
+         <!-- /.col-md-4 text-center-->
+         <div class="col-md-4 text-center mb-4 pb-1 mb-md-0">
+            <div class="service-promotion__icon mb-4">
+               <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <use href="#icon_shield" />
+               </svg>
+            </div>
+            <h3 class="service-promotion__title h5 text-uppercase">Money Back Guarantee</h3>
+            <p class="service-promotion__content text-secondary">We return money within 30 days</p>
+         </div>
+         <!-- /.col-md-4 text-center-->
+      </div>
+      <!-- /.row -->
+   </section>
+   <!-- /.service-promotion container -->
+</main>
+
+<%- include('partials/footer.ejs') %>

@@ -1,0 +1,38 @@
+<%- include('../../partials/nav.ejs') %>
+<main>
+  <div class="mb-4 pb-4"></div>
+  <section class="my-account container">
+    <h2 class="page-title">Addresses</h2>
+    <div class="row">
+      <%- include('../partials/dashboard_nav.ejs') %>
+      <div class="col-lg-9">
+        <div class="page-content my-account__address">
+          <p class="notice">The following addresses will be used on the checkout page by default.</p>
+          <div class="row">
+            <% user.UserAddress.forEach((address,i)=> { %>
+              <div class="col-md-6">
+                <div class="my-account__address-item__title">
+                  <h5><%= i + 1 %> Billing & SHIPPING ADDRESS</h5>
+                  <div >
+                    <a class="mx-3" href="/user/address_edit/<%= address.id %>">Edit</a>
+                    <a href="/user/address_delete/<%= address.id %>">Delete</a>
+                  </div>
+                </div>
+                <div class="my-account__address-item__detail">
+                  <p class="text-capitalize"><%= address.fullname %></p>
+                  <p class="text-capitalize"><%= address.address %>, <%= address.city %>, <%= address.state %> <%= address.pincode %></p>
+                  <p>INDIA</p>
+                  <br>
+                  <p><%= address.mail %></p>
+                  <p><%= address.phone %></p>
+                </div>
+              </div>
+              <% }); %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+   <%- include('../../partials/footer.ejs') %>

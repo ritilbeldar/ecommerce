@@ -1,0 +1,25 @@
+<%- include('../partials/nav.ejs') %>
+  <main>
+    <div class="mb-4 pb-4"></div>
+    <section class="my-account container">
+      <h2 class="page-title">My Account</h2>
+      <div class="row">
+        <%- include('partials/dashboard_nav.ejs') %>
+          <div class="col-lg-9">
+            <div class="page-content my-account__dashboard">
+              <p>Hello <strong class="text-capitalize">
+                  <%= user.fullname %>
+                </strong> (not <strong class="text-capitalize">
+                  <%= user.fullname %>
+                </strong> <a href="/user/signout">Log out</a>)</p>
+              <p>From your account dashboard you can view your <a class="unerline-link"
+                  href="account_orders.html">recent orders</a>, manage your <a class="unerline-link"
+                  href="account_edit_address.html">shipping and billing addresses</a>, and <a class="unerline-link"
+                  href="/user/user_account_details">edit your password and account details.</a></p>
+            </div>
+          </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include('../partials/footer.ejs') %>
