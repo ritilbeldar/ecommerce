@@ -328,6 +328,7 @@ exports.AddAddress = catchAsyncErrors(async (req, res, next) => {
       currentPath,
       isAuthenticated,
       wishlistItemss,
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
