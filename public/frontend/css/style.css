@@ -15609,7 +15609,7 @@ body.coming-soon-page {
       max-height: 13vmax;
       display: flex;
       flex-direction: column;
-      flex-wrap: wrap;
+      /* flex-wrap: wrap; */
       justify-content: initial;
     }
     .sub-menu__list li{
@@ -16122,4 +16122,14 @@ body.coming-soon-page {
 .rate2:not(:checked) > label {
   width:1em;
   font-size:16px;
+}
+
+@media (max-width: 700px){
+  .new-hart i{
+    margin-top: 2vmax;
+  }
+  .footer-column-new{
+    /* background-color: red; */
+    margin-top: 10vmax;
+  }
 }

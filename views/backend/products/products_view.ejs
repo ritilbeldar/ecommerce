@@ -43,10 +43,9 @@
                                     <span class="badge badge-sa-success me-2 text-capitalize">
                                         <%= product.status %>
                                     </span>
-                                    <span
-                                        class="badge <%= product.quantity <= 0 ? 'badge-sa-danger' : 'badge-sa-success' %>">
-                                        <%= product.quantity <=0 ? 'Out of Stock' : product.quantity + ' In Stock' %>
-                                    </span>
+                                    <span class="badge <%= product.quantity <= 0 ? 'badge-sa-danger' : 'badge-sa-success' %>">
+                                        <%= product.quantity <= 0 ? 'Out of Stock' : product.quantity + ' In Stock' %>
+                                      </span>                                      
                                 </div>
                                 <div class="sa-page-meta__item">
                                     <%= product.sku %>
@@ -54,8 +53,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="sa-entity-layout"
-                    data-sa-container-query="{&quot;920&quot;:&quot;sa-entity-layout--size--md&quot;}">
+                <div class="sa-entity-layout" data-sa-container-query="{&quot;920&quot;:&quot;sa-entity-layout--size--md&quot;}">
                     <div class="sa-entity-layout__body">
                         <div class="sa-entity-layout__main">
                             <div class="card">
@@ -99,10 +97,10 @@
                                 <div class="card-body px-5 py-4 d-flex align-items-center justify-content-between">
                                     <h2 class="mb-0 fs-exact-18 me-4">Product Images</h2>
                                 </div>
-                                <div class="table-responsive p-5 d-flex gap-5">
+                                <div class="table-responsive p-5 gap-5">
                                     <% product.productsImages.forEach((image, index)=> { %>
                                         <a href="<%= image.url %>" target="_blank">
-                                            <img src="<%= image.url %>" alt="" height="150" width="150">
+                                            <img class="mb-3" src="<%= image.url %>" alt="" height="150" width="150" style="border: 1px solid black;">
                                         </a>
                                         <% }); %>
                                 </div>
@@ -167,7 +165,6 @@
                                                     <% } %>
                                 </div>
                             </div>
-
                             <div class="card mt-5">
                                 <form action="/admin/rate_review" method="post">
                                     <div class="card-body p-5">

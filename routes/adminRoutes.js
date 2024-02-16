@@ -55,6 +55,7 @@ const {
   ordersList,
   oderView,
   orderStatusChange,
+  orderDelete,
 } = require("../controllers/adminController");
 const { isAuthenticated } = require("../middlewares/auth");
 
@@ -188,6 +189,8 @@ router.get("/customer_view/:id", isAuthenticated, customerView);
 router.get("/orders_list", isAuthenticated, ordersList);
 
 router.get("/oder_view/:id", isAuthenticated, oderView);
+
+router.get("/orde_delete/:id", isAuthenticated, orderDelete);
 
 router.post("/order_status_change/:id", isAuthenticated, orderStatusChange);
 

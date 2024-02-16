@@ -37,11 +37,15 @@
                         Un Paid
                      </div>
                      <% } %> &nbsp; &nbsp;
-                     <% if (order.status==="new" ) { %>
-                     <div class="badge badge-sa-danger text-capitalize">
-                        <%= order.status %>
-                     </div>
-                     <% } else if (order.status==="pending" ) { %>
+                     <% if (order.onlinepayment && order.onlinepayment.status === "created") { %>
+                        <div class="badge badge-sa-danger text-capitalize">
+                            payment failed
+                        </div>
+                    <% }else if(order.status === "new") { %>
+                        <div class="badge badge-sa-danger text-capitalize">
+                            <%= order.status %>
+                        </div>
+                    <% } else if (order.status==="pending" ) { %>
                      <div class="badge badge-sa-primary text-capitalize">
                         <%= order.status %>
                      </div>

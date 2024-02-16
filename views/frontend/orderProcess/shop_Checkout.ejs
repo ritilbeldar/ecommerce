@@ -1,325 +1,318 @@
 <%- include('../partials/nav.ejs') %>
-  <main>
-    <div class="mb-4 pb-4"></div>
-    <section class="shop-checkout container">
+<main>
+   <div class="mb-4 pb-4"></div>
+   <section class="shop-checkout container">
       <h2 class="page-title">Shipping and Checkout</h2>
       <div class="checkout-steps">
-        <a href="/user/shopCart" class="checkout-steps__item active">
-          <span class="checkout-steps__item-number">01</span>
-          <span class="checkout-steps__item-title">
-            <span>Shopping Bag</span>
-            <em>Manage Your Items List</em>
-          </span>
-        </a>
-        <a href="#0" class="checkout-steps__item active">
-          <span class="checkout-steps__item-number">02</span>
-          <span class="checkout-steps__item-title">
-            <span>Shipping and Checkout</span>
-            <em>Checkout Your Items List</em>
-          </span>
-        </a>
-        <a href="#0" class="checkout-steps__item">
-          <span class="checkout-steps__item-number">03</span>
-          <span class="checkout-steps__item-title">
-            <span>Confirmation</span>
-            <em>Review And Submit Your Order</em>
-          </span>
-        </a>
+         <a href="/user/shopCart" class="checkout-steps__item active">
+            <span class="checkout-steps__item-number">01</span>
+            <span class="checkout-steps__item-title">
+               <span>Shopping Bag</span>
+               <em>Manage Your Items List</em>
+            </span>
+         </a>
+         <a href="#0" class="checkout-steps__item active">
+            <span class="checkout-steps__item-number">02</span>
+            <span class="checkout-steps__item-title">
+               <span>Shipping and Checkout</span>
+               <em>Checkout Your Items List</em>
+            </span>
+         </a>
+         <a href="#0" class="checkout-steps__item">
+            <span class="checkout-steps__item-number">03</span>
+            <span class="checkout-steps__item-title">
+               <span>Confirmation</span>
+               <em>Review And Submit Your Order</em>
+            </span>
+         </a>
       </div>
-      <form name="checkout-form" action="/user/place_order" method="post">
-        <div class="checkout-form">
-          <div class="billing-info__wrapper">
-            <% if (user.UserAddress.length===0) { %>
-              <form action="/user/address_save" method="post">
-                <h4>BILLING DETAILS</h4>
-                <div class="row">
+      <div class="checkout-form">
+         <div class="billing-info__wrapper w-100">
+            <% if (user.UserAddress.length === 0) { %>
+            <form action="/user/address_save" method="post">
+               <h4>BILLING DETAILS</h4>
+               <div class="row">
                   <div class="col-md-6">
-                    <div class="form-floating my-3">
-                      <input type="text" class="form-control" id="checkout_first_name" placeholder="First Name"
-                        name="fullname" required>
-                      <label for="checkout_first_name">Full Name *</label>
-                    </div>
+                     <div class="form-floating my-3">
+                        <input type="text" class="form-control" id="checkout_first_name" placeholder="First Name"
+                           name="fullname" required>
+                        <label for="checkout_first_name">Full Name *</label>
+                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="form-floating my-3">
-                      <input type="number" class="form-control" id="checkout_phone" placeholder="Phone *" name="phone"
-                        required>
-                      <label for="checkout_phone">Phone *</label>
-                    </div>
+                     <div class="form-floating my-3">
+                        <input type="number" class="form-control" id="checkout_phone" placeholder="Phone *" name="phone"
+                           required>
+                        <label for="checkout_phone">Phone *</label>
+                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="form-floating my-3">
-                      <input type="email" class="form-control" id="checkout_email" placeholder="Your Mail *" name="mail"
-                        required>
-                      <label for="checkout_email">Mail ID *</label>
-                    </div>
+                     <div class="form-floating my-3">
+                        <input type="email" class="form-control" id="checkout_email" placeholder="Your Mail *" name="mail"
+                           required>
+                        <label for="checkout_email">Mail ID *</label>
+                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="form-floating my-3">
-                      <input type="number" class="form-control" id="checkout_email" placeholder="Your Mail *"
-                        name="pincode" required>
-                      <label for="checkout_email">Pincode *</label>
-                    </div>
+                     <div class="form-floating my-3">
+                        <input type="number" class="form-control" id="checkout_email" placeholder="Your Mail *"
+                           name="pincode" required>
+                        <label for="checkout_email">Pincode *</label>
+                     </div>
                   </div>
                   <div class="col-md-12">
-                    <div class="form-floating mt-3 mb-3">
-                      <input type="text" class="form-control" id="checkout_street_address"
-                        placeholder="Street Address *" name="address" required>
-                      <label for="checkout_company_name">Address Area & Street *</label>
-                    </div>
+                     <div class="form-floating mt-3 mb-3">
+                        <input type="text" class="form-control" id="checkout_street_address"
+                           placeholder="Street Address *" name="address" required>
+                        <label for="checkout_company_name">Address Area & Street *</label>
+                     </div>
                   </div>
-
                   <div class="col-md-6">
-                    <div class="search-field my-3">
-                      <div class="form-label-fixed hover-container">
-                        <label for="search-dropdown" class="form-label">State *</label>
-                        <div class="js-hover__open">
-                          <input type="text"
-                            class="form-control form-control-lg search-field__actor search-field__arrow-down"
-                            id="search-dropdown" name="state" readonly placeholder="Choose a location..." required>
+                     <div class="search-field my-3">
+                        <div class="form-label-fixed hover-container">
+                           <label for="search-dropdown" class="form-label">State *</label>
+                           <div class="js-hover__open">
+                              <input type="text"
+                                 class="form-control form-control-lg search-field__actor search-field__arrow-down"
+                                 id="search-dropdown" name="state" readonly placeholder="Choose a location..." required>
+                           </div>
+                           <div class="filters-container js-hidden-content mt-2">
+                              <div class="search-field__input-wrapper">
+                                 <input type="text"
+                                    class="search-field__input form-control form-control-sm bg-lighter border-lighter"
+                                    placeholder="Search">
+                              </div>
+                              <ul class="search-suggestion list-unstyled">
+                                 <li class="search-suggestion__item js-search-select">Andaman and Nicobar Islands</li>
+                                 <li class="search-suggestion__item js-search-select">Andhra Pradesh</li>
+                                 <li class="search-suggestion__item js-search-select">Arunachal Pradesh</li>
+                                 <li class="search-suggestion__item js-search-select">Assam</li>
+                                 <li class="search-suggestion__item js-search-select">Bihar</li>
+                                 <li class="search-suggestion__item js-search-select">Chandigarh</li>
+                                 <li class="search-suggestion__item js-search-select">Chhattisgarh</li>
+                                 <li class="search-suggestion__item js-search-select">Dadra and Nagar Haveli and Daman and
+                                    Diu
+                                 </li>
+                                 <li class="search-suggestion__item js-search-select">Delhi</li>
+                                 <li class="search-suggestion__item js-search-select">Goa</li>
+                                 <li class="search-suggestion__item js-search-select">Gujarat</li>
+                                 <li class="search-suggestion__item js-search-select">Haryana</li>
+                                 <li class="search-suggestion__item js-search-select">Himachal Pradesh</li>
+                                 <li class="search-suggestion__item js-search-select">Jammu and Kashmir</li>
+                                 <li class="search-suggestion__item js-search-select">Jharkhand</li>
+                                 <li class="search-suggestion__item js-search-select">Karnataka</li>
+                                 <li class="search-suggestion__item js-search-select">Kerala</li>
+                                 <li class="search-suggestion__item js-search-select">Ladakh</li>
+                                 <li class="search-suggestion__item js-search-select">Lakshadweep</li>
+                                 <li class="search-suggestion__item js-search-select">Madhya Pradesh</li>
+                                 <li class="search-suggestion__item js-search-select">Maharashtra</li>
+                                 <li class="search-suggestion__item js-search-select">Manipur</li>
+                                 <li class="search-suggestion__item js-search-select">Meghalaya</li>
+                                 <li class="search-suggestion__item js-search-select">Mizoram</li>
+                                 <li class="search-suggestion__item js-search-select">Nagaland</li>
+                                 <li class="search-suggestion__item js-search-select">Odisha</li>
+                                 <li class="search-suggestion__item js-search-select">Puducherry</li>
+                                 <li class="search-suggestion__item js-search-select">Punjab</li>
+                                 <li class="search-suggestion__item js-search-select">Rajasthan</li>
+                                 <li class="search-suggestion__item js-search-select">Sikkim</li>
+                                 <li class="search-suggestion__item js-search-select">Tamil Nadu</li>
+                                 <li class="search-suggestion__item js-search-select">Telangana</li>
+                                 <li class="search-suggestion__item js-search-select">Tripura</li>
+                                 <li class="search-suggestion__item js-search-select">Uttar Pradesh</li>
+                                 <li class="search-suggestion__item js-search-select">Uttarakhand</li>
+                                 <li class="search-suggestion__item js-search-select">West Bengal</li>
+                              </ul>
+                           </div>
                         </div>
-                        <div class="filters-container js-hidden-content mt-2">
-                          <div class="search-field__input-wrapper">
-                            <input type="text"
-                              class="search-field__input form-control form-control-sm bg-lighter border-lighter"
-                              placeholder="Search">
-                          </div>
-                          <ul class="search-suggestion list-unstyled">
-                            <li class="search-suggestion__item js-search-select">Andaman and Nicobar Islands</li>
-                            <li class="search-suggestion__item js-search-select">Andhra Pradesh</li>
-                            <li class="search-suggestion__item js-search-select">Arunachal Pradesh</li>
-                            <li class="search-suggestion__item js-search-select">Assam</li>
-                            <li class="search-suggestion__item js-search-select">Bihar</li>
-                            <li class="search-suggestion__item js-search-select">Chandigarh</li>
-                            <li class="search-suggestion__item js-search-select">Chhattisgarh</li>
-                            <li class="search-suggestion__item js-search-select">Dadra and Nagar Haveli and Daman and
-                              Diu
-                            </li>
-                            <li class="search-suggestion__item js-search-select">Delhi</li>
-                            <li class="search-suggestion__item js-search-select">Goa</li>
-                            <li class="search-suggestion__item js-search-select">Gujarat</li>
-                            <li class="search-suggestion__item js-search-select">Haryana</li>
-                            <li class="search-suggestion__item js-search-select">Himachal Pradesh</li>
-                            <li class="search-suggestion__item js-search-select">Jammu and Kashmir</li>
-                            <li class="search-suggestion__item js-search-select">Jharkhand</li>
-                            <li class="search-suggestion__item js-search-select">Karnataka</li>
-                            <li class="search-suggestion__item js-search-select">Kerala</li>
-                            <li class="search-suggestion__item js-search-select">Ladakh</li>
-                            <li class="search-suggestion__item js-search-select">Lakshadweep</li>
-                            <li class="search-suggestion__item js-search-select">Madhya Pradesh</li>
-                            <li class="search-suggestion__item js-search-select">Maharashtra</li>
-                            <li class="search-suggestion__item js-search-select">Manipur</li>
-                            <li class="search-suggestion__item js-search-select">Meghalaya</li>
-                            <li class="search-suggestion__item js-search-select">Mizoram</li>
-                            <li class="search-suggestion__item js-search-select">Nagaland</li>
-                            <li class="search-suggestion__item js-search-select">Odisha</li>
-                            <li class="search-suggestion__item js-search-select">Puducherry</li>
-                            <li class="search-suggestion__item js-search-select">Punjab</li>
-                            <li class="search-suggestion__item js-search-select">Rajasthan</li>
-                            <li class="search-suggestion__item js-search-select">Sikkim</li>
-                            <li class="search-suggestion__item js-search-select">Tamil Nadu</li>
-                            <li class="search-suggestion__item js-search-select">Telangana</li>
-                            <li class="search-suggestion__item js-search-select">Tripura</li>
-                            <li class="search-suggestion__item js-search-select">Uttar Pradesh</li>
-                            <li class="search-suggestion__item js-search-select">Uttarakhand</li>
-                            <li class="search-suggestion__item js-search-select">West Bengal</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-floating my-3">
-                      <input type="text" class="form-control" id="checkout_city" placeholder="Town / City *" name="city"
-                        required>
-                      <label for="checkout_city">Town / City *</label>
-                    </div>
+                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="form-floating my-3">
-                      <input type="text" class="form-control" id="checkout_zipcode" placeholder="Postcode / ZIP *"
-                        name="landmark">
-                      <label for="checkout_zipcode">Landmark (optional)</label>
-                    </div>
+                     <div class="form-floating my-3">
+                        <input type="text" class="form-control" id="checkout_city" placeholder="Town / City *" name="city"
+                           required>
+                        <label for="checkout_city">Town / City *</label>
+                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="form-floating my-3">
-                      <input type="text" class="form-control" id="checkout_province" placeholder="Province *"
-                        name="alternateNumber">
-                      <label for="checkout_province">Alternate Number (optional)</label>
-                    </div>
+                     <div class="form-floating my-3">
+                        <input type="text" class="form-control" id="checkout_zipcode" placeholder="Postcode / ZIP *"
+                           name="landmark">
+                        <label for="checkout_zipcode">Landmark (optional)</label>
+                     </div>
                   </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="mt-3">
-                    <textarea class="form-control form-control_gray" placeholder="Order Note (optional)" cols="30"
-                      rows="8" name="orderNote"></textarea>
+                  <div class="col-md-6">
+                     <div class="form-floating my-3">
+                        <input type="text" class="form-control" id="checkout_province" placeholder="Province *"
+                           name="alternateNumber">
+                        <label for="checkout_province">Alternate Number (optional)</label>
+                     </div>
                   </div>
-                </div>
-                <div class="col-12 mt-3 text-end">
-                  <button type="submit" class="btn btn-light">save</button>
-                </div>
-              </form>
-              <% } else { %>
-                <div class="row">
-                  <% user.UserAddress.forEach((address,i)=> { %>
-                    <div class="col-md-6">
-                      <div class="my-account__address-item__title">
-                        <h5>
-                          <input class="form-check-input form-check-input_fill" type="radio" value="<%= address.id %>"
-                            name="orderAddress" required>
-                          Billing & SHIPPING ADDRESS
-                        </h5>
-                        <a class="mx-3" href="/user/address_edit/<%= address.id %>">Edit</a>
-                      </div>
-                      <div class="my-account__address-item__detail">
-                        <p class="text-capitalize">
-                          <%= address.fullname %>
-                        </p>
-                        <p class="text-capitalize">
-                          <%= address.address %>, <%= address.city %>, <%= address.state %>
-                                <%= address.pincode %>
-                        </p>
-                        <p>India</p>
-                        <br>
-                        <p>
-                          <%= address.mail %>
-                        </p>
-                        <p>
-                          <%= address.phone %>
-                        </p>
-                      </div>
-                    </div>
-                    <% }); %>
-                      <div class="col-12 mt-3 text-end">
-                        <a href="/user/add_address" class="btn btn-light">Add a new address</a>
-                      </div>
-                </div>
-                <% } %>
-          </div>
-          <div class="checkout__totals-wrapper">
-            <div class="sticky-content">
-              <div class="checkout__totals">
-                <h3>Your Order</h3>
-                <table class="checkout-cart-items">
-                  <thead>
-                    <tr>
-                      <th>PRODUCT</th>
-                      <th>SUBTOTAL</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% wishlistItemsData.forEach((wishlistproduct, index)=> { %>
-                      <tr>
-                        <td>
-
-                          <%= wishlistproduct && wishlistproduct.product ?
-                            wishlistproduct.product.name.split(' ').slice(0, 3).join(' ') : '' %>
-                      <% if (wishlistproduct && wishlistproduct.product &&
-                               wishlistproduct.product.name.split(' ').length > 3) { %>
-                          ...
-                      <% } %>
-                      <%= wishlistproduct.product.discountPrice %> x <%= wishlistproduct.quantity %>
-                        </td>
-                        <input type="hidden" name="orderProduct" value="<%= wishlistproduct.product.id %>">
-                        <input type="hidden" name="productsquantity" value="<%= wishlistproduct.quantity %>">
-                        <input type="hidden" name="productscolor" value="<%= wishlistproduct.color %>">
-                        <input type="hidden" name="productssize" value="<%= wishlistproduct.size %>">
-                        <input type="hidden" name="productsTotalQuantity" value="<%= wishlistproduct.product.quantity %>">
-                        <td>
-                          ₹<%= wishlistproduct.product.discountPrice * wishlistproduct.quantity %>
-                        </td>
-                      </tr>
-                    <% }); %>                    
-                  </tbody>
-                </table>
-                <table class="checkout-totals">
-                  <tbody>
-                    <tr>
-                      <th>SUBTOTAL</th>
-                      <td>₹<%= checkout.total %></td>
-                    </tr>
-                    <tr>
-                      <th>SHIPPING</th>
-                      <td>
-                        <% if (checkout.shippingCost) { %>
-                          ₹<%= checkout.shippingCost %>
-                          <input type="hidden" name="orderShipping" value="<%= checkout.shippingCost %>">
-                        <% } else { %>
-                          Free Shipping
-                        <% } %>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>TOTAL</th>
-                      <td>₹<%= (parseFloat(checkout.total) + parseFloat(checkout.shippingCost)).toFixed(2) %></td>
-                      <input type="hidden" name="subtotal" value="<%= (parseFloat(checkout.total) + parseFloat(checkout.shippingCost)).toFixed(2) %>">
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div class="row mb-4">
-                <div class="col-md-6">
-                  <input class="form-check-input form-check-input_fill" id="cod" type="radio" value="Cash on delivery" name="payment">
-                  <label for="cod">Cash on delivery</label>
-                </div>
-                <div class="col-md-6">
-                  <input class="form-check-input form-check-input_fill" id="pon" type="radio" value="Pay Online" name="payment">
-                  <label for="pon">Pay Online</label>
-                </div>
-                <div class="col-md-6"></div>
-              </div>
-
-              <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
+                  <div class="col-md-12">
+                     <textarea class="form-control form-control_gray" placeholder="Order Note (optional)" cols="30"
+                        rows="8" name="orderNote"></textarea>
+                  </div>
+               </div>
+               <div class="col-12 mt-3 text-end">
+                  <button class="btn btn-light">Save</button>
+               </div>
+            </form>
+            <% } else { %>
+            <div class="row">
+               <% user.UserAddress.forEach((address, i) => { %>
+                  <div class="col-md-6">
+                  <div class="my-account__address-item__title">
+                     <h5>
+                        <input class="form-check-input form-check-input_fill" type="radio" value="<%= address.id %>"
+                           name="orderAddress" required>
+                        Billing & SHIPPING ADDRESS
+                     </h5>
+                     <a class="mx-3" href="/user/address_edit/<%= address.id %>">Edit</a>
+                  </div>
+                  <div class="my-account__address-item__detail">
+                     <p class="text-capitalize">
+                        <%= address.fullname %>
+                     </p>
+                     <p class="text-capitalize">
+                        <%= address.address %>, <%= address.city %>, <%= address.state %>
+                        <%= address.pincode %>
+                     </p>
+                     <p>India</p>
+                     <br>
+                     <p>
+                        <%= address.mail %>
+                     </p>
+                     <p>
+                        <%= address.phone %>
+                     </p>
+                  </div>
+               </div>
+               <% }); %>
+               <div class="col-12 mt-3 text-end">
+                  <a href="/user/add_address" class="btn btn-light">Add a new address</a>
+               </div>
             </div>
-          </div>
-        </div>
-      </form>
-    </section>
-  </main>
-
-
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const addressRadios = document.querySelectorAll(' input[name="orderAddress" ]'); const
-        paymentRadios = document.querySelectorAll('input[name="payment" ]'); const
-          placeOrderBtn = document.querySelector('.btn-checkout'); function checkFormValidity() {
-            let
-            addressChecked = false; let paymentChecked = false; addressRadios.forEach(radio => {
-              if (radio.checked) {
-                addressChecked = true;
-              }
-            });
-
-            paymentRadios.forEach(radio => {
-              if (radio.checked) {
-                paymentChecked = true;
-              }
-            });
-
-            if (addressChecked && paymentChecked) {
-              placeOrderBtn.removeAttribute('disabled');
-            } else {
-              placeOrderBtn.setAttribute('disabled', 'disabled');
+            <% } %>
+         </div>
+         <div class="checkout__totals-wrapper">
+            <div class="sticky-content">
+               <form action="/user/place_order" method="post">
+                  <% user.UserAddress.forEach((address, i) => { %>
+                  <input type="hidden" value="<%= address.id %>" name="orderAddress">
+                  <% }); %>
+                  <div class="checkout__totals">
+                     <h3>Your Order</h3>
+                     <table class="checkout-cart-items">
+                        <thead>
+                           <tr>
+                              <th>PRODUCT</th>
+                              <th>SUBTOTAL</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <% wishlistItemsData.forEach((wishlistproduct, index)=> { %>
+                           <tr>
+                              <td>
+                                 <%= wishlistproduct && wishlistproduct.product ?
+                                    wishlistproduct.product.name.split(' ').slice(0, 3).join(' ') : '' %>
+                                 <% if (wishlistproduct && wishlistproduct.product &&
+                                    wishlistproduct.product.name.split(' ').length > 3) { %>
+                                 ...
+                                 <% } %>
+                                 <%= wishlistproduct.product.discountPrice %> x <%= wishlistproduct.quantity %>
+                              </td>
+                              <input type="hidden" name="orderProduct" value="<%= wishlistproduct.product.id %>">
+                              <input type="hidden" name="productsquantity" value="<%= wishlistproduct.quantity %>">
+                              <input type="hidden" name="productscolor" value="<%= wishlistproduct.color %>">
+                              <input type="hidden" name="productssize" value="<%= wishlistproduct.size %>">
+                              <input type="hidden" name="productsTotalQuantity" value="<%= wishlistproduct.product.quantity %>">
+                              <td>
+                                 ₹<%= wishlistproduct.product.discountPrice * wishlistproduct.quantity %>
+                              </td>
+                           </tr>
+                           <% }); %>                    
+                        </tbody>
+                     </table>
+                     <table class="checkout-totals">
+                        <tbody>
+                           <tr>
+                              <th>SUBTOTAL</th>
+                              <td>₹<%= checkout.total %></td>
+                           </tr>
+                           <tr>
+                              <th>SHIPPING</th>
+                              <td>
+                                 <% if (checkout.shippingCost) { %>
+                                 ₹<%= checkout.shippingCost %>
+                                 <input type="hidden" name="orderShipping" value="<%= checkout.shippingCost %>">
+                                 <% } else { %>
+                                 Free Shipping
+                                 <% } %>
+                              </td>
+                           </tr>
+                           <tr>
+                              <th>TOTAL</th>
+                              <td>₹<%= (parseFloat(checkout.total) + parseFloat(checkout.shippingCost)).toFixed(2) %></td>
+                              <input type="hidden" name="subtotal" value="<%= (parseFloat(checkout.total) + parseFloat(checkout.shippingCost)).toFixed(2) %>">
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="row mb-4">
+                     <div class="col-md-6 col-6">
+                        <input class="form-check-input form-check-input_fill" id="cod" type="radio" value="Cash on delivery" name="payment">
+                        <label for="cod">Cash on delivery</label>
+                     </div>
+                     <div class="col-md-6 col-6">
+                        <input class="form-check-input form-check-input_fill" id="pon" type="radio" value="Pay Online" name="payment">
+                        <label for="pon">Pay Online</label>
+                     </div>
+                     <div class="col-md-6"></div>
+                  </div>
+                  <% if (user.UserAddress.length === 0) { %>
+                     <span>Please fill in your address first before proceeding further*.</span>
+                     <% } else { %>
+                     <span>Please select an address and payment option to place your order*.</span>
+                        <% } %>
+                  <button type="submit" class="btn btn-primary btn-checkout">PLACE ORDER</button>
+               </form>
+            </div>
+         </div>
+      </div>
+   </section>
+</main>
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+      const addressRadios = document.querySelectorAll('input[name="orderAddress"]'); 
+      const paymentRadios = document.querySelectorAll('input[name="payment"]'); 
+      const placeOrderBtn = document.querySelector('.btn-checkout'); 
+      function checkFormValidity() {
+         let addressChecked = false; 
+         let paymentChecked = false; 
+         addressRadios.forEach(radio => {
+            if (radio.checked) {
+               addressChecked = true;
             }
-          }
-
+         });
+         paymentRadios.forEach(radio => {
+            if (radio.checked) {
+               paymentChecked = true;
+            }
+         });
+         if (addressChecked && paymentChecked) {
+            placeOrderBtn.removeAttribute('disabled');
+         } else {
+            placeOrderBtn.setAttribute('disabled', 'disabled');
+         }
+      }
       // Initial check
       checkFormValidity();
-
       // Add event listeners to address and payment radios
       addressRadios.forEach(radio => {
-        radio.addEventListener('change', checkFormValidity);
+         radio.addEventListener('change', checkFormValidity);
       });
-
       paymentRadios.forEach(radio => {
-        radio.addEventListener('change', checkFormValidity);
+         radio.addEventListener('change', checkFormValidity);
       });
-    });
-  </script>
-
-
-                            <%- include('../partials/footer.ejs') %>
+   });
+</script>
+<%- include('../partials/footer.ejs') %>

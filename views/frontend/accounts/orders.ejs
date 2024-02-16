@@ -7,62 +7,80 @@
       <%- include('partials/dashboard_nav.ejs') %>
       <div class="col-lg-9">
         <div class="page-content my-account__orders-list">
-          <table class="orders-table">
-            <thead>
-              <tr>
-                <th>Order</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>Payment Method</th>
-                <th>Total</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% user.UserOrders.forEach((order, i) => { %>
+          <% if (user.UserOrders.length !== 0) { %>
+            <table class="orders-table">
+              <thead>
                 <tr>
-                  <% const firstProduct = order.orderProducts[0]; %>              
-                  <td>
-                    <img src="<%= firstProduct.item.productsImages.length > 0 ? firstProduct.item.productsImages[0].url : 'No Image' %>" height="100" alt="">
-                  </td>  
-                  <td>
-                      <% if (order.status==="new" ) { %>
-                      <div class=" badge badge-sa-primary text-capitalize" style="background-color: yellowgreen; color: white; font-size: 14px;">
-                        order placed
-                      </div>
-                      <% } else if (order.status==="pending" ) { %>
-                      <div class="badge badge-sa-primary text-capitalize" style="background-color: skyblue; color: black; font-size: 14px;">
-                         <%= order.status %>
-                      </div>
-                      <% } else if (order.status==="shipped" ) { %>
-                      <div class="badge badge-sa-success text-capitalize" style="background-color: greenyellow; color: black; font-size: 14px;">
-                         <%= order.status %>
-                      </div>
-                      <% } else if (order.status==="delivered" ) { %>
-                      <div class="badge badge-sa-success text-capitalize" style="background-color: green; color: white; font-size: 14px;">
-                         <%= order.status %>
-                      </div>
-                      <% } else if (order.status==="canceled" ) { %>
-                      <div
-                         class="badge badge-sa-secondary text-capitalize" style="background-color: red; color: white; font-size: 14px;">
-                         <%= order.status %>
-                      </div>
-                      <% } %>
-                  </td>
-                  <td><%= order.createdAt.toLocaleDateString() %></td>
-                  <td><%= order.orderMethod %></td>
-                  <td>
-                    <% let totalQuantity = 0; %>
-                    <% order.orderProducts.forEach(product => { %>
-                      <% totalQuantity += parseInt(product.quantity); %>
-                    <% }); %> 
-                    ₹<%= order.orderTotal %> for <%= totalQuantity %> items
-                  </td>
-                  <td><a href="/user/order_view/<%= order.id %>" class="btn btn-primary">VIEW</a></td>
+                  <th>Order</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Payment Method</th>
+                  <th>Total</th>
+                  <th>Actions</th>
                 </tr>
-              <% }); %>            
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                <% user.UserOrders.forEach((order, i) => { %>
+                  <tr>
+                    <% const firstProduct = order.orderProducts[0]; %>              
+                    <td>
+                      <img src="<%= firstProduct.item.productsImages.length > 0 ? firstProduct.item.productsImages[0].url : 'No Image' %>" height="100" width=" alt="" >
+                    </td>  
+                    <td>
+                      <% if (order.onlinepayment && order.onlinepayment.status === "created") { %>
+                        <!-- Display online payment status -->
+                        <div class="badge badge-sa-primary text-capitalize" style="background-color: red; color: white; font-size: 14px;">
+                          payment failed
+                        </div>
+                      <% } else { %>
+                        <!-- Display order status -->
+                        <% if (order.status === "new") { %>
+                          <div class="badge badge-sa-primary text-capitalize" style="background-color: yellowgreen; color: white; font-size: 14px;">
+                            Order Placed
+                          </div>
+                        <% } else if (order.status === "pending") { %>
+                          <div class="badge badge-sa-primary text-capitalize" style="background-color: skyblue; color: black; font-size: 14px;">
+                            <%= order.status %>
+                          </div>
+                        <% } else if (order.status === "shipped") { %>
+                          <div class="badge badge-sa-success text-capitalize" style="background-color: greenyellow; color: black; font-size: 14px;">
+                            <%= order.status %>
+                          </div>
+                        <% } else if (order.status === "delivered") { %>
+                          <div class="badge badge-sa-success text-capitalize" style="background-color: rgba(10, 104, 10, 0.74); color: white; font-size: 14px;">
+                            <%= order.status %>
+                          </div>
+                        <% } else if (order.status === "canceled") { %>
+                          <div class="badge badge-sa-secondary text-capitalize" style="background-color: red; color: white; font-size: 14px;">
+                            <%= order.status %>
+                          </div>
+                        <% } %>
+                      <% } %>
+                    </td>
+                    <td><%= order.createdAt.toLocaleDateString() %></td>
+                    <td><%= order.orderMethod %></td>
+                    <td>
+                      <% let totalQuantity = 0; %>
+                      <% order.orderProducts.forEach(product => { %>
+                        <% totalQuantity += parseInt(product.quantity); %>
+                      <% }); %> 
+                      ₹<%= order.orderTotal %> for <%= totalQuantity %> items
+                    </td>
+                    <% if (order.onlinepayment && order.onlinepayment.status === "created") { %>
+                      <td><a href="/user/retry_payment/<%= order.onlinepayment.id %>" class="btn btn-primary">PAY</a></td>
+                    <% } else { %>
+                      <td><a href="/user/order_view/<%= order.id %>" class="btn btn-primary">VIEW</a></td>
+                      <% } %>
+                  </tr>
+                <% }); %>            
+              </tbody>
+            </table>
+        <% } else { %>
+          <div style="text-align: center;">
+            <h2>Go and buy something...</h2>
+          </div>
+        <% } %>
+        
         </div>
       </div>
     </div>

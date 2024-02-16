@@ -165,8 +165,6 @@ exports.updateUserDetails = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-
-
 // adress start
 
 exports.accountAddresses = catchAsyncErrors(async (req, res, next) => {
@@ -257,6 +255,7 @@ exports.AddressEdit = catchAsyncErrors(async (req, res, next) => {
       isAuthenticated,
       wishlistItemss,
       address,
+      messages: req.flash(),
     });
   } catch (error) {
     console.error(error);
@@ -328,6 +327,7 @@ exports.AddAddress = catchAsyncErrors(async (req, res, next) => {
       currentPath,
       isAuthenticated,
       wishlistItemss,
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
@@ -607,6 +607,10 @@ exports.shopCart = catchAsyncErrors(async (req, res, next) => {
         populate: { path: "allProduct" },
       })
       .exec();
+    if (!user.UserWishlists || user.UserWishlists.length === 0) {
+      return res.redirect("/user/addresses");
+    }
+
     const shippings = await Shippings.find();
     const wishlistItemss = user.UserWishlists.map((wishlist) => {
       return wishlist.allProduct;
@@ -616,7 +620,7 @@ exports.shopCart = catchAsyncErrors(async (req, res, next) => {
     const isAuthenticated = token ? true : false;
     res.render("frontend/orderProcess/shop_cart", {
       title: `${user.fullname} Shopping Bag`,
-      categorys, // Assuming categorys is defined elsewhere
+      categorys,
       user,
       currentPath,
       isAuthenticated,
@@ -685,21 +689,14 @@ exports.shopCheckout = catchAsyncErrors(async (req, res, next) => {
 exports.proceedToCheckout = catchAsyncErrors(async (req, res) => {
   try {
     const userId = req.id;
-    const { total, shippingCost } = req.body;
+    const { total, shippingCost, productQuantity } = req.body;
+    console.log(productQuantity);
 
     // Convert single values to arrays if necessary
-    const wishlistItemIds = Array.isArray(req.body.wishlistItemIds)
-      ? req.body.wishlistItemIds
-      : [req.body.wishlistItemIds];
-    const colors = Array.isArray(req.body.color)
-      ? req.body.color
-      : [req.body.color];
-    const sizes = Array.isArray(req.body.size)
-      ? req.body.size
-      : [req.body.size];
-    const quantities = Array.isArray(req.body.quantity)
-      ? req.body.quantity
-      : [req.body.quantity];
+    const wishlistItemIds = Array.isArray(req.body.wishlistItemIds) ? req.body.wishlistItemIds : [req.body.wishlistItemIds];
+    const colors = Array.isArray(req.body.color) ? req.body.color : [req.body.color];
+    const sizes = Array.isArray(req.body.size) ? req.body.size : [req.body.size];
+    const quantities = Array.isArray(req.body.quantity) ? req.body.quantity : [req.body.quantity];
 
     // Map wishlist items with details
     const wishlistDetails = wishlistItemIds.map((itemId, index) => ({
@@ -708,6 +705,14 @@ exports.proceedToCheckout = catchAsyncErrors(async (req, res) => {
       size: sizes[index],
       quantity: quantities[index],
     }));
+
+    
+    for (let i = 0; i < productQuantity.length; i++) {
+      if (parseInt(productQuantity[i]) < parseInt(quantities[i])) {
+        throw new Error(`Product quantity for item exceeds available stock.`);
+        res.redirect("back")
+      }
+    }
 
     // Find existing checkout document for the user
     let checkout = await Checkout.findOne({ user: userId });
@@ -732,10 +737,11 @@ exports.proceedToCheckout = catchAsyncErrors(async (req, res) => {
     // Save the updated or new checkout document
     await checkout.save();
 
-      req.flash("success", "successfully.");
+    req.flash("success", "Successfully proceeded to checkout.");
     res.redirect("/user/shopCheckout");
   } catch (error) {
-    req.flash("error", "Oops! Something went wrong.");
+    console.error(error);
+    req.flash("error", error.message || "Oops! Something went wrong.");
     res.redirect("/");
   }
 });
@@ -756,16 +762,10 @@ exports.placeOrder = catchAsyncErrors(async (req, res, next) => {
       productsquantity,
     } = req.body;
 
-    const wishlistItemIds = Array.isArray(orderProduct)
-      ? orderProduct
-      : [orderProduct];
-    const colors = Array.isArray(productscolor)
-      ? productscolor
-      : [productscolor];
+    const wishlistItemIds = Array.isArray(orderProduct) ? orderProduct : [orderProduct];
+    const colors = Array.isArray(productscolor) ? productscolor : [productscolor];
     const sizes = Array.isArray(productssize) ? productssize : [productssize];
-    const quantities = Array.isArray(productsquantity)
-      ? productsquantity
-      : [productsquantity];
+    const quantities = Array.isArray(productsquantity) ? productsquantity : [productsquantity];
 
     const wishlistDetails = wishlistItemIds.map((itemId, index) => ({
       item: itemId,
@@ -790,15 +790,16 @@ exports.placeOrder = catchAsyncErrors(async (req, res, next) => {
 
     const user = await User.findById(userId);
     if (!user) {
-    req.flash("success", "User not found.");
-      res.redirect("back")
+      req.flash("success", "User not found.");
+      return res.redirect("back");
     }
 
     const lastOrder = await Order.findOne().sort({ createdAt: -1 });
+
     let orderId;
     if (lastOrder) {
-      const lastAlphabet = lastOrder.orderId.charAt(0);
-      const lastSerialNumber = parseInt(lastOrder.orderId.slice(1));
+      const lastAlphabet = lastOrder.orderId.charAt(3); // Update index to start from the alphabet part
+      const lastSerialNumber = parseInt(lastOrder.orderId.slice(4)); // Update index to start from the serial number part
       let nextAlphabet = lastAlphabet;
       let nextSerialNumber = lastSerialNumber + 1;
       if (nextSerialNumber > 999) {
@@ -835,6 +836,8 @@ exports.placeOrder = catchAsyncErrors(async (req, res, next) => {
       await Wishlist.deleteMany({ allUsers: req.id });
       user.UserCart = [];
       await user.save();
+      
+      res.redirect(`/user/order_Confirm/${newOrder._id}`);
     } else if (payment === "Pay Online") {
       const params = {
         amount: subtotal * 100,
@@ -881,27 +884,6 @@ exports.placeOrder = catchAsyncErrors(async (req, res, next) => {
       res.redirect("back")
     }
 
-    const order = await Order.findById(newOrder._id).populate({
-      path: "orderProducts.item",
-      model: "Product",
-    });
-    const categorys = await Category.find().populate("subcategories");
-    const userPopulated = await User.findById(req.id)
-      .populate({
-        path: "UserWishlists",
-        populate: { path: "allProduct" },
-      })
-      .exec();
-    const { token } = req.cookies;
-    const isAuthenticated = token ? true : false;
-    res.render("frontend/orderProcess/order_confirm", {
-      title: `${userPopulated.fullname} Thank You`,
-      categorys,
-      user: userPopulated,
-      isAuthenticated,
-      order,
-      messages: req.flash(),
-    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -966,6 +948,7 @@ exports.paymentVerify = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.OrderConfirm = catchAsyncErrors(async (req, res, next) => {
+  const orderId = req.params.id;
   try {
     const categorys = await Category.find().populate("subcategories");
     const user = await User.findById(req.id)
@@ -974,6 +957,24 @@ exports.OrderConfirm = catchAsyncErrors(async (req, res, next) => {
         populate: { path: "allProduct" },
       })
       .exec();
+    const order = await Order.findById(orderId)
+      .populate({
+        path: "orderProducts.item",
+        model: "Product",
+      })
+      .populate({
+        path: "orderAddress",
+      })
+      .populate({
+        path: "onlinepayment",
+      })
+      .exec();
+
+    if (!order) {
+      req.flash("error", "Order not found.");
+      return res.redirect("/user/orders");
+    }
+
     const { token } = req.cookies;
     const isAuthenticated = token ? true : false;
     res.render("frontend/orderProcess/order_confirm", {
@@ -981,13 +982,16 @@ exports.OrderConfirm = catchAsyncErrors(async (req, res, next) => {
       categorys,
       user,
       isAuthenticated,
+      order: order || {},
       messages: req.flash(),
     });
   } catch (error) {
+    console.error(error);
     req.flash("error", "Oops! Something went wrong.");
     res.redirect("/");
   }
 });
+
 
 exports.accountOrders = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -999,10 +1003,16 @@ exports.accountOrders = catchAsyncErrors(async (req, res, next) => {
       })
       .populate({
         path: "UserOrders",
-        populate: {
-          path: "orderProducts.item",
-          model: "Product",
-        },
+        populate: [
+          {
+            path: "orderProducts.item",
+            model: "Product",
+          },
+          {
+            path: "onlinepayment",
+            model: "PaymentDetail",
+          }
+        ],
       })
       .exec();
 
@@ -1023,6 +1033,7 @@ exports.accountOrders = catchAsyncErrors(async (req, res, next) => {
       messages: req.flash(),
     });
   } catch (error) {
+    console.error(error);
     req.flash("error", "Oops! Something went wrong.");
     res.redirect("back");
   }
@@ -1117,6 +1128,30 @@ exports.rateReview = catchAsyncErrors(async (req, res, next) => {
     res.redirect("back");
   }
 });
+
+exports.retry_payment = catchAsyncErrors(async (req, res, next) => {
+  const paymentId = req.params.id;
+  try {
+    const paymentDetails = await PaymentDetail.findById(paymentId);
+
+    if (!paymentDetails) {
+      req.flash("warning", "Payment Details Not Found");
+      return res.redirect("back");
+    }
+
+    return res.render("frontend/orderProcess/checkout", {
+      title: "Confirm Order",
+      razorpayKeyId: process.env.RAZORPAY_KEY_ID,
+      paymentDetail: paymentDetails,
+      messages: req.flash(),
+    });
+  } catch (error) {
+    console.error(error);
+    req.flash("error", "Something went wrong.");
+    res.redirect("back");
+  }
+});
+
 
 // order process end
 

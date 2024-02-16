@@ -35,6 +35,23 @@
 </head>
 
 <body>
+
+   <div style="position: absolute; z-index: 999; right: 0; top: 10%; left: 60%; transform: translate(-50%,-50%);">
+      <% if (messages.error) { %>
+         <div class="alert alert-danger" role="alert" style="width: max-content;">
+            <%= messages.error %>
+         </div>
+         <% } else if (messages.warning) { %>
+            <div class="alert alert-warning" role="alert" style="width: max-content;">
+               <%= messages.warning %>
+            </div>
+            <% } else if (messages.success) { %>
+               <div class="alert alert-success" role="alert" style="width: max-content;">
+                  <%= messages.success %>
+               </div>
+               <% } %>
+   </div>
+
    <!-- sa-app -->
    <div class="sa-app sa-app--desktop-sidebar-shown sa-app--mobile-sidebar-hidden sa-app--toolbar-fixed">
       <!-- sa-app__sidebar -->

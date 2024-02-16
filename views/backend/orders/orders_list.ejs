@@ -54,7 +54,12 @@
                                 </td>
                                 <td>
                                     <div class="d-flex fs-6">
-                                        <% if (order.status === "new") { %>
+
+                                          <% if (order.onlinepayment && order.onlinepayment.status === "created") { %>
+                                            <div class="badge badge-sa-danger text-capitalize">
+                                                payment failed
+                                            </div>
+                                        <% }else if(order.status === "new") { %>
                                             <div class="badge badge-sa-danger text-capitalize">
                                                 <%= order.status %>
                                             </div>
@@ -101,7 +106,7 @@
                                             <li>
                                                 <hr class="dropdown-divider" />
                                             </li>
-                                            <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
+                                            <li><a class="dropdown-item text-danger" href="/admin/orde_delete/<%= order.id %>">Delete</a></li>
                                         </ul>
                                     </div>
                                 </td>

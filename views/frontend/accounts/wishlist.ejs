@@ -7,6 +7,7 @@
         <%- include('partials/dashboard_nav.ejs') %>
         <div class="col-lg-9">
           <div class="page-content my-account__wishlist">
+            <% if (user.UserWishlists.length !== 0) { %>
             <div class="products-grid row row-cols-2 row-cols-lg-3" id="products-grid">
               <% user.UserCart.forEach((product,i)=> { %>
                 <% if (product.status!='hidden' ) { %>
@@ -60,7 +61,12 @@
                   </div>
               <% } %>
               <% }); %>
-            </div><!-- /.products-grid row -->
+            </div>
+            <% } else { %>
+              <div style="text-align: center;">
+                <h2>Go and add to Wishlists...</h2>
+              </div>
+            <% } %>
           </div>
         </div>
       </div>

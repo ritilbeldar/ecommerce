@@ -5,21 +5,21 @@
       <div class="row row-cols-lg-5 row-cols-2">
          <div class="footer-column footer-store-info mb-4 mb-lg-0">
             <div class="logo">
-               <a href="https://uomo-html.flexkitux.com/">
-               <img src="/frontend/images/logo.png" alt="Uomo" class="logo__image d-block">
+               <a href="/">
+                  <h2>Clothes</h2>
                </a>
             </div>
             <!-- /.logo -->
-            <p class="footer-address">1418 River Drive, Suite 35 Cottonhall, CA 9622 United States</p>
+            <p class="footer-address">Commercial Apartment Surendra Palace bhopal 462026, Madhya Pradesh</p>
             <p class="m-0">
-               <strong class="fw-medium">sale@uomo.com</strong>
+               <strong class="fw-medium">ritikbeldar011@gmail.com</strong>
             </p>
             <p>
-               <strong class="fw-medium">+1 246-345-0695</strong>
+               <strong class="fw-medium">+91 9754708232</strong>
             </p>
             <ul class="social-links list-unstyled d-flex flex-wrap mb-0">
                <li>
-                  <a href="https://facebook.com/" class="footer__social-link d-block">
+                  <a href="https://www.facebook.com/hritik143/" target="_blank" class="footer__social-link d-block">
                      <svg class="svg-icon svg-icon_facebook" width="9" height="15" viewBox="0 0 9 15"
                         xmlns="http://www.w3.org/2000/svg">
                         <use href="#icon_facebook" />
@@ -27,7 +27,7 @@
                   </a>
                </li>
                <li>
-                  <a href="https://twitter.com/" class="footer__social-link d-block">
+                  <a href="https://twitter.com/ritik_beldar" class="footer__social-link d-block">
                      <svg class="svg-icon svg-icon_twitter" width="14" height="13" viewBox="0 0 14 13"
                         xmlns="http://www.w3.org/2000/svg">
                         <use href="#icon_twitter" />
@@ -35,7 +35,7 @@
                   </a>
                </li>
                <li>
-                  <a href="https://instagram.com/" class="footer__social-link d-block">
+                  <a href="https://www.instagram.com/__majoka__" class="footer__social-link d-block">
                      <svg class="svg-icon svg-icon_instagram" width="14" height="13" viewBox="0 0 14 13"
                         xmlns="http://www.w3.org/2000/svg">
                         <use href="#icon_instagram" />
@@ -65,13 +65,13 @@
          <div class="footer-column footer-menu mb-4 mb-lg-0">
             <h5 class="sub-menu__title text-uppercase">Company</h5>
             <ul class="sub-menu__list list-unstyled">
-               <li class="sub-menu__item"><a href="about.html" class="menu-link menu-link_us-s">About Us</a>
+               <li class="#"><a href="about.html" class="menu-link menu-link_us-s">About Us</a>
                </li>
-               <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Careers</a></li>
-               <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Affiliates</a></li>
-               <li class="sub-menu__item"><a href="blog_list1.html" class="menu-link menu-link_us-s">Blog</a>
+               <li class="#"><a href="#" class="menu-link menu-link_us-s">Careers</a></li>
+               <li class="#"><a href="#" class="menu-link menu-link_us-s">Affiliates</a></li>
+               <li class="#"><a href="blog_list1.html" class="menu-link menu-link_us-s">Blog</a>
                </li>
-               <li class="sub-menu__item"><a href="contact.html" class="menu-link menu-link_us-s">Contact
+               <li class="#"><a href="contact.html" class="menu-link menu-link_us-s">Contact
                   Us</a>
                </li>
             </ul>
@@ -80,37 +80,43 @@
          <div class="footer-column footer-menu mb-4 mb-lg-0">
             <h5 class="sub-menu__title text-uppercase">Shop</h5>
             <ul class="sub-menu__list list-unstyled">
-               <li class="sub-menu__item"><a href="shop2.html" class="menu-link menu-link_us-s">New
-                  Arrivals</a>
-               </li>
-               <li class="sub-menu__item"><a href="shop3.html" class="menu-link menu-link_us-s">Accessories</a>
-               </li>
-               <li class="sub-menu__item"><a href="shop4.html" class="menu-link menu-link_us-s">Men</a></li>
-               <li class="sub-menu__item"><a href="shop5.html" class="menu-link menu-link_us-s">Women</a></li>
-               <li class="sub-menu__item"><a href="shop1.html" class="menu-link menu-link_us-s">Shop All</a>
-               </li>
+               <% categorys.forEach((category, index) => { %>
+                  <% category.subcategories.forEach((subcategory) => { %>
+                      <li class="sub-menu__item">
+                          <% if (isAuthenticated) { %>
+                              <a href="/user/subcategory_Products/<%= subcategory.id %>" class="menu-link menu-link_us-s text-capitalize">
+                                  <%= subcategory.title %>
+                                  <%= subcategory.title2 %>
+                              </a>
+                          <% } else { %>
+                              <a href="/subcategory_Products/<%= subcategory.id %>" class="menu-link menu-link_us-s text-capitalize">
+                                  <%= subcategory.title %>
+                                  <%= subcategory.title2 %>
+                              </a>
+                          <% } %>
+                      </li>
+                  <% }); %>
+              <% }); %>
+              
             </ul>
          </div>
          <!-- /.footer-column -->
          <div class="footer-column footer-menu mb-4 mb-lg-0">
             <h5 class="sub-menu__title text-uppercase">Help</h5>
             <ul class="sub-menu__list list-unstyled">
-               <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Customer Service</a>
+               <li class="#"><a href="#" class="menu-link menu-link_us-s">Customer Service</a>
                </li>
-               <li class="sub-menu__item"><a href="account_dashboard.html" class="menu-link menu-link_us-s">My
+               <li class="#"><a href="account_dashboard.html" class="menu-link menu-link_us-s">My
                   Account</a>
                </li>
-               <li class="sub-menu__item"><a href="store_location.html" class="menu-link menu-link_us-s">Find a
-                  Store</a>
+               <li class="#"><a href="#" class="menu-link menu-link_us-s">Legal & Privacy</a></li>
+               <li class="#"><a href="contact.html" class="menu-link menu-link_us-s">Contact</a>
                </li>
-               <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Legal & Privacy</a></li>
-               <li class="sub-menu__item"><a href="contact.html" class="menu-link menu-link_us-s">Contact</a>
-               </li>
-               <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Gift Card</a></li>
+               <li class="#"><a href="#" class="menu-link menu-link_us-s">Gift Card</a></li>
             </ul>
          </div>
          <!-- /.footer-column -->
-         <div class="footer-column footer-newsletter mb-4 mb-lg-0">
+         <div class="footer-column footer-newsletter mb-4 mb-lg-0 footer-column-new">
             <h5 class="sub-menu__title text-uppercase">Subscribe</h5>
             <p>Be the first to get the latest news about trends, promotions, and much more!</p>
             <form action="" class="footer-newsletter__form position-relative bg-body">
@@ -139,8 +145,7 @@
 <footer class="footer-mobile container w-100 px-5 d-md-none bg-body">
    <div class="row text-center">
       <div class="col-4">
-         <a href="https://uomo-html.flexkitux.com/"
-            class="footer-mobile__link d-flex flex-column align-items-center">
+         <a href="/" class="footer-mobile__link d-flex flex-column align-items-center">
             <svg class="d-block" width="18" height="18" viewBox="0 0 18 18" fill="none"
                xmlns="http://www.w3.org/2000/svg">
                <use href="#icon_home" />
@@ -150,36 +155,45 @@
       </div>
       <!-- /.col-3 -->
       <div class="col-4">
-         <a href="https://uomo-html.flexkitux.com/"
-            class="footer-mobile__link d-flex flex-column align-items-center">
-            <svg class="d-block" width="18" height="18" viewBox="0 0 18 18" fill="none"
-               xmlns="http://www.w3.org/2000/svg">
-               <use href="#icon_hanger" />
-            </svg>
-            <span>Shop</span>
-         </a>
+         <% if (isAuthenticated==true) { %>
+            <a href="/user/wishlist" class="footer-mobile__link d-flex flex-column align-items-center">
+               <div class="position-relative">
+                  <svg class="d-block" width="18" height="18" viewBox="0 0 20 20" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <use href="#icon_heart" />
+                  </svg>
+                  <span class="wishlist-amount d-block position-absolute js-wishlist-count"><%= user.UserWishlists.length %></span>
+               </div>
+               <span>Wishlist</span>
+            </a>
+            <% } else { %>
+               <a href="/login_register" class="footer-mobile__link d-flex flex-column align-items-center">
+                  <div class="position-relative">
+                     <svg class="d-block" width="18" height="18" viewBox="0 0 20 20" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <use href="#icon_heart" />
+                     </svg>
+                     <span class="wishlist-amount d-block position-absolute js-wishlist-count"><%= user.UserWishlists.length %></span>
+                  </div>
+                  <span>Wishlist</span>
+               </a>
+            <% } %>
       </div>
       <!-- /.col-3 -->
       <div class="col-4">
-         <a href="https://uomo-html.flexkitux.com/"
-            class="footer-mobile__link d-flex flex-column align-items-center">
+         <a href="/login_register" class="footer-mobile__link d-flex flex-column align-items-center">
             <div class="position-relative">
-               <svg class="d-block" width="18" height="18" viewBox="0 0 20 20" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_heart" />
+               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <use href="#icon_user" />
                </svg>
-               <span class="wishlist-amount d-block position-absolute js-wishlist-count">3</span>
             </div>
-            <span>Wishlist</span>
+            <span>Profile</span>
          </a>
       </div>
       <!-- /.col-3 -->
    </div>
    <!-- /.row -->
 </footer>
-
-
-
 <!-- /.footer-mobile container position-fixed d-md-none bottom-0 -->
 <div class="aside-filters aside aside_right" id="shopFilter">
    <div class="aside-header d-flex align-items-center">
@@ -191,9 +205,8 @@
       <div class="accordion" id="categories-list">
          <div class="accordion-item mb-4">
             <h5 class="accordion-header" id="accordion-heading-11">
-               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
-                  data-bs-toggle="collapse" data-bs-target="#accordion-filter-1" aria-expanded="true"
-                  aria-controls="accordion-filter-1">
+               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#accordion-filter-1" aria-expanded="true" aria-controls="accordion-filter-1">
                   Product Categories
                   <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                      <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -247,9 +260,8 @@
       <div class="accordion" id="color-filters">
          <div class="accordion-item mb-4">
             <h5 class="accordion-header" id="accordion-heading-1">
-               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
-                  data-bs-toggle="collapse" data-bs-target="#accordion-filter-2" aria-expanded="true"
-                  aria-controls="accordion-filter-2">
+               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#accordion-filter-2" aria-expanded="true" aria-controls="accordion-filter-2">
                   Color
                   <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                      <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -283,9 +295,8 @@
       <div class="accordion" id="size-filters">
          <div class="accordion-item mb-4">
             <h5 class="accordion-header" id="accordion-heading-size">
-               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
-                  data-bs-toggle="collapse" data-bs-target="#accordion-filter-size" aria-expanded="true"
-                  aria-controls="accordion-filter-size">
+               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#accordion-filter-size" aria-expanded="true" aria-controls="accordion-filter-size">
                   Sizes
                   <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                      <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -315,9 +326,8 @@
       <div class="accordion" id="brand-filters">
          <div class="accordion-item mb-4">
             <h5 class="accordion-header" id="accordion-heading-brand">
-               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
-                  data-bs-toggle="collapse" data-bs-target="#accordion-filter-brand" aria-expanded="true"
-                  aria-controls="accordion-filter-brand">
+               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#accordion-filter-brand" aria-expanded="true" aria-controls="accordion-filter-brand">
                   Brands
                   <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                      <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -390,9 +400,8 @@
       <div class="accordion" id="price-filters">
          <div class="accordion-item mb-4">
             <h5 class="accordion-header mb-2" id="accordion-heading-price">
-               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
-                  data-bs-toggle="collapse" data-bs-target="#accordion-filter-price" aria-expanded="true"
-                  aria-controls="accordion-filter-price">
+               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#accordion-filter-price" aria-expanded="true" aria-controls="accordion-filter-price">
                   Price
                   <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                      <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -405,15 +414,15 @@
             <div id="accordion-filter-price" class="accordion-collapse collapse show border-0"
                aria-labelledby="accordion-heading-price" data-bs-parent="#price-filters">
                <input class="price-range-slider" type="text" name="price_range" value="" data-slider-min="10"
-                  data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]" data-currency="$">
+                  data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]" data-currency="₹">
                <div class="price-range__info d-flex align-items-center mt-2">
                   <div class="me-auto">
                      <span class="text-secondary">Min Price: </span>
-                     <span class="price-range__min">$250</span>
+                     <span class="price-range__min">₹250</span>
                   </div>
                   <div>
                      <span class="text-secondary">Max Price: </span>
-                     <span class="price-range__max">$450</span>
+                     <span class="price-range__max">₹450</span>
                   </div>
                </div>
             </div>
@@ -428,7 +437,7 @@
          </button>
          <button class="filter-tag d-inline-flex align-items-center mb-3 me-3 text-uppercase js-filter">
          <i class="btn-close-xs d-inline-block"></i>
-         <span class="ms-2">Max Price: $493</span>
+         <span class="ms-2">Max Price: ₹493</span>
          </button>
          <button class="filter-tag d-inline-flex align-items-center mb-3 text-uppercase js-filter">
          <i class="btn-close-xs d-inline-block"></i>
@@ -445,9 +454,6 @@
    <!-- /.aside-content -->
 </div>
 <!-- Customer Login Form -->
-
-
-
 <% if (isAuthenticated) { %>
 <div class="aside aside_right overflow-hidden cart-drawer" id="cartDrawer">
    <div class="aside-header d-flex align-items-center">
@@ -473,19 +479,16 @@
          </div>
          <div class="cart-drawer-item__info flex-grow-1">
             <h6 class="cart-drawer-item__title fw-normal">
-               <%= correspondingProduct ?
-                  correspondingProduct.name.split(' ').slice(0, 3).join(' ') : '' %>
+               <%= correspondingProduct ? correspondingProduct.name.split(' ').slice(0, 3).join(' ') : '' %>
                <% if (correspondingProduct && correspondingProduct.name.split(' ').length > 3) { %>
                ...
                <% } %>
             </h6>
             <% if (wishlistproduct.color) { %>
-               <p class="cart-drawer-item__option text-secondary text-capitalize">Color: <%= wishlistproduct.color %></p>
-           <% } else if (correspondingProduct && correspondingProduct.productsColor && correspondingProduct.productsColor.length > 0) { %>
-               <p class="cart-drawer-item__option text-secondary text-capitalize">Color: <%= correspondingProduct.productsColor[0].colorname %></p>
-           <% } %>
-           
-
+            <p class="cart-drawer-item__option text-secondary text-capitalize">Color: <%= wishlistproduct.color %></p>
+            <% } else if (correspondingProduct && correspondingProduct.productsColor && correspondingProduct.productsColor.length > 0) { %>
+            <p class="cart-drawer-item__option text-secondary text-capitalize">Color: <%= correspondingProduct.productsColor[0].colorname %></p>
+            <% } %>
             <% if (wishlistproduct.size) { %>
             <p class="cart-drawer-item__option text-secondary">Size: <%= wishlistproduct.size %></p>
             <% } else if (correspondingProduct && correspondingProduct.sizes.length > 0) { %>
@@ -524,14 +527,14 @@
          <span class="cart-subtotal fw-medium">₹<%= total.toFixed(2) %></span>
       </div>
       <!-- /.d-flex justify-content-between -->
+      <% if (user.UserWishlists.length !==0) { %>
       <a href="/user/shopCart" class="btn btn-light mt-3 d-block">View Cart</a>
       <a href="/user/shopCheckout" class="btn btn-primary mt-3 d-block">Checkout</a>
+      <% } %>
    </div>
    <!-- /.aside-content -->
 </div>
 <% } %>
-
-
 <!-- <div class="modal fade" id="newsletterPopup" tabindex="-1" aria-hidden="true">
    <div class="modal-dialog newsletter-popup modal-dialog-centered">
      <div class="modal-content">
@@ -555,13 +558,9 @@
        </div>
      </div>
    </div>
-</div> -->
-
-
+   </div> -->
 <div id="scrollTop" class="visually-hidden end-0"></div>
-
 <div class="page-overlay"></div>
-
 <!-- External JavaScripts -->
 <script src="/frontend/js/plugins/jquery.min.js"></script>
 <script src="/frontend/js/plugins/bootstrap.bundle.min.js"></script>
@@ -572,18 +571,16 @@
 <script src="/frontend/js/plugins/countdown.js"></script>
 <!-- Footer Scripts -->
 <script src="/frontend/js/theme.js"></script>
-
 <script>
    document.addEventListener("DOMContentLoaded", function () {
-  var alertDiv = document.querySelector(".alert");
-
-  if (alertDiv) {
-    setTimeout(function () {
-      alertDiv.style.display = "none";
-    }, 3000);
-  }
-});
+      var alertDiv = document.querySelector(".alert");
+   
+      if (alertDiv) {
+         setTimeout(function () {
+            alertDiv.style.display = "none";
+         }, 3000);
+      }
+   });
 </script>
-
 </body>
 </html>

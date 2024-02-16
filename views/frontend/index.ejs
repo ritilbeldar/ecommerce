@@ -107,7 +107,7 @@
       <div class="slideshow-social-follow d-none d-xxl-block position-absolute top-50 start-0 translate-middle-y text-center">
          <ul class="social-links list-unstyled mb-0 text-secondary">
             <li>
-               <a href="#" class="footer__social-link d-block">
+               <a href="https://www.facebook.com/hritik143/" target="_blank" class="footer__social-link d-block">
                   <svg class="svg-icon svg-icon_facebook" width="9" height="15" viewBox="0 0 9 15"
                      xmlns="http://www.w3.org/2000/svg">
                      <use href="#icon_facebook" />
@@ -115,7 +115,7 @@
                </a>
             </li>
             <li>
-               <a href="#" class="footer__social-link d-block">
+               <a href="https://twitter.com/ritik_beldar" class="footer__social-link d-block">
                   <svg class="svg-icon svg-icon_twitter" width="14" height="13" viewBox="0 0 14 13"
                      xmlns="http://www.w3.org/2000/svg">
                      <use href="#icon_twitter" />
@@ -123,7 +123,7 @@
                </a>
             </li>
             <li>
-               <a href="#" class="footer__social-link d-block">
+               <a href="https://www.instagram.com/__majoka__" class="footer__social-link d-block">
                   <svg class="svg-icon svg-icon_instagram" width="14" height="13" viewBox="0 0 14 13"
                      xmlns="http://www.w3.org/2000/svg">
                      <use href="#icon_instagram" />
@@ -299,18 +299,18 @@
                         <% if (isAuthenticated) { %>
                         <% const isProductInCart = user.UserCart.some(cartItem => cartItem.toString() === product.id); %>
                         <% if (isProductInCart) { %>
-                        <a href="/user/remove_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                        <a href="/user/remove_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent new-hart"
                            title="Add To Wishlist">
                         <i class="ri-heart-fill" style="font-size: 20px;"></i>
                         </a>
                         <% } else { %>
-                        <a href="/user/add_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                        <a href="/user/add_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent new-hart"
                            title="Add To Wishlist">
                         <i class="ri-heart-line" style="font-size: 20px;"></i>
                         </a>
                         <% } %>
                         <% } else { %>
-                        <a href="/login_register" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                        <a href="/login_register" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent new-hart"
                            title="Add To Wishlist">
                         <i class="ri-heart-line" style="font-size: 20px;"></i>
                         </a>
@@ -978,18 +978,18 @@
                         <% if (isAuthenticated) { %>
                         <% const isProductInCart = user.UserCart.some(cartItem => cartItem.toString() === product.id); %>
                         <% if (isProductInCart) { %>
-                        <a href="/user/remove_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                        <a href="/user/remove_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent new-hart"
                            title="Add To Wishlist">
                         <i class="ri-heart-fill" style="font-size: 20px;"></i>
                         </a>
                         <% } else { %>
-                        <a href="/user/add_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                        <a href="/user/add_cart/<%= product.id %>" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent new-hart"
                            title="Add To Wishlist">
                         <i class="ri-heart-line" style="font-size: 20px;"></i>
                         </a>
                         <% } %>
                         <% } else { %>
-                        <a href="/login_register" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent"
+                        <a href="/login_register" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent new-hart"
                            title="Add To Wishlist">
                         <i class="ri-heart-line" style="font-size: 20px;"></i>
                         </a>
@@ -1035,7 +1035,7 @@
       <!-- /.position-relative -->
    </section>
    <!-- /.products-carousel container -->
-   <section class="instagram container">
+   <!-- <section class="instagram container">
       <h2 class="section-title text-uppercase text-center mb-4 pb-xl-2 mb-xl-4">@UOMO</h2>
       <div class="row row-cols-3 row-cols-md-4 row-cols-xl-6">
          <div class="instagram__tile">
@@ -1123,7 +1123,7 @@
             </a>
          </div>
       </div>
-   </section>
+   </section> -->
    <!-- /.instagram container -->
    <div class="mb-4 pb-4 pb-xl-5 mb-xl-5"></div>
    <section class="service-promotion container mb-md-4 pb-md-4 mb-xl-5">

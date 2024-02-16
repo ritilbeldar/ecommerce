@@ -23,6 +23,7 @@ exports.homepage = catchAsyncErrors(async (req, res, next) => {
     res.render("backend/index", {
       title: "Dashboard",
       admin,
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
@@ -38,6 +39,7 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
     } else {
       res.render("backend/authentication/login", {
         title: "Login",
+        messages: req.flash(),
       });
     }
   } catch (error) {
@@ -50,6 +52,7 @@ exports.singup = catchAsyncErrors(async (req, res, next) => {
   try {
     res.render("backend/authentication/singup", {
       title: "Singup",
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
@@ -136,6 +139,7 @@ exports.addcategories = catchAsyncErrors(async (req, res, next) => {
     res.render("backend/categories/add_categories", {
       admin,
       categorys,
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
@@ -174,7 +178,7 @@ exports.categoriesUpdate = catchAsyncErrors(async (req, res, next) => {
     const updatedCategory = await Category.findByIdAndUpdate(
       categoryId,
       { title, url },
-      { new: true } // Return the updated category
+      { new: true } 
     );
 
     req.flash("success", "Category updated successfully");
@@ -216,6 +220,7 @@ exports.addSubcategories = catchAsyncErrors(async (req, res, next) => {
     res.render("backend/categories/add_Subcategories", {
       admin,
       categorys,
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
@@ -402,6 +407,7 @@ exports.AddHomeBanner = catchAsyncErrors(async (req, res, next) => {
       admin,
       banner,
       homebanners,
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
@@ -639,6 +645,7 @@ exports.AddProducts = catchAsyncErrors(async (req, res, next) => {
     res.render("backend/products/add_products", {
       admin,
       subcategorys,
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
@@ -715,6 +722,7 @@ exports.add_productsColorImg = catchAsyncErrors(async (req, res, next) => {
     res.render("backend/products/add_productsColorImg", {
       admin,
       product,
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
@@ -808,6 +816,7 @@ exports.ProductsList = catchAsyncErrors(async (req, res, next) => {
     res.render("backend/products/products_list", {
       admin,
       products,
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
@@ -914,6 +923,7 @@ exports.ProductView = catchAsyncErrors(async (req, res, next) => {
       title: "Customers View",
       admin,
       product,
+      messages: req.flash(),
     });
   } catch (error) {
     console.error(error);
@@ -959,6 +969,7 @@ exports.addCoupon = catchAsyncErrors(async (req, res, next) => {
     res.render("backend/marketing/add_coupon", {
       admin,
       coupons,
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
@@ -1052,6 +1063,7 @@ exports.addShipping = catchAsyncErrors(async (req, res, next) => {
     res.render("backend/categories/add_shipping", {
       admin,
       shippings,
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
@@ -1103,6 +1115,7 @@ exports.customerList = catchAsyncErrors(async (req, res, next) => {
       title: "Customers List",
       admin,
       users,
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
@@ -1141,6 +1154,7 @@ exports.customerView = catchAsyncErrors(async (req, res, next) => {
       title: "Customers View",
       admin,
       user,
+      messages: req.flash(),
     });
   } catch (error) {
     req.flash("error", "Oops! Something went wrong.");
@@ -1164,6 +1178,7 @@ exports.ordersList = catchAsyncErrors(async (req, res, next) => {
       title: "Orders List",
       admin,
       orders,
+      messages: req.flash(),
     });
   } catch (error) {
     console.error(error);
@@ -1196,13 +1211,13 @@ exports.oderView = catchAsyncErrors(async (req, res, next) => {
       title: "Customers View",
       admin,
       order,
+      messages: req.flash(),
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 
 exports.orderStatusChange = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -1223,6 +1238,30 @@ exports.orderStatusChange = catchAsyncErrors(async (req, res, next) => {
     });
   }
 });
+
+exports.orderDelete = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const orderId = req.params.id;
+
+    const order = await Orders.findById(orderId);
+
+    if (!order) {
+      throw new ErrorHandler("Order not found", 404);
+    }
+
+    await User.findByIdAndUpdate(order.user, { $pull: { UserOrders: orderId } });
+
+    await Orders.findByIdAndDelete(orderId);
+
+    req.flash("warning", "Order deleted successfully");
+    
+    res.redirect("back");
+  } catch (err) {
+    // Pass the error to the error handling middleware
+    return next(err);
+  }
+});
+
 
 // customers  end
 

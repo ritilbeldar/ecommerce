@@ -142,10 +142,10 @@
                            <% product.productsColor.forEach((color, index)=> { %>
                                <% let colorName=color.colorname; %>
                                <% let colorfavcolor=color.favcolor; %>
-                               <% let inputId=`swatch-${index}`; %>
+                               <% let inputId=`swatch-₹{index}`; %>
                                <input type="radio" name="color" value="<%= colorName %>" id="<%= inputId %>" required>
                                <label class="swatch  js-swatch" for="<%= inputId %>" data-bs-toggle="tooltip" data-bs-placement="top" title="<%= colorName %>">
-                                   <div style="height: 2vmax;width: 2vmax; background-color: <%= colorfavcolor %> ">
+                                   <div class="pro-color-box" style="background-color: <%= colorfavcolor %> ">
                                    </div>
                                </label>
                            <% }); %>
@@ -164,7 +164,7 @@
                        <% if (isProductInWishlist) { %>
                            <a href="/user/remove_ProductTo_Wishlist/<%= product.id %>" class="btn btn-primary btn-addtocart">Remove from Cart</a>
                        <% } else { %>
-                           <button type="submit" class="btn btn-primary btn-addtocart" <% if (product.quantity === 0) { %>disabled<% } %>>Add to Cart</button>
+                           <button type="submit" class="btn btn-primary btn-addtocart" <% if (product.quantity <= 0) { %>disabled<% } %>>Add to Cart</button>
                        <% } %>
                    <% } else { %>
                        <a href="/login_register" class="btn btn-primary btn-addtocart">Add To Cart</a>
@@ -194,7 +194,7 @@
                <% } %>
                <!-- Stock Status -->
                <div>
-                   <% if (product.quantity === 0) { %>
+                   <% if (product.quantity <= 0) { %>
                        <h5 style="color: red;">Out Of Stock</h5>
                    <% } else { %>
                        <h5 style="color: green;">IN Stock</h5>
@@ -403,7 +403,7 @@
                         T-Shirt</a>
                      </h6>
                      <div class="product-card__price d-flex">
-                        <span class="money price">$17</span>
+                        <span class="money price">₹17</span>
                      </div>
                      <button
                         class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
@@ -438,7 +438,7 @@
                         Leather Jacket</a>
                      </h6>
                      <div class="product-card__price d-flex">
-                        <span class="money price">$29</span>
+                        <span class="money price">₹29</span>
                      </div>
                      <div class="product-card__review d-flex align-items-center">
                         <div class="reviews-group d-flex">
@@ -500,7 +500,7 @@
                         Shorts</a>
                      </h6>
                      <div class="product-card__price d-flex">
-                        <span class="money price">$62</span>
+                        <span class="money price">₹62</span>
                      </div>
                      <button
                         class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
@@ -536,7 +536,7 @@
                         Print</a>
                      </h6>
                      <div class="product-card__price d-flex">
-                        <span class="money price">$62</span>
+                        <span class="money price">₹62</span>
                      </div>
                      <button
                         class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
@@ -571,7 +571,7 @@
                         T-Shirt</a>
                      </h6>
                      <div class="product-card__price d-flex">
-                        <span class="money price">$17</span>
+                        <span class="money price">₹17</span>
                      </div>
                      <button
                         class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
@@ -595,8 +595,7 @@
                         height="400" alt="Cropped Faux leather Jacket"
                         class="pc__img pc__img-second">
                      </a>
-                     <button
-                        class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
+                     <button class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
                         data-aside="cartDrawer" title="Add To Cart">Add To
                      Cart</button>
                   </div>
@@ -606,8 +605,8 @@
                         Shawl</a>
                      </h6>
                      <div class="product-card__price d-flex">
-                        <span class="money price price-old">$129</span>
-                        <span class="money price price-sale">$99</span>
+                        <span class="money price price-old">₹129</span>
+                        <span class="money price price-sale">₹99</span>
                      </div>
                      <button
                         class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
@@ -642,7 +641,7 @@
                         Jacket</a>
                      </h6>
                      <div class="product-card__price d-flex">
-                        <span class="money price">$29</span>
+                        <span class="money price">₹29</span>
                      </div>
                      <button
                         class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
@@ -677,8 +676,8 @@
                         Dresses</a>
                      </h6>
                      <div class="product-card__price d-flex">
-                        <span class="money price price-old">$129</span>
-                        <span class="money price price-sale">$99</span>
+                        <span class="money price price-old">₹129</span>
+                        <span class="money price price-sale">₹99</span>
                      </div>
                      <button
                         class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"

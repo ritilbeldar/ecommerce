@@ -33,6 +33,7 @@ const {
     OrderConfirm,
     OrderView,
     rateReview,
+    retry_payment,
 } = require("../controllers/userController");
 const { isAuthenticated } = require("../middlewares/user_auth");
 
@@ -97,16 +98,17 @@ router.post("/coupon_code_apply",isAuthenticated, CouponCodeApply);
 
 router.post("/proceedToCheckout",isAuthenticated, proceedToCheckout);
 
-
 router.post("/place_order",isAuthenticated, placeOrder);
 
-router.post("/verify",isAuthenticated, paymentVerify);
+router.get("/order_confirm/:id",isAuthenticated, OrderConfirm);
 
-router.get("/order_confirm",isAuthenticated, OrderConfirm);
+router.post("/verify",isAuthenticated, paymentVerify);
 
 router.get("/orders",isAuthenticated, accountOrders);
 
 router.get("/order_view/:id",isAuthenticated, OrderView);
+
+router.get("/retry_payment/:id",isAuthenticated, retry_payment);
 
 router.post("/rate_review",isAuthenticated, rateReview);
 
