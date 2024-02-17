@@ -36,12 +36,13 @@
     <div class="min-h-100 p-0 p-sm-6 d-flex align-items-stretch">
         <div class="card w-25x flex-grow-1 flex-sm-grow-0 m-sm-auto">
             <div class="card-body p-sm-5 m-sm-3 flex-grow-0">
-                <div class="fs-exact-14 text-muted mt-2 pt-1 mb-5 pb-2">Thank you for registering with Clothes Pvt Limt. Please verify your email address to complete the registration process.</div>
-                <div><button class="btn btn-primary btn-lg w-100">Go to home</button></div>
+                <h1 class="mb-0 fs-3">Sign Up</h1>
+                <div class="fs-exact-14 text-muted mt-2 pt-1 mb-5 pb-2">Fill out the form to create a new account.</div>
+                <form action="/admin/verify_otp/<%= admin._id %>" method="post">
+                    <div class="mb-4"><label class="form-label">Password</label><input type="number" class="form-control form-control-lg" name="otp" /></div>
+                    <div><button class="btn btn-primary btn-lg w-100">Verify</button></div>
+                </form>
             </div>
-            <div class="card-body p-sm-5 m-sm-3 flex-grow-0">
-                <div class="form-group mb-0 pt-2 text-center text-muted">Don't have an account? <a
-                        href="/admin/singup">Sign up</a></div>
             </div>
         </div>
     </div><!-- scripts -->

@@ -1,11 +1,10 @@
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
-const { isAuthenticated } = require("../middlewares/auth");
-
 const Category = require("../models/admin/categorysModel/category");
 const SubCategory = require("../models/admin/categorysModel/subcategory");
 const HomeBanner = require("../models/admin/categorysModel/HomeBanner");
 const Products = require("../models/admin/ProductsModel/Products");
 const User = require("../models/frontend/userModel");
+const Newsletter = require("../models/frontend/NewsletterModel");
 const otpSend = require("../utils/otpmailer");
 
 const ErorrHandler = require("../utils/ErrorHandler");
@@ -198,7 +197,6 @@ exports.userRegister = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-
 exports.verify_otp = catchAsyncErrors(async (req, res, next) => {
   try {
     const categorys = await Category.find().populate("subcategories");
@@ -206,7 +204,7 @@ exports.verify_otp = catchAsyncErrors(async (req, res, next) => {
     const userId = req.params.id;
     const user = await User.findById(userId);
     if (!user) {
-      throw new ErrorHandler('User not found', 404);
+      throw new ErorrHandler('User not found', 404);
     }
     const { token } = req.cookies;
     if (token) {
@@ -289,6 +287,25 @@ exports.usersignin = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+exports.SaveNewsletter = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { email } = req.body;
 
+    const existingEmail = await Newsletter.findOne({ email });
+    if (existingEmail) {
+      req.flash("error", "Email already exists in the newsletter list.");
+      return res.redirect("back");
+    }
+    await Newsletter.create({ email });
+    req.flash("success", "Email added to the newsletter successfully.");
+    return res.redirect("back");
+  } catch (error) {
+    console.error(error);
+    req.flash("error", "Something went wrong. Please try again later.");
+    return res.redirect("back");
+  }
+});
 
 // accounts end
+
+

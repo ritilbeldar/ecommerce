@@ -50,9 +50,8 @@
                                      <% 
                                          let totalAmount = 0;
                                          user.UserOrders.forEach((order, i) => { 
-                                             totalAmount += parseFloat(order.orderTotal); // Parse as float to ensure numerical addition
+                                             totalAmount += parseFloat(order.orderTotal);
                                          });
-                                         // Format the total amount with 2 decimal places
                                          let formattedAmount = totalAmount.toFixed(2);
                                      %>
                                      <%= formattedAmount.toString() %>

@@ -830,7 +830,7 @@
                <div class="background-img" style="background-image: url('/frontend/images/banner_1.jpg');">
                </div>
                <div class="content_abs content_bottom content_left content_bottom-lg content_left-lg">
-                  <h6 class="text-uppercase text-white fw-medium mb-3">Starting At $19</h6>
+                  <h6 class="text-uppercase text-white fw-medium mb-3">Starting At ₹19</h6>
                   <h3 class="text-white mb-3">Women's T-Shirts</h3>
                   <a href="#" class="btn-link default-underline text-uppercase text-white fw-medium">Shop
                   Now</a>
@@ -844,7 +844,7 @@
                <div class="background-img" style="background-image: url('/frontend/images/banner_2.jpg');">
                </div>
                <div class="content_abs content_bottom content_left content_bottom-lg content_left-lg">
-                  <h6 class="text-uppercase fw-medium mb-3">Starting At $39</h6>
+                  <h6 class="text-uppercase fw-medium mb-3">Starting At ₹39</h6>
                   <h3 class="mb-3">Men's Sportswear</h3>
                   <a href="#" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
                </div>
@@ -1135,7 +1135,7 @@
                </svg>
             </div>
             <h3 class="service-promotion__title h5 text-uppercase">Fast And Free Delivery</h3>
-            <p class="service-promotion__content text-secondary">Free delivery for all orders over $140</p>
+            <p class="service-promotion__content text-secondary">Free delivery for all orders over ₹140</p>
          </div>
          <!-- /.col-md-4 text-center-->
          <div class="col-md-4 text-center mb-5 mb-md-0">
@@ -1163,5 +1163,28 @@
    </section>
    <!-- /.service-promotion container -->
 </main>
-
+<div class="modal fade" id="newsletterPopup" tabindex="-1" aria-hidden="true">
+   <div class="modal-dialog newsletter-popup modal-dialog-centered">
+     <div class="modal-content">
+       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       <div class="row p-0 m-0">
+         <div class="col-md-6 p-0 d-none d-md-block">
+           <div class="newsletter-popup__bg h-100 w-100">
+             <img loading="lazy" src="/frontend/images/newsletter-popup.jpg" class="h-100 w-100 object-fit-cover d-block" alt="">
+           </div>
+         </div>
+         <div class="col-md-6 p-0 d-flex align-items-center">
+           <div class="block-newsletter w-100">
+             <h3 class="block__title">Sign Up to Our Newsletter</h3>
+             <p>Be the first to get the latest news about trends, promotions, and much more!</p>
+             <form action="save_news_letter" method="post" class="footer-newsletter__form position-relative bg-body">
+               <input class="form-control border-2" type="email" name="email" placeholder="Your email address">
+               <input class="btn-link fw-medium bg-transparent position-absolute top-0 end-0 h-100" type="submit" value="JOIN">
+             </form>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+   </div>
 <%- include('partials/footer.ejs') %>

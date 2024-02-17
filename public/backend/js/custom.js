@@ -204,12 +204,14 @@
 
                     scales: {
                         y: {
+                            min: 1,
+                            max: 10,
                             ticks: {
                                 fontFamily: 'Roboto',
                                 fontSize: 13,
                                 fontColor: '#828f99',
                                 callback: function (value) {
-                                    return '$' + value;
+                                    return '' + value;
                                 },
                             },
                             gridLines: {

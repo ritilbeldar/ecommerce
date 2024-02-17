@@ -6,6 +6,7 @@ const {
     homepage,
     ProductsDetails,
     SubCategoryProducts,
+    SaveNewsletter,
 
     userRegister,
     Register_Login,
@@ -21,6 +22,7 @@ const { isAuthenticated } = require("../middlewares/user_auth");
 router.get("/404", notfound);
 
 router.get("/", homepage);
+
 
 // Products Start
 
@@ -46,7 +48,7 @@ router.post("/userregister", userRegister);
 
 router.post("/usersignin", usersignin);
 
-
+router.post("/save_news_letter", SaveNewsletter);
 
 
 

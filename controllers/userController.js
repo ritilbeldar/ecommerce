@@ -188,8 +188,6 @@ exports.password_update = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-
-
 // adress start
 
 exports.accountAddresses = catchAsyncErrors(async (req, res, next) => {
@@ -735,7 +733,7 @@ exports.proceedToCheckout = catchAsyncErrors(async (req, res) => {
     for (let i = 0; i < productQuantity.length; i++) {
       if (parseInt(productQuantity[i]) < parseInt(quantities[i])) {
         throw new Error(`Product quantity for item exceeds available stock.`);
-        res.redirect("back")
+       
       }
     }
 
@@ -767,7 +765,7 @@ exports.proceedToCheckout = catchAsyncErrors(async (req, res) => {
   } catch (error) {
     console.error(error);
     req.flash("error", error.message || "Oops! Something went wrong.");
-    res.redirect("/");
+    res.redirect("back")
   }
 });
 
@@ -823,8 +821,8 @@ exports.placeOrder = catchAsyncErrors(async (req, res, next) => {
 
     let orderId;
     if (lastOrder) {
-      const lastAlphabet = lastOrder.orderId.charAt(3); // Update index to start from the alphabet part
-      const lastSerialNumber = parseInt(lastOrder.orderId.slice(4)); // Update index to start from the serial number part
+      const lastAlphabet = lastOrder.orderId.charAt(3);
+      const lastSerialNumber = parseInt(lastOrder.orderId.slice(4));
       let nextAlphabet = lastAlphabet;
       let nextSerialNumber = lastSerialNumber + 1;
       if (nextSerialNumber > 999) {
@@ -911,7 +909,8 @@ exports.placeOrder = catchAsyncErrors(async (req, res, next) => {
 
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    req.flash("error", "Oops! Something went wrong.");
+    res.redirect("back");
   }
 });
 
@@ -967,8 +966,9 @@ exports.paymentVerify = catchAsyncErrors(async (req, res, next) => {
       res.redirect("/user/shopCart");
     }
   } catch (error) {
-    console.error("Error in payment verification:", error);
-    res.render("pages/error", { error }); // Render error page
+    console.error(error);
+    req.flash("error", "Oops! Something went wrong.");
+    res.redirect("back");
   }
 });
 
@@ -1013,7 +1013,7 @@ exports.OrderConfirm = catchAsyncErrors(async (req, res, next) => {
   } catch (error) {
     console.error(error);
     req.flash("error", "Oops! Something went wrong.");
-    res.redirect("/");
+    res.redirect("back");
   }
 });
 
@@ -1180,3 +1180,6 @@ exports.retry_payment = catchAsyncErrors(async (req, res, next) => {
 // order process end
 
 // accounts end
+
+
+

@@ -5,11 +5,12 @@ const {
   login,
   singup,
   adminsignup,
-  verifyemaill,
-  verifyemail,
   adminsignin,
   adminsignout,
   homepage,
+
+  admin_verify_otp,
+  otp_verify,
 
   addcategories,
   categoriesadd,
@@ -70,9 +71,13 @@ router.get("/singup", singup);
 
 router.post("/adminsignup", adminsignup);
 
-router.get("/admin/verify/:verificationToken", verifyemaill);
+router.get("/verify_otp/:id", admin_verify_otp);
 
-router.get("/verifyemail", verifyemail);
+router.post("/verify_otp/:id", otp_verify);
+
+
+
+
 
 router.get("/dashboard", isAuthenticated, homepage);
 

@@ -4,6 +4,7 @@ const Admin = require("../models/admin/admin");
 const Category = require("../models/admin/categorysModel/category");
 const SubCategory = require("../models/admin/categorysModel/subcategory");
 const HomeBanner = require("../models/admin/categorysModel/HomeBanner");
+const Wishlist = require("../models/frontend/wishlistModel");
 const Products = require("../models/admin/ProductsModel/Products");
 const Orders = require("../models/frontend/orderModel");
 const Shipping = require("../models/admin/ProductsModel/ShippingModel");
@@ -11,23 +12,69 @@ const Coupon = require("../models/admin/marketing/CouponModel");
 const User = require("../models/frontend/userModel");
 const RateReviews = require("../models/frontend/rateReviewModel");
 const ErorrHandler = require("../utils/ErrorHandler");
-const { sendmail } = require("../utils/nodemailer");
+const otpSend = require("../utils/otpmailer");
+const {AdminSendToken} = require("../utils/AdminSendToken");
+
 const path = require("path");
 const CryptoJS = require("crypto-js");
-const { AdminSendToken } = require("../utils/AdminSendToken");
 const imagekit = require("../utils/imagekit").initImageKit();
 
 exports.homepage = catchAsyncErrors(async (req, res, next) => {
   try {
     const admin = await Admin.findById(req.id);
+    const rateReviews = await RateReviews.find() 
+    .populate({
+      path: "Product",
+    })
+    .populate({
+      path: "User",
+    })
+    const orders = await Orders.find()
+    .populate({
+      path: "user",
+    })
+    .populate({
+      path: "orderProducts.item",
+      model: "Product",
+    })
+    .populate({
+      path: "orderAddress",
+    })
+    .populate({
+      path: "onlinepayment",
+    })
+    .exec();
+
+    const users = await User.find().populate({
+      path: "UserWishlists",
+    })
+    .populate({
+      path: "UserCart",
+    })
+    .populate({
+      path: "UserOrders",
+      populate: {
+        path: "orderProducts.item",
+        model: "Product",
+      },
+    })
+    .exec();
+
+    const wishlists = await Wishlist.find()
+
     res.render("backend/index", {
       title: "Dashboard",
       admin,
+      orders,
+      users,
+      wishlists,
+      rateReviews,
       messages: req.flash(),
     });
   } catch (error) {
+    console.error(error);
     req.flash("error", "Oops! Something went wrong.");
-    res.redirect("/");
+    res.redirect("/admin");
   }
 });
 
@@ -59,69 +106,139 @@ exports.singup = catchAsyncErrors(async (req, res, next) => {
     res.redirect("/");
   }
 });
+// 
 
 exports.adminsignup = catchAsyncErrors(async (req, res, next) => {
-  const existingAdmin = await Admin.findOne({ email: req.body.email });
-  if (existingAdmin) {
-    req.flash("warning", "Admin is Already Registered");
-    return res.redirect("/admin/login");
-  }
-  const admin = await new Admin(req.body).save();
-  req.flash("success", "Admin is Created Successfully");
-  return res.redirect("/admin/login");
-});
-
-exports.verifyemail = catchAsyncErrors(async (req, res, next) => {
   try {
-    res.render("backend/authentication/verifyemail", {
-      title: "Verify Email",
-    });
+    const { email, fullname } = req.body;
+    let admin = await Admin.findOne({ email });
+
+    if (admin) {
+      if (admin.verified) {
+        req.flash("error", "This email is already registered.");
+        return res.redirect("back");
+      } else {
+        // Resend OTP if the email is registered but not verified
+        const otp = Math.floor(1000 + Math.random() * 9000);
+        admin.otp = otp;
+        await admin.save();
+        await otpSend(email, otp, fullname);
+        
+        req.flash("success", "OTP sent to your email for verification.");
+        return res.redirect(`/admin/verify_otp/${admin.id}`);
+      }
+    } else {
+      // If admin doesn't exist, create a new one
+      const otp = Math.floor(1000 + Math.random() * 9000);
+
+      admin = new Admin({
+        ...req.body,
+        otp,
+      });
+      await admin.save();
+
+      await otpSend(email, otp, fullname);
+
+      req.flash("success", "OTP sent to your email for verification.");
+      res.redirect(`/admin/verify_otp/${admin.id}`);
+    }
   } catch (error) {
-    req.flash("error", "Oops! Something went wrong.");
-    res.redirect("/");
+    console.error(error);
+    req.flash("error", "Something went wrong. Please try again later.");
+    res.redirect("back");
   }
 });
 
-exports.verifyemaill = catchAsyncErrors(async (req, res, next) => {
-  const { verificationToken } = req.params;
 
-  // Find the admin by the verification token
-  const admin = await Admin.findOne({ verificationToken });
-
-  if (!admin) {
-    req.flash("error", "Invalid verification token");
-    return res.redirect("/admin/login");
+exports.admin_verify_otp = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const adminId = req.params.id;
+    const admin = await Admin.findById(adminId);
+    if (!admin) {
+      throw new ErorrHandler('User not found', 404);
+    }
+    const { admintoken } = req.cookies;
+    if (admintoken) {
+      res.redirect("/admin/dashboard");
+    } else {
+      res.render("backend/authentication/verify_otp", {
+        title: "Verify OTP",
+        messages: req.flash(),
+        isAuthenticated: false,
+        admin,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    req.flash("error", "Oops! Something went wrong.");
+    res.redirect("/admin/singup");
   }
+});
 
-  // Update the admin's verification status to true
-  admin.verify = true;
-  admin.verificationToken = undefined; // Remove the token after verification
-  await admin.save();
+exports.otp_verify = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const adminId = req.params.id;
+    const { otp } = req.body;
 
-  // Redirect the admin to the dashboard or wherever you want
-  req.flash("success", "Email verified successfully. Login to continue.");
-  res.redirect("/admin/login");
+    // Find the user by ID
+    const admin = await Admin.findById(adminId);
+
+    // Check if the user exists
+    if (!admin) {
+      throw new ErorrHandler('Admin not found', 404);
+    }
+
+    // Check if the OTP matches
+    if (!admin.otp || otp !== admin.otp.toString()) {
+      req.flash('error', 'Invalid OTP. Please try again.');
+      return res.redirect('back');
+    }
+
+    // Mark the user as verified
+    admin.verified = true;
+    admin.otp = undefined;
+    await admin.save();
+
+    req.flash("success", "You have successfully verified. now proceed to log in.")
+    res.redirect("/admin/login");
+  } catch (error) {
+    console.error(error);
+    req.flash('error', 'Something went wrong. Please try again later.');
+    res.redirect('back');
+  }
 });
 
 exports.adminsignin = catchAsyncErrors(async (req, res, next) => {
-  const admin = await Admin.findOne({ email: req.body.email })
-    .select("+password")
-    .exec();
+  try {
+    const { email, password } = req.body;
 
-  if (!admin) {
-    req.flash("warning", "Username not found!");
-    return res.redirect("/admin/singup");
+
+    const admin = await Admin.findOne({ email }).select("+password +verified");
+
+    if (!admin) {
+      req.flash("error", "User not found with this email address.");
+      return res.redirect("back");
+    }
+
+    if (!admin.verified) {
+      req.flash("error", "Your email is not verified. Please verify your email to login.");
+      return res.redirect("back");
+    }
+
+    // Compare the provided password with the hashed password in the database
+    const isMatch = await admin.comparepassword(password);
+    if (!isMatch) {
+      req.flash("error", "Wrong credentials.");
+      return res.redirect("back");
+    }
+
+    // If the credentials are correct, generate and send token
+    AdminSendToken(admin, 200, res);
+  } catch (error) {
+    console.error(error);
+    req.flash("error", "Something went wrong.");
+    res.redirect("back");
   }
-
-  const isMatch = admin.comparepassword(req.body.password);
-
-  if (!isMatch) {
-    req.flash("warning", "Wrong Credientials");
-    return res.redirect("/admin/login");
-  }
-
-  req.flash("success", "Admin is Login Successfully");
-  AdminSendToken(admin, 200, res);
 });
 
 exports.adminsignout = catchAsyncErrors(async (req, res, next) => {
@@ -1162,7 +1279,6 @@ exports.customerView = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-
 exports.ordersList = catchAsyncErrors(async (req, res, next) => {
   try {
     const admin = await Admin.findById(req.id);
@@ -1185,7 +1301,6 @@ exports.ordersList = catchAsyncErrors(async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 
 exports.oderView = catchAsyncErrors(async (req, res, next) => {
   const orderId = req.params.id;
