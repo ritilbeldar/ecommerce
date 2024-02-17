@@ -57,6 +57,7 @@ exports.ProductsDetails = catchAsyncErrors(async (req, res, next) => {
       .exec();
 
     const categorys = await Category.find().populate("subcategories");
+    const products = await Products.find()
     const product = await Products.findById(ProductId)
       .populate('subcategories')
       .populate('productsRateReview');
@@ -82,6 +83,7 @@ exports.ProductsDetails = catchAsyncErrors(async (req, res, next) => {
       title: product.name,
       messages: req.flash(),
       user,
+      products,
       isAuthenticated: !!req.cookies.token,
       hasOrderedProduct,
     });
