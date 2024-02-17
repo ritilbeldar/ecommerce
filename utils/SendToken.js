@@ -9,9 +9,9 @@ exports.sendtoken = (user, statusCode, req, res) => {
     // secure: true,
   };
 
-  res.status(statusCode)
-    .cookie("token", token, options);
+  res.status(statusCode).cookie("token", token, options);
   
   req.flash("success", "User logged in successfully.");
   res.redirect("/user/dashboard");
 };
+

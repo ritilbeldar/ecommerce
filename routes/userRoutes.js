@@ -4,6 +4,7 @@ const router = express.Router();
 const {
     usersignout,
     currentUser,
+    password_update,
 
     user_dashboard,
     accountDetails,
@@ -49,6 +50,8 @@ router.get("/signout", isAuthenticated, usersignout);
 // user account start
 
 router.get("/dashboard",isAuthenticated, user_dashboard);
+
+router.post("/password_reset",isAuthenticated, password_update);
 
 
 

@@ -15,7 +15,7 @@ const sendmail = (email, fullname, verificationToken,req, res, next) => {
     const mailOptions = {
         from: "Clothes Pvt Limt",
         to: email,
-        subject: "Verify Your Admin Account",
+        subject: "Verify Your Account",
         html: `<p>Dear ${fullname},</p>
         <p>Thank you for registering with us. Please click the following link to verify your account:</p>
         <a href="${process.env.BASE_URL}/admin/verify/${verificationToken}">Verify Account</a>
@@ -25,9 +25,7 @@ const sendmail = (email, fullname, verificationToken,req, res, next) => {
 
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) return next(new ErrorHandler(err, 500));
-        
         console.log(info);
-
         return res.redirect("/admin/singup");
     });
 };

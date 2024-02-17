@@ -6,8 +6,8 @@ const singupModel = new mongoose.Schema(
   {
     fullname: {
       type: String,
-      required: [true, "First Name is required"],
-      minLength: [4, "First name should be atleast 4 character long"],
+      required: [true, "Name is required"],
+      minLength: [4, "Name should be atleast 4 character long"],
     },
     email: {
       type: String,
@@ -18,7 +18,11 @@ const singupModel = new mongoose.Schema(
         "Please fill a valid email address",
       ],
     },
-    displayName: String,
+    verified: {
+      type: Boolean,
+      default: false,
+    },
+    otp: Number,
     number: Number,
     password: {
       type: String,
@@ -82,3 +86,5 @@ singupModel.methods.getjwttoken = function () {
 const User = mongoose.model("user", singupModel);
 
 module.exports = User;
+
+

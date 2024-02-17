@@ -10,6 +10,8 @@ const {
     userRegister,
     Register_Login,
     usersignin,
+    verify_otp,
+    otp_verify,
     
 } = require("../controllers/indexController");
 
@@ -19,10 +21,6 @@ const { isAuthenticated } = require("../middlewares/user_auth");
 router.get("/404", notfound);
 
 router.get("/", homepage);
-
-
-
-
 
 // Products Start
 
@@ -38,6 +36,11 @@ router.get("/user/subcategory_Products/:id", isAuthenticated, SubCategoryProduct
 
 
 router.get("/login_register", Register_Login);
+
+router.get("/verify_otp/:id", verify_otp);
+
+router.post("/verify_otp/:id", otp_verify);
+
 
 router.post("/userregister", userRegister);
 

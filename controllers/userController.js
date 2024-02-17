@@ -13,13 +13,6 @@ const Address = require("../models/frontend/addressModel");
 const Order = require("../models/frontend/orderModel");
 const RateReviews = require("../models/frontend/rateReviewModel");
 const PaymentDetail = require("../models/frontend/payment-detail");
-
-const ErorrHandler = require("../utils/ErrorHandler");
-const { sendtoken } = require("../utils/SendToken");
-const { sendmail } = require("../utils/nodemailer");
-const path = require("path");
-const imagekit = require("../utils/imagekit").initImageKit();
-
 const Razorpay = require("razorpay");
 const { v4: uuidv4 } = require("uuid");
 const { read } = require("fs");
@@ -67,7 +60,6 @@ exports.currentUser = catchAsyncErrors(async (req, res, next) => {
   }
  
 });
-
 
 exports.user_dashboard = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -164,6 +156,39 @@ exports.updateUserDetails = catchAsyncErrors(async (req, res, next) => {
     res.redirect("/user/account_details");
   }
 });
+
+
+exports.password_update = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.id).select("+password").exec();
+
+    if (!user) {
+      req.flash("error", "User not found."); 
+      return res.redirect("back");
+    }
+
+    const isMatch = await user.comparepassword(req.body.password);
+    if (!isMatch) {
+      req.flash("error", "Current password is incorrect."); 
+      return res.redirect("back");
+    }
+
+    // Update the password
+    user.password = req.body.newpassword;
+    await user.save();
+
+
+    res.clearCookie("token");
+    req.flash("success", "Password updated successfully. Please login with your new password.");
+    res.redirect("/login_register");
+  } catch (error) {
+    console.error(error);
+    req.flash("error", "Something went wrong.");
+    res.redirect("back");
+  }
+});
+
+
 
 // adress start
 
@@ -991,7 +1016,6 @@ exports.OrderConfirm = catchAsyncErrors(async (req, res, next) => {
     res.redirect("/");
   }
 });
-
 
 exports.accountOrders = catchAsyncErrors(async (req, res, next) => {
   try {

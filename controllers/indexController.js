@@ -6,6 +6,7 @@ const SubCategory = require("../models/admin/categorysModel/subcategory");
 const HomeBanner = require("../models/admin/categorysModel/HomeBanner");
 const Products = require("../models/admin/ProductsModel/Products");
 const User = require("../models/frontend/userModel");
+const otpSend = require("../utils/otpmailer");
 
 const ErorrHandler = require("../utils/ErrorHandler");
 const { sendtoken } = require("../utils/SendToken");
@@ -159,24 +160,122 @@ exports.Register_Login = catchAsyncErrors(async (req, res, next) => {
 
 exports.userRegister = catchAsyncErrors(async (req, res, next) => {
   try {
-    const user = await new User(req.body).save();
-    sendtoken(user, 201, res);
+    const { email, fullname } = req.body;
+    let user = await User.findOne({ email });
+
+    if (user) {
+      if (user.verified) {
+        req.flash("error", "This email is already registered.");
+        return res.redirect("back");
+      } else {
+        // Resend OTP if the email is registered but not verified
+        const otp = Math.floor(1000 + Math.random() * 9000);
+        user.otp = otp;
+        await user.save();
+        await otpSend(email, otp, fullname);
+        
+        req.flash("success", "OTP sent to your email for verification.");
+        return res.redirect(`/verify_otp/${user.id}`);
+      }
+    }
+
+    const otp = Math.floor(1000 + Math.random() * 9000);
+
+    user = new User({
+      ...req.body,
+      otp,
+    });
+    await user.save();
+
+    await otpSend(email, otp, fullname);
+
+    req.flash("success", "OTP sent to your email for verification.");
+    res.redirect(`/verify_otp/${user.id}`);
   } catch (error) {
     console.error(error);
-    req.flash("error", "This email is already registered.");
+    req.flash("error", "Something went wrong. Please try again later.");
     res.redirect("back");
+  }
+});
+
+
+exports.verify_otp = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const categorys = await Category.find().populate("subcategories");
+
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new ErrorHandler('User not found', 404);
+    }
+    const { token } = req.cookies;
+    if (token) {
+      res.redirect("/user/dashboard");
+    } else {
+      res.render("frontend/accounts/verify_otp", {
+        title: "Verify OTP",
+        messages: req.flash(),
+        categorys,
+        isAuthenticated: false,
+        user,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    req.flash("error", "Oops! Something went wrong.");
+    res.redirect("/");
+  }
+});
+
+exports.otp_verify = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const { otp } = req.body;
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    // Check if the user exists
+    if (!user) {
+      throw new ErrorHandler('User not found', 404);
+    }
+
+    // Check if the OTP matches
+    if (!user.otp || otp !== user.otp.toString()) {
+      req.flash('error', 'Invalid OTP. Please try again.');
+      return res.redirect('back');
+    }
+
+    // Mark the user as verified
+    user.verified = true;
+    user.otp = undefined;
+    await user.save();
+
+    req.flash("success", "You have successfully verified. now proceed to log in.")
+    res.redirect("/login_register");
+  } catch (error) {
+    console.error(error);
+    req.flash('error', 'Something went wrong. Please try again later.');
+    res.redirect('back');
   }
 });
 
 exports.usersignin = catchAsyncErrors(async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email })
-      .select("+password")
+      .select("+password +verified") 
       .exec();
+
     if (!user) {
       req.flash("error", "User not found with this email address."); 
       return res.redirect("back");
     }
+
+    if (!user.verified) {
+      req.flash("error", "Your email is not verified. Please verify your email to login."); 
+      return res.redirect("back");
+    }
+
     const isMatch = user.comparepassword(req.body.password);
     if (!isMatch) {
       req.flash("error", "Wrong credentials."); 
@@ -189,6 +288,7 @@ exports.usersignin = catchAsyncErrors(async (req, res, next) => {
     res.redirect("back");
   }
 });
+
 
 
 // accounts end

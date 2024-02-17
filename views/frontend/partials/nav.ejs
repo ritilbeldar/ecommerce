@@ -76,15 +76,16 @@
             height: 4vmax;
             width: 4vmax;
          }
+
          .alart-new-ne {
-         position: absolute;
-         z-index: 999;
-         right: 0;
-         top: 10%;
-         left: 40%;
-         transform: translate(-50%, -50%);
-         align-items: center;
-      }
+            position: absolute;
+            z-index: 999;
+            right: 0;
+            top: 10%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            align-items: center;
+         }
       }
    </style>
 </head>
@@ -346,7 +347,7 @@
          <!-- /.logo -->
 
 
-         <% if (isAuthenticated == true) { %>
+         <% if (isAuthenticated==true) { %>
             <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
                <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                   xmlns="http://www.w3.org/2000/svg">
@@ -399,17 +400,15 @@
                <ul class="navigation__list list-unstyled position-relative">
                   <% categorys.forEach((category, index)=> { %>
                      <li class="navigation__item">
-                        <a href="<%= category.url %>" class="navigation__link <%= category.subcategories.length !== 0 ? 'js-nav-right' : '' %> d-flex align-items-center">
+                        <a href="<%= category.url %>" class="navigation__link js-nav-right d-flex align-items-center">
                            <%= category.title %>
-                           <% if (category.subcategories.length !== 0) { %>
-                               <svg class="ms-auto" width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
-                                   <use href="#icon_next_sm" />
-                               </svg>
-                           <% } %>
-                       </a>                       
+                           <svg class="ms-auto" width="7" height="11" viewBox="0 0 7 11"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_next_sm" />
+                           </svg>
+                        </a>
                         <div class="sub-menu position-absolute top-0 start-100 w-100 d-none">
-                           <a href="#"
-                              class="navigation__link js-nav-left d-flex align-items-center border-bottom mb-2">
+                           <a href="#" class="navigation__link js-nav-left d-flex align-items-center border-bottom mb-2">
                               <svg class="me-2" width="7" height="11" viewBox="0 0 7 11"
                                  xmlns="http://www.w3.org/2000/svg">
                                  <use href="#icon_prev_sm" />
@@ -447,7 +446,8 @@
          <div class="border-top  pb-2">
             <ul class="container social-links list-unstyled d-flex flex-wrap">
                <li>
-                  <a href="https://www.facebook.com/hritik143/" target="_blank" class="footer__social-link d-block ps-0">
+                  <a href="https://www.facebook.com/hritik143/" target="_blank"
+                     class="footer__social-link d-block ps-0">
                      <svg class="svg-icon svg-icon_facebook" width="9" height="15" viewBox="0 0 9 15"
                         xmlns="http://www.w3.org/2000/svg">
                         <use href="#icon_facebook" />
